@@ -1,0 +1,32 @@
+[
+{
+    "id": "1",
+	"nom": "BENHAMMA",
+	"prenom": "Dimitri",
+    "user": "admin-123",
+    "password": "$2y$10$YvKThdFwLeNTwkKIr54e0.E0CfEUV.B5R9oIHWKx1/CjOWaMTPf3G",
+    "email": "admin@cinephoria.com",
+    "date": "1987-04-01",
+	"role": "admin"
+},
+{
+    "id": "2",
+	"nom": "Employe-1",
+	"prenom": "Employe-1",
+    "user": "employe-1",
+    "password": "$2y$10$0ihwDXP6DP7s.php5tE33u5yonknMvM/jpCFN6mYAAobI1KxNdQg.",
+    "email": "employe-1@cinephoria.com",
+    "date": "1998-10-26",
+	"role": "employe"
+},
+{
+    "id": "3",
+	"nom": "Doe",
+	"prenom": "John",
+    "user": "john-doe",
+    "password": "$2y$10$q8URJpq.4YPURJ8bY1Ksq.coG1Xpk8LF8tZ14Usygcd4EPKxfuypK",
+    "email": "john-doe@cinephoria.com",
+    "date": "1989-05-15",
+	"role": "client"
+}
+]

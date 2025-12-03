@@ -1,0 +1,1536 @@
+/* Cinéphoria */
+
+
+@charset "UTF-8";
+/*!
+ * Bootstrap  v5.3.3 (https://getbootstrap.com/)
+ * Copyright 2011-2024 The Bootstrap Authors
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+:root {
+      --bg-color: #ffffff;
+      --text-color: #121212;
+      --card-bg: #f0f0f0;
+      --accent-color: #007acc;  
+    }
+
+/* prise en compte de dark theme et light theme */
+/* Cela s'appuie sur les préférences système de l'OS ou du navigateur */
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #ffffff;
+        --card-bg: #1e1e1e;
+        --accent-color: #00bcd4;
+      }
+    }
+
+    body[data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+      --accent-color: #00bcd4;
+    }
+
+    body[data-theme="light"] {
+      --bg-color: #ffffff;
+      --text-color: #121212;
+      --card-bg: #f0f0f0;
+      --accent-color: #007acc;
+    }
+
+    body {
+      width:100%;      
+      margin: 0;
+      font-family: 'Roboto', "Noto Sans";
+      font-size: var(--bs-body-font-size);
+      text-align: var(--bs-body-text-align);
+      background-color: var(--bs-body-bg);
+      -webkit-text-size-adjust: 100%; 
+    }
+
+dialog {
+						position:absolute;
+						top:0px;
+            font-weight:bold;
+						border: none;
+						border-radius: 8px;
+						padding: 20px;
+						background: white;
+						box-shadow: 0 0 10px rgba(0,0,0,0.3);
+						font-size: 1.1em;
+					}
+
+#splash {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 2000;
+}
+
+#splash img {
+  width: 100%;
+  height: 100%; 
+  animation: blinkZoom 4s ease forwards;
+}
+
+@keyframes blinkZoom {
+  0%, 33%, 50%, 90% { opacity: 1; }
+  15%, 65% { opacity: 0; }
+  100% { opacity: 0;  }
+}
+
+.banner {
+    display: flex;               /* active Flexbox */
+    align-items: center;         /* centre verticalement les éléments */
+    justify-content: space-between; /* espace entre le logo, le menu et la zone droite */
+    padding: 0;
+    margin-top:10px;            /* un peu d’espace sur les côtés */
+    height: 80px;
+    width:auto;                /* hauteur du header */
+}
+
+.img img {
+    height: 80px;  /* fixe la hauteur du logo */
+    width: auto;   /* largeur proportionnelle */
+}
+
+.nav-center {
+    flex: 1;                /* prend tout l’espace disponible */
+    display: flex;          /* pour aligner éventuellement les liens horizontalement */
+    justify-content: center; /* centre le menu horizontalement */
+}
+
+@media screen and (max-width:1024px){
+.nav-center {
+    display:none;
+}
+}
+
+/* On doit styliser les liens de navigation */
+.nav-center a {
+    display: inline-block; /* sur la même ligne (inline), mais on peut lui mettre du padding, height, etc. (comme block). */
+    padding: 0 15px;    
+    text-decoration: none; /* supprime le soulignement par défaut des liens */
+    color: black;
+    font-weight: bold;    
+    white-space: nowrap; /* à ne pas confondre avec flex-wrap: nowrap (parent) , cela empêche le texte de passer à la ligne (des enfants) */
+    transition: background-color 0.3s; /* transition douce et effet ralenti quand le background-color change , par exemple au survol */
+}
+
+.nav-center ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap; /* ne permet pas aux éléments de passer à la ligne */
+    padding: 0; /* ne permet pas d'espace interne */ 
+    margin: 0; /* ne permet pas d'espace autour */
+}
+
+@media screen and (max-width:1024px){
+.nav-right {
+    display:flex;
+    justify-content:right;    
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto; /* pousse le bloc complètement à droite */
+ }  
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap; /* ne permet pas aux éléments de passer à la ligne */
+    padding: 0; /* ne permet pas d'espace interne */ 
+    margin: 0; /* ne permet pas d'espace autour */    
+    gap:15px;
+}
+
+.nav-right li.register {
+    display: inline-flex; /* force les li à rester sur une ligne */
+    align-items: center;
+    color:white;
+}
+
+
+.menu-icon {
+    visibility:hidden;
+}
+
+@media screen and (max-width:1024px){
+.menu-icon {    
+    align-self: flex-end; /* descend l’icône en bas du conteneur flex */
+    margin-left: 10px;    /* optionnel : espace avec le texte */
+}}
+
+.pagination a.active {
+  text-decoration:none;
+  color:green;  
+}
+
+.pagination a.non-active {
+  text-decoration:underline;
+  color:black;  
+}
+
+.button {
+  background-color:green;
+  color:white;
+  margin-top:30px;
+  margin-bottom:80px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  font-size:20px;
+  margin-top:50px;
+  padding-left:30px;
+  gap: 20px;
+  width:200px;
+  height:200px;
+  padding:20px;
+  background-color:lightgrey;
+}
+
+.title-left {
+  list-style: none;
+  text-decoration:none;
+}
+
+a.title-left:hover{
+  color:green;
+	font-weight: bold;
+}	
+
+a.title-left:visited{
+	font-weight: normal;
+}	
+
+.title-left.active{
+  color:black;
+	font-weight: bold;
+}	
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;                    /* espace entre titre, image et bouton */
+    text-align: center;
+    margin-top:80px;    
+}
+
+.title-register {
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
+  margin-top:50px;
+}
+
+.button-register {
+  margin-left:370px;
+  margin-bottom:30px;
+  background-color:red;;
+  color:white;
+  padding:5px;
+}
+
+.title-reserve {
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
+  margin-top:50px;
+}
+
+
+.button-admin {
+  margin-left:10px;
+  margin-bottom:10px;
+  background-color:red;
+  color:white;
+  padding:5px;
+}
+
+.success {
+  color:green;
+  margin-left:40px;
+}
+
+.error {
+  color:red;
+  margin-left:40px;
+}
+
+/* les navigateurs ont une règle CSS spéciale pour les liens visités, 
+qui peut écraser les styles si on ne définis pas explicitement :visited et :link */
+
+ul li a.link:visited {
+  color:blue;
+	font-weight: bold;
+}	
+
+ul li a.link:hover {
+	font-weight: bold;
+}	
+
+ul li a.link:link {
+	color:blue;
+}	
+
+ul li a.link.actif {
+	color: black;
+	font-weight: bold;
+}	
+
+.welcome {  
+  width:200px;
+  text-align: right;
+  color:green;
+  font-weight:bold;
+  display:inline-block;
+  white-space:pre-line;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+#myButton {
+	display: none; /* Masqué au début */
+	margin-top: 10px;
+}
+
+.description {
+	display:inline;
+	float:left;
+	margin-left:55px;		
+	padding-left:50px;
+	padding-right:50px;
+	font-size:16px;
+	
+	}
+
+.horaire-grid {
+  display: flex;
+  flex-direction:row;
+  flex-wrap: wrap;  
+  justify-content:flex-start;
+  gap:20px;
+  }
+
+.horaire {  
+  background-color:#6CB6FF;
+  color:white;
+  font-weight: bold;
+  padding:15px;
+  cursor: pointer;  
+}
+
+.horaire.selected {
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+}
+
+.film {	
+  font-weight: bold;
+  font-size: 26px;
+  padding-top:40px;
+  background-color:white;
+  margin-left:50px;
+  margin-right:50px;
+  padding-bottom:350px;	
+}
+
+#selection > div {
+  background: white;
+  border-radius: 25px;
+  border: 1px black solid;
+}
+
+.content-selection {
+  padding : 200px 100px;
+  border-radius: 35px;
+  background-color: rgb(224, 224, 224);
+}
+
+
+.under {
+	background-color:lightgrey;  
+	width:100%;
+	height:100%;  
+}
+
+.logo {
+  float: left;
+  display: inline;
+  clear: both;
+}
+
+.admin {
+	 background-color:rgb(245,245,245);
+   color:black;	   
+	 height: 100%;   
+   padding-top:-20px;  
+   width:100%;   
+}
+
+.thumbnail {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  padding-top:20px;
+  margin-right:40px;
+  margin-left:40px;
+  margin-bottom:50px;
+  padding-bottom:50px;
+  background-color:white;
+  text-align:center;}
+  
+ .title {
+ 	text-align:center;
+	color:lightblue;
+	font-weight:bold;
+  flex-wrap:nowrap;
+  overflow:hidden;
+  width:100%;
+}
+
+
+ .date{
+	display:block;
+	text-align:center;	
+	font-size:16px;
+}
+
+.details {
+  margin: auto;
+  text-align: center;
+}
+
+#accept {
+   display:inline;
+   background-color: #4CAF50;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   margin: 0 10px;
+        }
+        
+#refuse {
+   display:inline;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   margin: 0 10px;   
+   background-color: #f44336;
+}
+
+.inline {
+  display:inline;
+}
+
+
+.grille {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  gap: 20px;
+  padding-right:20px;
+  text-align: center;
+  margin: auto;
+}
+
+.elt {
+  margin-top:10px;
+  width:200px;
+  height:35px;
+  border:1px solid black;
+}
+
+
+
+.manage-products {
+  display:inline;
+  float:left;
+  border:1px solid black;
+  width:50%;
+   margin-bottom: 20px; 
+}
+
+.grid-products {
+  display:grid;
+  grid-template-columns: 40% 60%;
+    
+}
+
+
+.form {
+  margin: auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: white;
+  margin-top:50px;
+  margin-bottom: 130px;
+  text-align: center;
+  border: 1px solid black;
+  padding-left:20px;
+  padding-right:20px;
+  border-radius: 25px;
+  width:35%;
+}
+
+
+
+.menu {
+  width:100%;
+  height:100%;
+  }
+
+
+.form > form input {
+  width: 80%;
+   border:1px solid black;
+}
+
+.form > form button {
+  display: block;
+  font-size: 14px;
+  text-align: center;
+  margin: auto;
+  padding: 6px 12px;
+  margin-top: 24px;
+}
+
+.confirmation {
+  display: flex;
+  position: relative;
+  text-align: center;
+}
+
+
+
+
+.buttons-text {
+  margin-top:1.3rem;
+  font-weight:bold;
+  color:white;
+  font-size:1.2rem;
+  background-color:green;
+  padding:0.6rem;
+  border-radius:5px;  
+}
+
+
+
+.menu-text:hover{
+  background-color:rgba(114, 58, 58, 0.412);
+  padding:10px 10px 10px 10px;
+  display:inline;
+}
+
+input::placeholder {
+  color: #888;
+  font-style: bold;
+  opacity: 1;
+  font-size:18px;
+  text-align:center;
+}
+
+a:visited {
+  color:black;
+}
+
+input:focus {
+  border-color : blue;
+}
+
+
+
+.footer {
+  font-family: 'Roboto'; /* guilememets car pas valide par défaut */  
+  font-size: 22px;
+  padding: 0.5%;
+  display: flex;
+  align-items: center; /* centre verticalement */
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: fixed;
+  background-color: black;
+  color: white;
+}
+
+.footer-year {
+  margin-top:5px;
+  float:right;
+  padding-right:35px;
+  margin-top:-5px;
+}
+
+.footer-promo {
+  display:block;
+  font-size:8px;
+}
+
+.footer-logo {
+  padding-bottom:5px;
+  float:right;
+  padding-right:10px;
+  margin-top:-15px;
+}
+
+#dividnumero1{
+	float:right;
+	display:none;
+	margin: 0px;
+  top:100%;
+  z-index: 1000;
+}
+
+#dividnumero1 ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+#dividnumero1 li a {
+  display: block;
+  padding: 0;
+  text-decoration: none;
+  color: black;
+}
+
+.element {
+		position:relative;
+		display:flex;
+		margin:auto;
+		font-size: 22px;	
+		background-color:rgb(236, 240, 241);
+		width:140px;		
+		padding:auto;
+		border : 1px black solid;
+}
+
+.no-decor{
+	display:inline;
+	text-decoration:none;
+	color:#99B0F3;
+	font-weight:bold;
+}
+
+
+    /* Image Cinéphoria */
+
+				/* Style de l'image de couverture */
+				.image-container img {
+				position: fixed;
+				display: inline-block;
+				width: 100%;
+				height: 90%;
+				}
+
+
+    /* Style du bouton superposé d'accès au site */        
+				
+
+
+
+        /* survol du bouton */
+				.btn-enter-overlay:hover {
+				background-color: #ff3c3c; /* le fond du bouton au survol */
+				}				
+
+        /* style de la balise hyperlien bouton */
+        .btn {
+          text-decoration:none;
+          color:white;
+        }
+
+        .size{
+          display:block;  
+          }
+  
+  @media screen and (max-width:1024px){
+  .cookies-style {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size:0.8rem;
+  }}
+
+  @media screen and (min-width:1024px){
+  .cookies-style {
+  padding: 6px 12px;
+  cursor: pointer;
+  }}
+
+   /* mobile first */
+   
+   /* cas du PC plein écran */
+				@media screen and (min-width:1024px){
+/* Centrer le bouton sur l'image */
+      .btn-enter-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-size: 1.2rem;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-cover {
+        position: relative;
+        height: calc(100vh - 80px);
+        width: 100%;
+        overflow: hidden;
+       }
+
+        .hero-cover img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .cover-mobile {
+          display:none;
+      }
+    
+        .cover {
+          display:block;
+      }}
+    
+    
+
+        @media screen and (min-width:1024px){
+        .titre {
+          width:100%;
+          height:100%;
+          margin-top:30px;
+          text-align:center;
+          font-weight: bold;
+          font-size: 26px;
+          padding-bottom:20px;
+          background-color:white;  
+        }
+        }
+
+        
+        @media screen and (min-width:1024px){
+        .banner {
+          display:visible;
+          width:100%;
+        }
+        }
+
+        
+        @media screen and (min-width:1025px){
+        .aside {
+          width: 100%;          
+          display:block;
+        }
+        }
+
+
+        
+        @media screen and (min-width:1024px){
+        .menu-pc {          
+          display:inline;
+        }
+        }
+
+        @media screen and (min-width:1024px){
+        .last-column-header{
+        list-style:none;
+        display:flex;
+        gap:1.5rem;
+        padding:7px 0px;
+        margin-left:70%;        
+        cursor:pointer;
+      }}
+
+      @media screen and (max-width:1024px){
+        .last-column-header{
+        list-style:none;
+        display:flex;
+        gap:0.9rem;
+        padding:7px 0px;
+        margin-right:10px;
+        overflow:visible;
+        float:right;
+        cursor:pointer;
+      }}
+
+        @media screen and (min-width:1024px){
+        .menu-smartphone {
+          display:none;
+        }
+        }
+
+      
+        @media screen and (min-width:1024px){
+        .grid-under{
+          display:grid;        
+          position:relative;  
+          grid-template-columns:33% 33% 34%;
+          background-color: lightgrey;
+          padding:50px 0;         
+          bottom:0;  
+          margin-top:-20px;                 
+        }}
+
+
+
+/* cas du smartphone plein écran, mode portrait */
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .btn {
+          text-decoration:none;
+          color:white;
+
+        }}
+
+               /* Bouton entrée */
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+				.btn-enter-overlay {
+				position: absolute; /* obligatoire pour top et left */     
+				top:70%; 
+        left: 50%; /* pour centrer approximativement */
+        transform: translateX(-50%); /* pour centrer exactement */
+				background-color: #007BFF;
+				text-align:center;
+				color: white;
+				padding: 1.2vh 1.2vw;
+				font-size:clamp(1rem, 1.1rem, 1.5rem);
+				border-radius: 6px;
+				cursor: pointer; /* le curseur main pour inviter à cliquer */
+				}
+             
+        .hero-cover {
+        position: relative;
+        height: calc(100vh - 50px);
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .hero-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    
+       .cover-mobile {
+        display:block;
+      }
+      
+       .cover {
+        display:none;
+      }
+
+    }
+
+        @media screen and (min-width:1024px){
+        .hidden {
+          display:none;
+        }}
+
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .titre {            
+          width:calc(100vw - 30px);
+          height:100%;    
+          text-align:center;          
+          font-weight: bold;
+          font-size: 20px;
+          padding-bottom:100%;
+        }}
+
+        
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .grille {  
+          width: 100%;
+          gap: 20px;
+          padding-right:20px;
+          text-align: center;
+          margin: auto;
+        } 
+        }
+
+
+
+
+        /* cas du bouton sur smartphone et tablette */
+        @media screen and (max-width:1024px) and (orientation: portrait){
+        .menu-smartphone {        
+          display:inline;        
+          overflow:visible;                         
+        }
+        }
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .elt {
+          margin-top:15px;
+          width:50px;
+          height:35px;  
+          border:1px solid black;
+        }
+        }
+
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .size{
+          font-size:18px;
+          display:block;
+          }
+        }
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .manage-products {
+          border:1px solid black;
+          width:50%;   
+          margin-bottom: 20px;     
+        }}
+
+        
+    
+
+        
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+        .aside {
+          display:none;
+        }
+        }
+
+/* cas du bouton sur smartphone et tablette */
+@media screen and (max-width:1024px) and (orientation: portrait){
+.banner {
+  display:visible;  
+}
+.img {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+}
+
+/* cas du smartphone et du PC plein écran */
+@media screen and (max-width:1024px) and (orientation: portrait){
+.menu-pc {
+  display:none;
+}
+}
+
+/* cas du smartphone plein écran */
+@media screen and (max-width:1024px) and (orientation: portrait){
+.cine-min {
+  display: none;
+}}
+
+/* cas du PC plein écran */
+@media screen and (min-width:1024px){
+.cine-max {
+  display: none;
+}}
+
+/* cas du smartphone plein écran */
+@media screen and (max-width:1024px) and (orientation: portrait){
+.cine-max {
+  display: inline;
+  font-size:0.75em;
+  padding:0.5em;
+  white-space: nowrap; /* empeche les retours à la ligne */
+}}
+
+@media screen and (max-width:1024px) and (orientation: portrait){
+.form {
+  margin: auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: white;
+  margin-top:50px;
+  margin-bottom: 130px;
+  text-align: center;
+  border: 1px solid black;
+  padding-left:20px;
+  padding-right:20px;
+  border-radius: 25px; 
+  width:65%;
+}}
+
+
+.logout-none {  
+  display:none;
+}
+
+
+@media screen and (max-width:1024px) and (orientation: portrait){
+.hidden {
+  display:block;
+  margin-top:10px;
+}}
+
+@media screen and (max-width:1024px) and (orientation: landscape){
+.hidden {
+  display:block;
+}}
+
+
+@media screen and (max-width:1024px) and (orientation: landscape){
+.form {
+  margin: auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: white;
+  margin-top:50px;
+  margin-bottom: 130px;
+  text-align: center;
+  border: 1px solid black;
+  padding-left:20px;
+  padding-right:20px;
+  border-radius: 25px;
+  width:45%;
+}}
+
+
+/* cas du smartphone plein écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.cine-max {
+  display: none;
+}}
+
+
+/* MODE PAYSAGE (landscape) */
+/* A tester : cas du site sur smartphone avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.aside {
+  display:none;
+}
+}
+
+/* cas du smartphone et du PC plein écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.menu-pc {
+  display:none;
+}
+}
+
+/* A tester : cas du site sur smartphone avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.menu-pc {
+  display:visible;
+}
+}
+
+/* A tester : cas du bouton sur smartphone avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.menu-smartphone { 
+  display:visible;
+}
+}
+
+/* cas du smartphone avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.cine-min {
+  display: none;
+}}
+
+/* cas du smartphone plein écran */
+@media screen and (max-width:1024px) and (orientation: portrait){
+.grid-under {
+  display:grid;
+  position: relative;
+  grid-template-columns:50% 50%;
+  background-color: lightgrey;  
+  padding-bottom:20px;
+  width:100%;
+  bottom:0;    
+}}
+
+/* cas du smartphone et tablette avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.grid-under {
+  display:grid;
+  grid-template-columns:50% 50%;
+  background-color: lightgrey; 
+}}
+
+/* A tester : cas du bouton sur smartphone et tablette avec rotation écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.banner {
+  display:none;
+}
+}
+
+/* mobile first : cas du smartphone et tablette en portrait, plein écran */
+@media screen and (max-width:1024px) and (orientation: landscape){
+.footer {
+  font-family: 'Roboto';  
+  font-size: 14px;  
+  text-align:center;
+  width: 100%;
+  height:50px;  
+  display: grid;
+  grid-template-columns: 40% 30% 30%;
+  position: fixed;background-color: black;color: white;clear:both;
+}}
+
+@media screen and (max-width:1024px) and (orientation: landscape){
+ .cover-mobile {
+        display:none;
+      }
+      
+       .cover {
+        display:block;
+      }
+    }
+
+
+@media screen and (max-width:1024px) and (orientation: landscape){
+.home-page {	
+	background: red;
+  color:white;
+  text-align:center;
+  font-size:1.2rem;
+  width:100%;
+	clear:both;
+  z-index: 1;
+}
+
+        .hero-cover {
+        position: relative;
+        height: calc(100vh - 20px);
+        width: 100%;
+        overflow: hidden;
+       }
+
+        .hero-cover img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+		.btn-enter-overlay {
+				position: absolute; /* obligatoire pour top et left */     
+				top:90%; 
+        left: 50%; /* pour centrer approximativement */
+        transform: translateX(-50%); /* pour centrer exactement */
+				background-color: #007BFF;
+				text-align:center;
+				color: white;
+				padding: 1.2vh 1.2vw;
+				font-size:clamp(1rem, 1.1rem, 1.5rem);
+				border-radius: 6px;
+				cursor: pointer; /* le curseur main pour inviter à cliquer */
+				}
+}
+
+@media screen and (max-width:1024px) and (orientation: portrait){  
+.home-page {
+  background-color:red;
+  color:white;
+  font-size:5vw;
+  text-align:center;
+  padding:3%;  
+  z-index: 1;
+}}
+
+
+@media screen and (min-width:1024px){
+.home-page {
+  background-color:red;
+  color:white;
+  font-size:2vw;
+  text-align:center;
+  white-space: nowrap;
+  padding:1%;  
+  z-index: 1;
+}
+
+.home-page span {
+  display: inline-block;
+  
+  animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+  0%   { transform: translateX(50%); }   /* départ au centre */
+  100% { transform: translateX(-50%); }
+}
+
+.admin {
+	 background-color:rgb(245,245,245);
+   color:black;	   
+	 height: 100%;   
+   width:100%;
+   padding-bottom:5px;         
+  }    
+}
+
+@media screen and (max-width:1024px) and (orientation: landscape){
+.titre {            
+          clear:both;         
+          margin:auto;
+          text-align:center;          
+          font-weight: bold;
+          font-size: 1.3rem;
+          padding-bottom:50px;
+        }
+
+        .admin {
+          background-color:rgb(245,245,245);
+          color:black;	   
+          height: 100%;      
+          padding-bottom:5px;
+          width:100%;   
+        }        
+        }
+
+
+    
+
+        .gallery img {
+            width: 150px;
+            height: 250px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            transition: 0.3s;
+            padding: 10px;
+            border-radius: 6px; /* arrrondis */
+            display: inline-block; 
+              }
+
+        .gallery img:hover {
+         	box-shadow: 0 0 18px 5px #87cefa; /* effet halo plus fort au survol */
+        }
+
+
+        .gallery {
+          display:flex;               
+          text-align: center; 
+          width: 80%;
+          margin: 0 auto; /* centre la galerie dans la page */
+       }
+
+       .film-card {
+          display:flex; 
+          flex: 0 0 33.333%;
+          flex-direction:row; 
+          height:100%;
+          width:50%;
+       }
+       
+        .movies {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 50px;
+          justify-content: flex-start; /* les films s'alignent à gauche */          
+        }
+
+        .movie {
+          flex: 0 0 calc(30% - 20px); /* 3 films par ligne par défaut sur grand écran */
+          max-width: 300px;
+          box-sizing: border-box;
+          text-align: center;                   
+        }
+
+        .movies-search {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center; /* centre la grille horizontalement */
+          gap: 20px; /* espace horizontal et vertical */
+          margin-bottom: 20px;
+        }
+
+        .movies-search .movie {
+          flex: 0 0 calc(33.333% - 20px); /* 3 films par ligne */
+          box-sizing: border-box;
+          text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+          .movies {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 40px;
+          justify-content: flex-start; /* les films s'alignent à gauche */
+        }
+
+          .movie {
+            flex: 0 0 calc(50% - 20px); /* 2 films par ligne sur tablette/mobile */
+          }
+        }
+
+        .movie img {
+            width: 100%;            
+            height: 80%;
+            display: block;
+            border-radius: 8px;
+        }
+
+
+        /* Modale pleine page */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 80%;
+            border: 4px solid white;
+        }
+
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+        }
+	
+
+
+
+
+        .movie h3 {
+            margin: 10px 0 5px;
+        }
+
+        .movie p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        @media screen and (max-width:1024px) and (orientation:portrait) {
+            
+
+
+          }
+            
+    
+
+           
+
+    @media screen and (max-width:1024px) and (orientation: landscape){
+    
+    }
+
+
+  /* Bouton résumé */
+details summary {
+  cursor: pointer;
+  color: #007bff;
+  margin-top: 5px;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none; /* Supprime la flèche par défaut */
+}
+
+.bloc-text {
+  color: #007bff;
+  font-weight:bold;
+  padding:5px 10px;
+  cursor:pointer;
+  border-radius:4px;
+  display:inline-block;
+}
+
+/* Texte par défaut du bouton */
+details summary::before {
+  content: "▼ Lire plus";
+}
+
+/* Texte quand le contenu est ouvert */
+details[open] summary::after {
+  content: "▼ Lire moins";
+}
+
+
+
+/* Zone de texte coupée */
+.details-text {  
+  display: -webkit-box;          /* Obligatoire pour activer line-clamp */
+  -webkit-box-orient: vertical;  /* Orientation verticale */
+  -webkit-line-clamp: 4;         /* Nombre de lignes max */
+  overflow: hidden;              /* Masque le surplus */
+  text-overflow: ellipsis;       /* Ajoute "..." */
+  line-height: 1.5em;
+  max-height: 9em;               /* 2 lignes * 1.5em */
+  margin-bottom: 20px; 
+  width:70%; 
+}
+
+
+.button-fold {
+  line-height:1.5em; 
+  max-height:4.5em; 
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  margin-bottom:20px;
+}
+
+/* Quand c'est ouvert, on montre tout et on enlève le dégradé */
+details[open] .details-text {
+  display: block;
+}
+
+details[open] .details-text::after {
+  display: none;
+}
+
+        .seances {
+                    display: inline-block;
+                    flex-wrap: wrap;
+                    gap: 50px;
+                    padding: 50px 10px;
+                }
+
+        .seance {
+                    display: flex;
+                    flex-wrap: wrap;                             
+                }       
+
+
+        .summary {
+                margin-bottom:20px;
+        }
+
+        .summary:hover {
+          background-color: #0056b3;
+        }
+
+            @media screen and (max-width:1024px) and (orientation:portrait) {
+        .formulaire {
+          margin: auto;
+          padding-top: 24px;
+          padding-bottom: 24px;
+          font-size: 24px;
+          font-weight: bold;
+          background-color: white;
+          margin-top: 40px;
+          margin-bottom: 30px;
+          text-align: center;
+          border: 1px solid black;
+          padding-left:20px;
+          padding-right:20px;
+          border-radius: 25px;
+          width:80%;
+          height:100%;
+        }}
+
+
+
+.close-btn {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* Image de la modale */
+#modal-img {
+    width: 400px;
+    height: 500px;
+}
+
+#modal {
+    display: none; /* cachée par défaut */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center; /* centre l'image horizontalement */
+    align-items: center;     /* centre l'image verticalement */
+    background-color: rgba(0, 0, 0, 0.8); /* fond semi-transparent */
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* au-dessus du reste */
+}
+
+.grid-checkbox {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 colonnes */
+    gap: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    }
+
+.grid-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f7f7f7;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    }
+    
+.grid-checkbox label:hover {
+    background: #e0e0e0;
+  }
+
+  a.btn-404 {    
+    padding:10px 30px;
+    text-decoration:none;
+    color:black;
+    background-color:white;
+    border-radius:15px;
+  }
+
+  .image-wrapper {
+      position: relative;      
+      left: 85%;             /* 🔹 75% de la largeur */
+      
+    }
+
+    .image-wrapper img {
+      max-height: 80vh; /* pour ne pas dépasser l'écran */
+      height: auto;
+      position: relative;      
+      left: 85%;
+    } 
+
+        @media screen and (max-width:1024px){
+    h1 {
+      font-size:20px;
+    }
+  }
