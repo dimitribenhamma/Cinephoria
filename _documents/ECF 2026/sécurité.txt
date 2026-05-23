@@ -1,0 +1,20 @@
+Sécurité :
+
+- tester les formulaires
+- antivirus apache : firewall ModSecurity + maj des outils wamp séparés
+- password serveur : voir Files
+- blacklist ip
+- vol de matériel avec mac serveur
+- pare feu
+- sécuriser le réseau dns
+- bande passante déni
+- c'est quoi les ids
+- sécuriser le registre
+- sauvegardes contre déni de service
+- patchs
+- sécuriser fast cgi
+
+
+sécurité :
+- firewall
+- failles OS (client)

@@ -1,0 +1,1546 @@
+/* Cinéphoria */
+/* ? */
+@charset "UTF-8";
+  
+
+
+
+/* Full-screen PC case */
+/* We define our global variables in :root */ 
+
+:root {
+      /* COLORS (ROOT USES LIGHT THEME) */
+      --text-color: black; /* la couleur est nommée */
+      --text-hover:green ;
+      --text-color-active:rgb(83, 145, 83); /* la couleur RGB et n'est pas nommée */
+      --textsubtitle-color : black;
+      --color-link : blue;
+      --color-link-active:black;
+      --color-shadow:rgba(0, 0, 0, 0.3);
+      --color-menu-hover:white;
+      --color-menu-active:green;
+      --color-menu-active-hover:green;
+      --color-menu-active-hover:white;
+      --color-success:green;
+      --color-error:red;
+      --color-film:black;
+      --color-film-div:black;
+      --color-film-border:black;
+      --color-content-selection:black;
+      --color-placeholder:black;
+      --color-form-query:black;
+      --color-form-query:white;
+      --color-gallery-border:#ccc;
+      --color-gallery-img:#87cefa;
+      --color-horaire:white;
+      --color-horaire-selected:white;
+      --color-modal-img:white;
+      --color-close-btn:white;
+      --color-details-summary:#007bff;
+      --color-summary:black;
+      --color-summary-hover:#0056b3;
+      --color-summary-hover:black;
+      --color-modal:rgba(0,0,0,0.9);
+      --color-nav-admin:black;
+      --color-button-admin:white;
+      --color-input-border:black;
+      --color-input-placeholder:#888;
+      --color-border-focus:blue;
+      --color-span-msg-font-size:black;
+      --color-login-error:red;
+      --color-login-button:white;
+      --color-buttons-text:white;
+      --color-info-link:#000;
+      --color-social-link:#000;
+      --color-footer:white;
+      --color-btn-404:black;
+      --color-gallery-img-hover:#87cefa;
+      --color-movie-img:#ccc;
+      --color-titre:black;
+      --color-under:black;
+      --color-grid-under:black;
+      --color-home-page:white;
+      --color-register:white;
+      --color-nav-right:black;
+      --color-nav-right-register:white;
+      --color-bottom:black;
+      --color-bottom-hover:white;
+      --color-cookies:white;
+      --color-pagination-active:green;
+      --color-pagination-non-active:black;
+      --color-pagination-active-hover:white;
+      --color-pagination-non-active-hover:white;
+      --color-dividnumero1-a:black;
+      --color-dividnumero1-a-active:green;
+
+      --webkit-text-stroke:black; /* extérieur du texte */    
+
+      /* BUTTONS COLORS */
+      --color-btn-enter-cover: white;
+      --color-btn-link-hover:black;
+
+      /* BACKGROUND */
+      --bg-btn-enter-overlay:#6750A4;
+      --bg-btn-enter:#ff3c3c;
+      --bg-btn:black ;
+      --bg-btn-hover:rgb(83, 145, 83) ;
+      --bg-color-nav-right:rgb(83, 145, 83) ;
+      --bg-menu-hover:rgba(114, 58, 58, 0.4) ;
+      --bg-color: white;
+      --bg-card: white;
+      --bg-color-film:white;
+      --bg-color-film-div:white;
+      --bg-color-content-selection:rgb(224, 224, 224);
+      --bg-color-input:#f5f5f5;
+      --bg-color-horaire:#6CB6FF;
+      --bg-color-horaire-selected:black;
+      --bg-color-thumbnail:white;
+      --bg-color-summary-hover:#0056b3;
+      --bg-color-modal:rgba(0, 0, 0, 0.8);
+      --bg-color-nav-admin:rgb(245,245,245);
+      --bg-color-button-admin:red;
+      --bg-color-login-button:#6750A4;
+      --bg-color-buttons-text:#6750A4;
+      --bg-color-footer:black;
+      --bg-color-btn-404:white;
+      --bg-color-titre:white;
+      --bg-color-under:lightgrey;
+      --bg-color-grid-under:lightgrey;
+      --bg-color-home-page:#6750A4; 
+      --bg-accept:#4CAF50;
+      --bg-refuse:#f44336;
+      --bg-pagination-active-hover:green;
+      --bg-pagination-non-active-hover:black;
+      --bg-color-dividnumero1-a:lightgrey;
+      --bg-color-dividnumero1-a-active:white;    
+
+      /* TYPO Cookies */
+      --cookies-font-family: -apple-system, "My Silly Willy Girl", Roboto, Arial ;  /* apple-system pour iphone */
+      --cookies-font-size:30px;
+
+      /* TYPO Body */
+      --body-font-family: -apple-system, "My Silly Willy Girl", Roboto, Arial ;
+      --body-font-size: 28px;
+      --body-text-align:center;
+      
+      /* TYPO Others */
+      --not-last-child: Arial;
+      --menu-font-size: 28px; 
+      --header1-font-size:30px;
+      --btn-font-size:26px;
+      --film-font-size:26px;
+      --description-font-size:16px;
+      --input-placeholder-font-size:18px;
+      --span-msg-font-size:18px;
+      --login-link-font-size:20px;
+      --login-error-font-size:16px;
+      --login-button-font-size:1.2rem;
+      --title-register-font-size:32px;
+      --footer-promo-font-size:8px;
+      --details-font-size:20px;
+      --footer-font-size:22px;
+      --titre-font-size:26px;      
+      
+ }
+
+/* ROOT DARK THEME automatic (OS and/or navigator) */
+@media (prefers-color-scheme: dark) {
+:root {
+      /* COLORS (ROOT USES DARK THEME) */
+      --text-color: white;
+      --text-hover:rgb(83, 145, 83) ;
+      --text-color-active:black;
+      --textsubtitle-color : red;
+      --color-link : blue;
+      --color-link-active:black;
+      --color-shadow:rgba(0, 0, 0, 0.3);
+      --color-menu-hover:white;
+      --color-menu-active:green;
+      --color-menu-active-hover:green;
+      --color-menu-active-hover:white;    
+      --color-btn-enter-cover: white;
+      --color-btn-link-hover:black;
+      --color-success:green;
+      --color-error:red;
+      --color-film:black;
+      --color-film-div:black;
+      --color-film-border:black;
+      --color-content-selection:black;
+      --color-placeholder:black;
+      --color-form-query:black;
+      --color-form-query:white;
+      --color-gallery-border:#ccc;
+      --color-gallery-img:#87cefa;
+      --color-horaire-selected:white;
+      --color-modal-img:white;
+      --color-close-btn:white;
+      --color-details-summary:#007bff;
+      --color-summary:black;
+      --color-summary-hover:#0056b3;
+      --color-summary-hover:black;
+      --color-modal:rgba(0,0,0,0.9);
+      --color-nav-admin:black;
+      --color-button-admin:white;
+      --color-input-border:black;
+      --color-input-placeholder:#888;
+      --color-border-focus:blue;
+      --color-span-msg-font-size:black;
+      --color-login-error:red;
+      --color-login-button:white;
+      --color-buttons-text:white;
+      --color-info-link:#000;
+      --color-social-link:#000;
+      --color-footer:white;
+      --color-btn-404:black;
+      --color-gallery-img-hover:#87cefa;
+      --color-movie-img:#ccc;
+      --color-titre:black;
+      --color-under:black;
+      --color-grid-under:black;
+      --color-home-page:white;
+      --color-register:white;
+      --color-nav-right:black;
+      --color-nav-right-register:white;
+      --color-bottom:black;
+      --color-bottom-hover:white;
+      --color-cookies:white;
+      --color-pagination-active:green;
+      --color-pagination-non-active:black;
+      --color-pagination-active-hover:white;
+      --color-pagination-non-active-hover:white;
+      --color-dividnumero1-a:black;
+      -color-dividnumero1-a-active:green;
+
+      --webkit-text-stroke:rgb(201, 62, 62);
+
+      /* BACKGROUND */
+      --bg-btn-enter-overlay:#6750A4;
+      --bg-btn-enter:#ff3c3c;
+      --bg-btn:black ;
+      --bg-btn-hover:rgb(69, 69, 69) ;
+      --bg-color-nav-right:rgb(69, 69, 69) ;
+      --bg-menu-hover:rgba(114, 58, 58, 0.4) ;
+      --bg-color: rgb(225,240,232);
+      --bg-card: rgb(225,240,232);
+      --bg-color-film:white;
+      --bg-color-film-div:white;
+      --bg-color-content-selection:rgb(224, 224, 224);
+      --bg-color-input:#f5f5f5;
+      --bg-color-horaire:#6CB6FF;
+      --bg-color-horaire-selected:black;
+      --bg-color-thumbnail:white;
+      --bg-color-summary-hover:#0056b3;
+      --bg-color-modal:rgba(0, 0, 0, 0.8);
+      --bg-color-nav-admin:rgb(245,245,245);
+      --bg-color-button-admin:red;
+      --bg-color-login-button:#6750A4;
+      --bg-color-buttons-text:#6750A4;
+      --bg-color-footer:black;
+      --bg-color-btn-404:white;
+      --bg-color-titre:white;
+      --bg-color-under:lightgrey;
+      --bg-color-grid-under:lightgrey;
+      --bg-color-home-page:#6750A4;
+      --bg-accept:#4CAF50;
+      --bg-refuse:#f44336;
+      --bg-pagination-active-hover:green;
+      --bg-pagination-non-active-hover:black;
+      --bg-color-dividnumero1-a:lightgrey;
+      --bg-color-dividnumero1-a-active:white;
+
+      /* TYPO Cookies */
+      --cookies-font-family: -apple-system, "My Silly Willy Girl", Roboto, Arial ;  /* apple-system pour iphone */
+      --cookies-font-size:30px;
+
+      /* TYPO Body */
+      --body-font-family: -apple-system, "My Silly Willy Girl", Roboto, Arial ;
+      --body-text-align:center;
+
+      --not-last-child: Arial;
+      --body-font-size: 28px;
+      
+      /* TYPO Others */
+      --menu-font-size: 28px; 
+      --header1-font-size:30px;
+      --btn-font-size:26px;
+      --film-font-size:26px;
+      --description-font-size:16px;
+      --input-placeholder-font-size:18px;
+      --span-msg-font-size:18px;
+      --login-link-font-size:20px;
+      --login-error-font-size:16px;
+      --login-button-font-size:1.2rem;
+      --title-register-font-size:32px;
+      --footer-promo-font-size:8px;
+      --details-font-size:20px;
+      --footer-font-size:22px;
+      --titre-font-size:26px;       
+  }
+ }
+
+/* END ROOT */
+/* BODY (Manual forcing) */
+
+body[data-theme="light"] {
+      /* CONTENT OF BODY (USE LIGHT THEME) */
+      color: var(--text-color);
+      background-color: var(--bg-color);
+
+      /* TYPO Body */
+      font-family: var(--body-font-family);
+      font-size: var(--body-font-size);
+      text-align: var(--body-text-align);
+      width:100%;
+  }
+
+body[data-theme="dark"] {
+      /* CONTENT OF BODY (USE DARK THEME) */
+      color: var(--text-color);
+      background-color: var(--bg-color);
+
+      /* TYPO Body */
+      font-family: var(--body-font-family);
+      font-size: var(--body-font-size);
+      text-align: var(--body-text-align);
+      width:100%;
+  }
+
+ a:visited {
+      /* LINKS VISITED */
+      color:var(--text-color);
+  }
+
+/* END BODY */
+/* ANIMATION (Wireframe) */
+
+#splash {
+      /* Flexbox active */
+      display: flex;
+
+      /* Absolute centering */
+      position: fixed;
+      justify-content: center;
+      align-items: center;    
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      /* Background Color */
+      background-color: var(--bg-color);
+
+      /* Stacking context */
+      z-index: 3; /* Profondeur d'affichage */
+ }
+
+#splash img {
+      /* Animation Css */
+      animation: blinkZoom 4s ease forwards;
+      /* TYPO Splash */
+      width: 100%;
+      height: 100%;  
+ }
+
+@keyframes blinkZoom {
+      /* Blink animation (simple) */
+      0%, 33%, 50%, 90% { opacity: 1; }
+      15%, 65% { opacity: 0; }
+      100% { opacity: 0;  }
+ }
+
+/* END ANIMATION (Wireframe) */
+/* HOME PAGE */
+
+.hero-cover {
+      /* Element parent with absolute centering for child in absolute */
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 80px);    
+      overflow: hidden; /* Cacher le dépassement en hauteur */
+}
+
+.hero-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;           
+}  
+
+.cover {
+      display:block;
+}
+
+.btn-enter-cover {
+      /* Element child with absolute centering from parent hero-cover in relative */
+      position: absolute; /* And not refering to the whole page */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      /* Colors*/
+      color: var(--color-btn-enter-cover);
+      background-color: var(--bg-btn-enter-overlay);
+
+      /* TYPO Home */
+      font-family:var(--body-font-family);
+      font-size:var(--btn-font-size);
+      
+      /* Elevation of UI */
+      box-shadow: 0 4px 10px var(--color-shadow);
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      border: none; 
+      cursor: pointer;
+  }
+
+.btn-enter-cover:hover {
+      background-color: var(--bg-btn-enter);
+      color:var(--color-btn-enter-cover-hover);
+  }				
+
+ul li a.link.actif {
+      color: var(--color-link-active);
+      font-weight: bold;
+ }	
+
+ul li a.link:link {
+      color:var(--color-link);
+ }
+
+ul li a.link:visited,
+ul li a.link:hover {
+      font-weight: bold;
+      color:var(--color-btn-link-hover);
+ }
+
+/* END HOME PAGE (Wireframe) */
+/* HEADER (logo,menu,buttons,nav) */
+
+.main-content{
+      padding-top: 50px;
+}
+
+.logo {
+      width: 200px; /* Taille de base */
+      max-width: 100%; /* Impose une largeur de départ, mais pas équivalent à Flex pour une IMAGE (confusion) */
+      height: auto;
+}
+
+.vertical {
+      /* Flexbox active */
+      display:flex;
+      flex-direction:column;   
+}
+
+header {
+      /* Flexbox active */
+      display:flex;
+      flex-direction:column;
+      
+      /* Above and left */
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      /* Sized along the entire length */
+      width: 100%;
+
+      /* Header above */
+      z-index: 2;
+}
+
+.header-content {
+      background-color: var(--bg-color);
+}
+
+.header-banner {
+      /* Flexbox active */
+      display:flex;
+
+      /* Elements distribution */
+      align-items: center; /* centre les éléments verticalement */
+      justify-content: space-between; /* espace entre le logo, le menu et la zone droite boutons */
+
+      /* Top left of the parent header */
+      width:auto; /* un peu d'espace sur les côtés */
+      padding: 0;
+      top:0;
+      left:0;
+      padding-top:10px;
+      padding-bottom:10px;
+      
+      /* Colors */
+      color: var(--text-color);
+      background-color: var(--bg-color);
+  }
+    
+.header-banner a,
+.header-banner span {
+      color: var(--text-color);
+}
+
+.nav-center {
+      /* Absolute centering */
+      position: absolute;
+      left: 50%; /* Début à la moitié de l'écran */
+      transform: translateX(-50%); /* Calcul la moitié de sa propre largeur et centre */
+}
+
+.nav-center a {
+      /* Print INLINE-BLOCK */
+      display: inline-block; /* On peut lui mettre du padding, height */
+      padding: 0 15px;  
+
+      /* Texts */
+      font-weight: bold; /* Ecrit en gras */
+      white-space: nowrap; /* Empêche l'élément texte d'aller à la ligne */
+      text-decoration: none; /* Supprime le soulignement */
+      color: var(--text-color); /* couleur de l'élément textuel */
+      transition: background-color 0.3s; /* Au survol, transition douce et effet ralenti */
+  }
+
+.nav-center a.active {
+      color:var(--text-color-active); /* Elément textuel actif */
+  }
+
+.nav-center a.non-active {
+      color:var(--text-color); /* Elément textuel non-actif */ 
+ }
+
+.nav-center ul {
+      /* Flexbox active */
+      display: flex;
+      padding: 0; /* Ne permet pas d'espace interne */ 
+      margin: 0; /* Ne permet pas d'espace autour */
+
+      /* TYPO */
+      list-style: none;
+      flex-wrap: nowrap; /* Empêche éléments textes d'aller à la ligne */
+ }
+
+.nav-center li.menu {
+      /* Arrangement */
+      display: inline-flex; /* Force les li à rester sur une ligne */
+      align-items: center ;
+      
+      /* TYPO Menu */
+      font-size:var(--menu-font-size);
+
+      /* Colors */
+      color:var(--text-color);
+ }
+
+.nav-center li.menu:not(:last-child)::after {
+      content: "|" ; /* Ajoute le séparateur */
+      color: var(--text-color); /* Couleur de séparateur */
+      font-family: var(--not-last-child);
+ }
+
+.menu a:focus {
+      color: var(--text-hover);
+      background-color: var(--bg-menu-hover) ;    
+ }
+
+.menu a:hover {
+      color: var(--color-menu-hover);
+      background-color:var(--bg-menu-hover);  
+ }
+
+.menu a.active {
+      color:var(--color-menu-active);
+      text-decoration:none;
+ }
+
+ .menu a.active:hover {
+      color: var(--color-menu-active-hover);
+      background-color:var(--color-menu-active-hover);
+ }
+
+.welcome {  
+      display:none; /* Masqué au début */
+      color:var(--text-color);
+}
+
+/* Drop-down menu */
+#dividnumero1{
+      display:none; /* Masqué au début */
+      float:right;	
+      margin: 0px;
+      top:100%;
+      z-index: 1000;
+}
+
+#dividnumero1 ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+}
+
+#dividnumero1 li a,
+#dividnumero1 li a:active {  
+      display: block;
+      padding: 0;  
+      text-decoration: none;
+}
+
+#dividnumero1 li a {  
+      color: var(--color-dividnumero1-a);
+      background-color:var(--bg-color-dividnumero1-a);
+}
+
+#dividnumero1 li a:active {  
+      color:var(--color-dividnumero1-a-active);
+      background-color:var(--bg-color-dividnumero1-a-active);
+}
+
+/* END HEADER (logo,menu,boutons) */
+/* COOKIES (bannière) */
+
+#cookies-banner {    
+      display: inline-flex;  
+      position: fixed;	  
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      
+      font-size:0.9rem;
+
+      color: white;
+      background-color: rgba(0, 0, 0, 0.8);
+          
+      z-index: 2;    
+	}
+
+#accept,
+#refuse  {
+      display:inline;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border:none;    
+      color:var(--color-cookies);   
+  }
+
+#accept {
+      background-color:var(--bg-accept);
+  }
+
+#refuse {
+      background-color: var(--bg-refuse);
+  }
+
+.cookies-text {
+      font-size: var(--header1-font-size);    
+      white-space: normal;
+      overflow-wrap: break-word; /* A passer à la ligne */
+ }
+
+.form-cookies {
+      display: flex;     
+      margin: 0;
+      gap: 20px; 
+      text-align:center;
+      margin:auto;
+ }
+
+/* END COOKIES (bannière) */
+/* CAROUSELS verticaux (bannières gauche et droite) */
+
+.banner {
+    /* Flexbox active */
+    display:flex;
+    flex: 0 0 10%; /* Occupe 10% de l'espace */
+ }
+
+/* FIN CAROUSELS verticaux (bannières gauche et droite) */
+/* PAGINATION */
+
+.pagination a.active {
+    text-decoration:none;
+    color:var(--color-pagination-active);
+  }
+
+.pagination a.non-active {
+    text-decoration:none;
+    color:var(--color-pagination-non-active);
+}
+
+.pagination a.active:hover {
+    text-decoration:none;
+    color:var(--color-pagination-active-hover);
+    background-color:var(--bg-pagination-active-hover);
+    font-family:Arial;
+ }
+
+.pagination a.non-active:hover {
+    text-decoration:none;
+    color:var(--color-pagination-non-active-hover);
+    background-color:var(--bg-pagination-non-active-hover);
+    font-family:Arial;
+ }
+
+/* END PAGINATION */
+/* FORMULAIRES */
+
+.success,
+.error {
+    margin-left:40px;
+}
+
+.success {
+    color:var(--color-success);
+}
+
+.error {
+    color:var(--color-error);
+}
+
+/* END FORMULAIRES */
+/* FILMS */
+
+dialog {
+    /* Element with absolute for positioning */
+    position: absolute; /* ? */
+		top:0px;
+    padding: 20px;
+
+    /* Elevation of UI */
+		font-weight:bold;
+		border: none;
+		border-radius: 8px;
+    font-size: 1.1em;
+		box-shadow: 0 0 10px rgba(0,0,0,0.3);
+		
+    /* Colors */
+    color: var(--text-color);
+		background-color: var(--bg-color);
+ }
+
+.content {
+    padding: 0;
+    margin:0;
+  } 
+
+.film {
+    /* TYPO */
+    font-size: var(--film-font-size);
+    padding-top:40px;
+    margin-left:50px;
+    margin-right:50px;
+    padding-bottom:350px;
+    font-weight: bold;
+
+    /* Colors */
+    color:var(--color-film);
+    background-color:var(--bg-color-film);
+  }
+
+#selection > div {
+    color:var(--color-film-div);
+    background:var(--bg-color-film-div);
+    border-radius: 25px;
+    border: 1px var(--color-film-border) solid;
+  }
+
+.content-selection {
+    /* TYPO */
+    padding : 200px 100px;
+    border-radius: 35px;
+
+    /* Colors */
+    color:var(--color-content-selection);
+    background-color:var(--bg-color-content-selection);
+  }
+
+.tv-frame {
+    position: relative;
+    width: 100%;
+  }
+
+.tv-frame img {  
+    width: 100%;
+    max-height: 500px;
+    height: auto;
+  }
+
+.query {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 20px;
+    transform: translate(-50%, -50%); /* recentrer à la moitié vers la gauche et vers le haut */
+  }
+
+.form-query {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 50px;
+  }
+
+/* Inputs */
+.form-query input {
+    flex: 1;
+    height: 70px;
+    padding: 0 18px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    appearance:none;
+    box-sizing: border-box;
+
+    font-family:var(--body-font-family);
+    font-size: var(--body-font-size);
+    background: var(--bg-color-input);
+  }
+
+.form-query input::placeholder {
+    font-size: var(--body-font-size);
+    color:var(--color-placeholder);
+  }
+
+/* Search Button */
+.form-query button {
+    background: #f5f5f5;
+    border: none;
+    color: green;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight:bold;
+    transition: 0.2s;
+    font-family:var(--body-font-family);
+  }
+
+.form-query button:hover {
+    color:var(--color-form-query);
+    background-color: var(--bg-btn-hover);
+  }
+
+/* Select style to match inputs */
+.form-query select,
+.form-query select option {
+    flex: 1;
+    height: 70px;
+    padding: 0 18px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    appearance: none; /* Enlève le style par défaut */
+    cursor: pointer;
+    box-sizing: border-box;
+
+    font-family:var(--body-font-family);
+    font-size: var(--body-font-size);  
+
+    color:var(--color-form-query);
+    background: #f5f5f5;  
+  }
+
+/* Small custom arrow */
+.form-query select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+.gallery {
+    display: flex;
+    justify-content: center; /* Centre les lignes */
+    margin: 0 auto; /* Centre la galerie */
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap; /* Autorise plusieurs lignes */
+  }
+
+.gallery img {
+    display: inline-block; 
+    width: 300px;
+    height: 350px;
+    padding: 10px;
+    border-radius: 6px; /* arrrondis */
+    border: 2px solid var(--color-gallery-border);
+
+    transition: 0.3s;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+.gallery img:hover {
+    box-shadow: 0 0 18px 5px var(--color-gallery-img); /* Effet halo plus fort au survol */
+  }
+
+/* END FILMS */
+/* FILM CARD */
+
+#myButton {
+    display: none; /* Masqué au début */
+    margin-top: 10px;
+  }
+
+.film-card {
+    /* Flexbox activé */
+    display:flex; 
+    flex: 0 0 33.333%;
+    flex-direction:row;
+    width:50%; 
+    height:100%;
+  }
+
+.description {
+    display:inline;
+    float:left;
+    margin-left:55px;		
+    padding-left:50px;
+    padding-right:50px;
+    font-size:var(--description-font-size);
+  }
+
+.horaire-grid {
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap; 
+    justify-content:flex-start;
+    gap:20px;
+  }
+
+.horaire {
+    padding:15px;
+    font-weight: bold;  
+    cursor: pointer;  
+    color:var(--color-horaire);
+    background:var(--bg-color-horaire);
+}
+
+.horaire.selected {
+    border-radius: 4px;
+    color: var(--color-horaire-selected);
+    background: var(--bg-color-horaire-selected);  
+}
+
+.thumbnail {
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    text-align:center;
+    padding-top:20px;
+    margin-right:40px;
+    margin-left:40px;
+    margin-bottom:50px;
+    padding-bottom:50px;
+    background-color:var(--bg-color-thumbnail);
+  }
+
+.details {
+    text-align: center;
+    margin: 0;
+    font-size:var(--details-font-size);
+  }
+
+.modal {
+    display:none; /* Masqué au départ, puis flex */
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    left: 0; 
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    z-index: 999;
+    background-color: var(--color-modal);    
+  }
+
+.modal img {
+    max-width: 90%;
+    max-height: 80%;
+    border: 4px solid var(--color-modal-img);
+  }
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 32px;
+    cursor: pointer;
+    color: var(--color-close-btn);
+  }
+
+.movie h3 {
+    margin: 10px 0 5px;
+  }
+
+.movie p {
+    color: var(--textsubtitle-color);
+    font-weight:normal;
+    font-size: 18px;
+    -webkit-text-stroke:0.5px black !important; /* contour */
+  }
+
+.details-top {
+    display: flex;
+    flex-direction:column;
+  }
+
+.desc-block,
+.cinema-block {
+    flex: 1; /* chaque bloc prend 50% de la largeur */
+  }
+
+ul.projected {
+    display: flex; /* aligner les li sur la même ligne */
+    padding: 0;
+    margin: 0;
+    gap: 10px; /* espace entre chaque cinéma */
+    list-style: none; /* supprime les puces */
+  }
+
+ul.projected li {
+    line-height: 1.2; /* réduit l’espace vertical */
+  }
+
+details summary {
+    margin-top: 5px;
+    list-style: none;
+    cursor: pointer;
+    color: var(--color-details-summary);
+ }
+
+details summary::-webkit-details-marker {
+    display: none; /* Supprime la flèche par défaut */
+ }
+
+/* Default button text */
+details summary::before {
+    content: "▼ Lire plus";
+ }
+
+/* Text displayed when the content is opened */
+details[open] summary::after {
+    content: "▼ Lire moins"; /* Texte quand le contenu est ouvert */
+ }
+
+/* When it's open, we show everything and remove the gradient */
+details[open] .details-text {
+    display: block; /* Quand c'est ouvert, on montre tout et on enlève le dégradé */
+ }
+
+details[open] .details-text::after {
+    display: none;
+ }
+
+/* Text area cut off */
+.details-text {
+    /* TYPO */
+    width:100%; 
+    max-height: 9em;               /* 2 lignes * 1.5em */
+    margin-bottom: 20px;
+    font-weight:normal;
+    overflow: hidden;              /* Masque le surplus */
+    text-overflow: ellipsis;       /* Ajoute "..." */  
+
+    /* WEBKIT (Safari, Chrome, Firefox, Edge) */
+    display: -webkit-box;          /* Obligatoire pour activer line-clamp */
+    -webkit-box-orient: vertical;  /* Orientation verticale */
+    -webkit-line-clamp: 4;         /* Nombre de lignes max */
+    line-height: 1.5em;
+  }
+
+ .summary {
+    margin-bottom:20px;
+    color:var(--color-summary);
+  }
+
+.summary:hover {
+    background-color:var(--bg-color-summary-hover);
+  }  
+
+/* Image of the modal */
+#modal-img {
+    width: 400px;
+    height: 500px;
+  }
+
+#modal {
+    display: none; /* Masqué au départ, puis flex */
+
+    /* Centering */
+    position: fixed;
+    justify-content: center; /* centre l'image horizontalement */
+    align-items: center;     /* centre l'image verticalement */
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Colors */
+    background-color: var(--bg-color-modal); /* fond semi-transparent */
+    z-index: 1000; /* au-dessus du reste */
+  }
+
+.subtitle {
+    font-size:20px;
+  }
+
+/* END FILM CARD */
+/* MENU ADMIN */
+
+nav.admin {
+    text-align:left;
+    width:100%;
+    padding-left:5%;  
+    padding:10px 0;
+    
+    color:var(--color-nav-admin);	 
+    background-color:var(--bg-color-nav-admin);  
+  }
+
+nav.admin ul {  
+    width:100%; 
+    padding-left:5%;
+    color:var(--color-nav-admin);
+    background-color:var(--bg-color-nav-admin);	  
+  }
+
+nav.admin ul li.a {
+    width:100%;
+    color:var(--color-nav-admin);	 
+    background-color:var(--bg-color-nav-admin);  
+  }
+
+.button-admin {
+    margin-left:10px;
+    margin-bottom:10px;
+    padding:5px;
+    color:var(--color-button-admin);
+    background-color:var(--bg-color-button-admin);
+  }
+
+/* END MENU ADMIN */
+/* LOGIN & INSCRIPTION */
+
+.grid-registration {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    margin: auto;
+    width: 40%;
+    padding-bottom : 20px;
+  }
+
+.grid-login {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 20px;
+  }
+
+input {
+    width:200px;
+    height: 40px;
+    margin-left:22px; /* décallage par rapport à la largeur de la croix rouge ou verte  */
+    border: 3px solid var(--color-input-border);
+  }
+
+input::placeholder {
+    font-style: bold;
+    text-align:center;
+    font-size:var(--input-placeholder-font-size);    
+    opacity: 1;
+    color:var(--color-input-placeholder);
+  }
+
+input:focus {
+    border-color :var(--color-border-focus);
+  }
+
+span[id^="msg_"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    font-size: var(--span-msg-font-size);
+    color:var(--color-span-msg-font-size);
+  } 
+
+.login-link {
+    font-size:var(--login-link-font-size);
+    font-weight:bold;
+  }
+
+.login-form {
+    display:flex; 
+    flex-direction:column; 
+    align-items:center;
+  }
+
+.login-error {
+    font-size:var(--login-error-font-size);
+    padding-top:5px;
+    padding-bottom:15px;
+    color:var(--color-login-error);
+  }
+
+.login-button {
+    margin-top:0;
+    padding:0.6rem;
+    border-radius:5px;
+    font-size:var(--login-button-font-size);
+    font-weight:bold;
+    color:var(--color-login-button);
+    background-color:var(--bg-color-login-button);  
+  }
+
+.buttons-text {
+    margin-top:0;
+    font-weight:bold;
+    font-size:1.2rem;
+    padding:0.6rem;
+    border-radius:5px;  
+    color:var(--color-buttons-text);
+    background-color:var(--bg-color-buttons-text); 
+  }
+
+/* END LOGIN & INSCRIPTION */
+/* CONFIRMATION d'INSCRIPTION */
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* padding-block pour haut et bas */
+    text-align: center;
+    margin:80px 0;
+  }
+    
+.title-register {
+    text-align:center;
+    font-weight:bold;
+    font-size:var(--title-register-font-size);
+    margin-top:50px;
+  }
+
+/* END CONFIRMATION d'INSCRIPTION */
+/* FOOTER */
+
+.info-link,
+.info-link:link,
+.info-link:visited {
+    text-decoration: none;
+    color:var(--color-info-link);
+  }
+
+.social-link,
+.social-link:link,
+.social-link:visited {
+    text-decoration: none;
+    color: var(--color-social-link);
+  }
+
+.footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 0.5%;
+    font-family: "Roboto";
+    font-size: var(--footer-font-size);
+    color:var(--color-footer);
+    background-color:var(--bg-color-footer);
+  }
+
+.footer-year {
+    float:right;
+    margin-top:-5px;
+    padding-right:35px;
+  }
+
+.footer-promo {
+    display:block;
+    font-size:var(--footer-promo-font-size);
+  }
+
+.footer-logo {
+    float:right;
+    margin-top:-15px;
+    padding-right:10px;
+    padding-bottom:5px;
+  }
+  
+/* END FOOTER */
+/* PAGE 404 */
+
+a.btn-404 {
+    padding:10px 30px;
+    border-radius:15px;
+    text-decoration:none;
+    color:var(--color-btn-404);
+    background-color:var(--bg-color-btn-404);
+  }
+
+.cine-max {
+    display: none; /* Masqué au départ */
+  }
+
+
+.cookies-style {
+    padding: 8px;
+    font-family:var(--cookies-font-family); 
+    font-size:var(--cookies-font-size);
+    cursor: pointer;
+  }
+  
+.cookies {
+    display: flex; 
+    justify-content: right; 
+    align-items: center;
+    padding-top:5px;
+    bottom:0;
+    gap: 20px; 
+    flex-wrap: wrap;
+  }
+
+.gallery {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+.gallery img:hover {
+    box-shadow: 0 0 18px 5px var(--color-gallery-img-hover); /* effet halo plus fort au survol */
+  }
+
+.movies {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+  }
+
+.movie {
+    flex: 0 0 calc((100% - 40px) / 3);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+.movie .img {
+    width: auto;
+    height: 350px;
+    padding: 10px;
+    border: 2px solid var(--color-movie-img);
+    border-radius: 6px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s;
+  }         
+    
+.titre {
+    width:100%;
+    height:100%;
+    margin-top:30px;
+    padding-bottom:20px;
+    text-align:center;
+    font-weight: bold;
+    font-size:var(--titre-font-size);
+    color:var(--color-titre);
+    background-color:var(--bg-color-titre);
+  }     
+
+.banner-left {
+    display:flex; 
+    flex:0 0 10%; 
+    justify-content:center;
+  }
+
+.banner-right {
+    display:flex;
+    flex:0 0 10%; ; 
+    justify-content:center;
+  }
+
+.details {
+    display:flex; 
+    padding-right:20%;
+  }
+
+.en-tete-details {
+    flex:0 0 220px;
+    padding-left:5%;
+  }
+
+
+img.pochette-details {
+    width: 80%;
+    height:auto;
+    padding:15% 0;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+  }        
+
+.aside {
+    width: 100%;          
+    display:block;
+  }
+        
+
+.menu-pc {          
+    display:inline;
+  }
+        
+
+.last-column-header{
+    display:flex;
+    list-style:none;
+    padding:7px 0px;
+    margin-left:70%; 
+    gap:1.5rem;   
+    cursor:pointer;
+  }
+
+.menu-smartphone {
+    display:none; /* Masqué au début */
+  }
+        
+.under {
+    width:100%;
+    height:auto;
+    bottom:0;
+    left:0;
+    color:var(--color-under);
+    background-color:var(--bg-color-under);
+  }
+      
+.grid-under {
+    display:grid;        
+    position:relative;  
+    margin-top:-20px; 
+    padding:3% 0;
+    bottom:0;
+    grid-template-columns:33% 33% 34%;
+    color:var(--color-grid-under);;
+    background-color: var(--bg-color-grid-under);   
+  }
+
+.hidden {
+    display:none; /* Masqué au début */
+  }
+      
+.logout-none {  
+    display:none; /* Masqué au début */
+  }
+
+.home-page {
+    padding:1%;
+    text-align:center;
+    white-space: nowrap;
+    font-size: var(--header1-font-size);
+    z-index: 1;
+    color:var(--color-home-page);
+    background-color:var(--bg-color-home-page);
+  }
+
+.home-page span {
+    display: inline-block;
+    animation: scroll 10s linear infinite;
+  }
+
+@keyframes scroll {
+    0%   { transform: translateX(50%); } /* départ au centre */
+    100% { transform: translateX(-50%); }
+  } 
+
+.register {
+    color: var(--text-color) ;
+  }
+
+.register a {                
+    padding: 10px ; /* Marges intérieures */
+    border-radius: 5px ; /* Coins arrondis */
+    text-decoration: none ; /* Enlève le soulignement d'un hyperlien */
+    color:var(--color-register) ;
+    background-color:var(--bg-btn) ;
+  }
+
+
+.nav-right .register a:hover,
+.nav-right .register a:focus {
+    color:var(--color-nav-right);
+    background-color: var(--bg-color-nav-right) ;    
+  }
+
+.nav-right {
+    display:flex ; /* Organise les éléments enfants : empilement et décalage (vertical + horizontal) */
+    flex-direction: column ;
+    justify-content:right ; /* Inutile ici ? */
+    align-items: center ; /* Centre les éléments sur l'axe secondaire horizontalement */
+    margin-left: auto ; /* Pousse le bloc complètement à droite */  
+  }
+
+.nav-right ul {
+    display: flex;
+    flex-direction: row ;
+    list-style: none;
+    flex-wrap: nowrap; /* ne permet pas aux éléments de passer à la ligne */
+    padding: 0; /* ne permet pas d'espace interne */ 
+    margin: 0; /* ne permet pas d'espace autour */    
+    margin-right:25px;
+    gap:15px;
+  }
+
+.nav-right li.register {
+    display: inline-flex; /* force les li à rester sur une ligne */
+    align-items: center;
+    color:var(--color-nav-right-register);
+  }
+
+.bottom-social,
+.bottom-info,
+.bottom-social:visited,
+.bottom-info:visited {
+    color:var(--color-bottom);
+    text-decoration:none;
+    cursor:pointer;
+  }
+
+.bottom-social:hover,
+.bottom-info:hover {
+    color:var(--color-bottom-hover);
+  }
+
+
+
+
+
+  
+/* INUTILE : A TESTER en supprimant */
+.btn {
+    color:var(--color-btn);
+    text-decoration:none;
+  }
+
+ .inline {
+    display:inline;
+  }
+
+/* MOBILE FIRST */
+.cover-mobile {
+    display:none; /* Masqué au début */
+  }
+
+/* MOBILE FIRST */
+.menu-hamburger {
+    display:none; /* Masqué au début */
+  }
+
+ .nav-right-mobile {
+    display:none ; /* Masqué au début */
+  }

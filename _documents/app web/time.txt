@@ -1,0 +1,37 @@
+// Si la session n'a pas encore été initialisée, on l'initialise
+if (!isset($_SESSION['start_time'])) {
+    $_SESSION['start_time'] = time();  // Stocke le temps de début de la session (en secondes depuis Unix Epoch)
+}
+
+// Calculer le temps écoulé depuis le début de la session
+$elapsed_time = time() - $_SESSION['start_time'];
+
+// 30 minutes c'est 1800secondes
+
+<p id="chronometer">00:00:00</p> <!-- Le chronomètre sera mis à jour ici -->
+
+<script>
+        // Fonction pour calculer et afficher le temps écoulé
+        function updateChronometer() {
+            var startTime = <?php echo $_SESSION['start_time']; ?>;  // Récupérer l'heure de départ de la session
+            var currentTime = Math.floor(Date.now() / 1000); // Temps actuel en secondes
+
+            // Calcul du temps écoulé
+            var elapsed = currentTime - startTime;
+
+            // Conversion du temps en heures, minutes, secondes
+            var hours = Math.floor(elapsed / 3600);
+            var minutes = Math.floor((elapsed % 3600) / 60);
+            var seconds = elapsed % 60;
+
+            // Formatage avec 2 chiffres pour les minutes et secondes
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            // Affichage du chronomètre
+            document.getElementById("chronometer").innerText = hours + ":" + minutes + ":" + seconds;
+        }
+
+        // Mettre à jour le chronomètre toutes les secondes
+        setInterval(updateChronometer, 1000);
+    </script>

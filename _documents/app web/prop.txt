@@ -1,0 +1,25 @@
+dependencies {
+    // Jetpack Compose UI
+    implementation 'androidx.compose.ui:ui:1.5.0'  // Remplace par la dernière version de Compose
+
+    // Jetpack Compose Material Design
+    implementation 'androidx.compose.material3:material3:1.0.1'
+
+    // Jetpack Compose Tooling (utile pour le debugging et l'inspection dans Android Studio)
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.5.0'
+    
+    // Jetpack Compose ViewModel pour la gestion de l'état dans Compose
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+
+    // ViewModel KTX (pour les fonctionnalités supplémentaires et les coroutines)
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    // Lifecycle runtime (nécessaire pour gérer le cycle de vie des composants)
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    
+    // Si tu utilises LiveData dans ton ViewModel
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+
+    // Si tu utilises des coroutines dans ton ViewModel
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+}

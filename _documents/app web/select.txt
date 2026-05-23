@@ -1,0 +1,50 @@
+  <style>
+    /* Style général du select */
+    select {
+      width: 200px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #3498db;
+      background-color: #f0f4f7;
+      font-size: 16px;
+      color: #333;
+      cursor: pointer;
+      appearance: none; /* Supprimer la flèche par défaut */
+    }
+
+    /* Ajout d'une flèche personnalisée avec un pseudo-élément */
+    select::-ms-expand {
+      display: none; /* Cache la flèche sur IE */
+    }
+
+    /* Style de l'option */
+    option {
+      padding: 10px;
+      font-size: 16px;
+      background-color: white;
+      color: #333;
+    }
+
+    /* Changer l'apparence de l'option au survol */
+    option:hover {
+      background-color: #3498db;
+      color: white;
+    }
+
+    /* Ajout d'une flèche personnalisée avec une div contenant le select */
+    .custom-select-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .custom-select-wrapper::after {
+      content: "?";
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #3498db;
+      pointer-events: none;
+    }
+  </style>

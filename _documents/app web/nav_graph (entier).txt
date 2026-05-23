@@ -1,0 +1,53 @@
+<!-- AUTH -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.cinephoria.LoginFragment"/>
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.cinephoria.RegistrationFragment"/>
+
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.example.cinephoria.PasswordFragment"/>
+
+    <!-- CONFIRMATIONS -->
+    <fragment
+        android:id="@+id/confirmEmailFragment"
+        android:name="com.example.cinephoria.ConfirmEmailFragment"/>
+
+    <fragment
+        android:id="@+id/confirmLoginFragment"
+        android:name="com.example.cinephoria.ConfirmLoginFragment"/>
+
+    <!-- FILMS -->
+    <fragment
+        android:id="@+id/filmsFragment"
+        android:name="com.example.cinephoria.FilmsFragment"/>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.cinephoria.DetailsFragment"/>
+
+    <!-- RESERVATION -->
+    <fragment
+        android:id="@+id/reservationFragment"
+        android:name="com.app.ui.reservation.ReservationFragment"/>
+
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.cinephoria.PaymentFragment"/>
+
+    <!-- ADMIN -->
+    <fragment
+        android:id="@+id/manageUsersFragment"
+        android:name="com.example.cinephoria.ManageUsersFragment"/>
+
+    <fragment
+        android:id="@+id/manageProductsFragment"
+        android:name="com.app.ui.admin.ManageProductsFragment"/>
+
+    <!-- ERROR -->
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="com.app.ui.error.ErrorFragment"/>

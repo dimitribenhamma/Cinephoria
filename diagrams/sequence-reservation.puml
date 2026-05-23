@@ -1,0 +1,63 @@
+@startuml
+actor "Client" as Utilisateur <<actor>>
+
+participant "IHM Home" as IHM <<boundary>> #LightGreen
+participant "Details" as Détails <<boundary>> #LightGreen
+participant "Reservation" as Réservation <<boundary>> #LightGreen
+participant "Login" as Login <<boundary>> #LightGreen
+participant "Register" as Inscription <<boundary>> #LightGreen
+participant "Payment" as Paiement <<boundary>> #LightGreen
+
+participant "LoginController" as LoginCtrl <<control>> #LightBlue
+participant "RegistationController" as InscriptionCtrl <<control>> #LightBlue
+participant "ResaController" as RésaCtrl <<control>> #LightBlue
+
+participant "ApiBank" as ApiBanque <<service>> #Red
+
+participant "movies" as films <<entity>> #FFD8A8
+participant "cinemas" as cinemas <<entity>> #FFD8A8
+participant "MembersDB" as Membres <<entity>> #FFD8A8
+
+Utilisateur -> IHM : renduFilms
+IHM -> Détails : renduFilm
+
+Détails -> cinemas : inclureCinemas
+Détails -> films : inclureMovies
+cinemas --> Détails : afficherCinemas
+films --> Détails : afficherSéances
+
+IHM -> Réservation : renduFilmsParCinema
+
+Réservation -> Paiement : vérifierLoginAuthentification
+
+alt Utilisateur non authentifié
+    alt Connexion
+        Réservation --> Login : redirection 
+        Login --> Utilisateur : afficherLoginPage
+        Utilisateur --> IHM : saisirIdentifiants
+        IHM -> LoginCtrl : soumettreIdentifiants
+        LoginCtrl -> Membres : vérifierIdentifiants
+        Membres --> LoginCtrl : authentificationOK
+        LoginCtrl --> Paiement : redirection
+    
+    else Inscription
+        Réservation -> Inscription : redirection 
+        Inscription --> Utilisateur : afficherInscriptionPage
+        Utilisateur -> IHM : saisirInformations
+        IHM -> InscriptionCtrl : soumettreInformations
+        InscriptionCtrl -> Membres : utilisateurCrée(New)
+        Membres --> InscriptionCtrl : authentificationOK
+        InscriptionCtrl --> Paiement : redirection
+    end
+end
+
+Paiement -> RésaCtrl : placesBloquées
+RésaCtrl --> Utilisateur : payer
+Utilisateur -> IHM : saisirPaiement
+IHM -> RésaCtrl : soumettrePaiement
+RésaCtrl -> ApiBanque : vérificationsBancaires
+ApiBanque --> RésaCtrl : paiementAccepté
+RésaCtrl --> IHM : afficherConfirmation
+IHM --> Utilisateur : MailConfirmation
+
+@enduml

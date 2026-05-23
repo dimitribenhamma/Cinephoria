@@ -1,0 +1,1 @@
+location.href.split('?')[0] + '?t=' + new Date().getTime();

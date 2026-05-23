@@ -1,0 +1,18 @@
+Le Toast est géré par le système Android et pas une View de ton Activity (ca ressemble à une fenêtre popup système) :
+- le thème du Context
+- ✅ Alternative moderne : Snackbar (Material Design)
+
+ Il est géré par le système Android donc le message fonctionne même si l’Activity est fermée : il peut apparaître sur d’autres écrans aussi
+
+✔ Le Toast :
+- est affiché au-dessus de toutes les apps
+- n’appartient pas à ta hiérarchie de vues
+- continue d’exister même si ton Activity disparaît
+- utilise un WindowManager système
+- respecte le thème système (clair/sombre)
+
+Snackbar
+    .make(view, "Message", Snackbar.LENGTH_SHORT)
+    .setBackgroundTint(Color.BLACK)
+    .setTextColor(Color.WHITE)
+    .show()

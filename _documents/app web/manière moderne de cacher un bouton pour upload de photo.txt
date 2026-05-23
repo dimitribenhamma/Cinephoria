@@ -1,0 +1,81 @@
+manière moderne de cacher un bouton pour upload de photo
+
+
+
+<div id="drop-zone" class="upload-container" onclick="document.getElementById('file-input').click()">
+  <div class="upload-icon">??</div>
+  <div class="upload-text">Cliquez pour ajouter une photo</div>
+  <input type="file" id="file-input" accept="image/*" />
+  <div id="preview"></div>
+</div>
+
+<style>
+  .upload-container {
+    display: inline-block;
+    cursor: pointer;
+    padding: 1em;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .upload-container:hover {
+    background-color: #f5f5f5;
+    border-color: #888;
+  }
+
+  #file-input {
+    display: none;
+  }
+
+const dropZone = document.getElementById("drop-zone");
+  const fileInput = document.getElementById("file-input");
+  const preview = document.getElementById("preview");
+
+  // Clic sur la zone
+  dropZone.addEventListener("click", () => fileInput.click());
+
+  // Gestion du fichier sélectionné
+  fileInput.addEventListener("change", handleFile);
+
+  // Drag & Drop
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      showPreview(file);
+    }
+  });
+
+  function handleFile(event) {
+    const file = event.target.files[0];
+    if (file) {
+      showPreview(file);
+    }
+  }
+
+  function showPreview(file) {
+    if (!file.type.startsWith("image/")) {
+      preview.innerHTML = "<p style='color: red;'>Fichier non valide.</p>";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      preview.innerHTML = `<img src="${e.target.result}" alt="Preview Image" />`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+</style>

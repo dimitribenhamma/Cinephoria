@@ -1,0 +1,5 @@
+Le Wireframe ;
+
+Son importance est haute mais sa valeur finale est faible comme fidélité : en effet ce n'est pas un rendu .
+
+C’est un outil qui aide les concepteurs et les porteurs du projet à comprendre comment l’interface utilisateur fonctionnera, à quoi elle ressemblera, sans se perdre dans les détails graphiques (couleur, police et d’autres éléments visuels)

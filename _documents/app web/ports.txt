@@ -1,0 +1,11 @@
+netstat -ano | findstr :5037
+tasklist | findstr adb.exe
+
+wmic process where ProcessId=7296 get Name,ExecutablePath,CommandLine
+
+
+🟢 Équivalent moderne (recommandé)
+
+WMIC est obsolète. En PowerShell :
+
+Get-Process -Id 7296 | Select Id,ProcessName,Path

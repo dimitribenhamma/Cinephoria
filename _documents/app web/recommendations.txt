@@ -1,0 +1,8 @@
+utf-8 notepad++ et accents
+refactoring et indentations
+
+database avec phpMyAdmin et passwords
+
+protéger les données sensibles dans data :
+- movies.php
+- Movie sur androdi studio

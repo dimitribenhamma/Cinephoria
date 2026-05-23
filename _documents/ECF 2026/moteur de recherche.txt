@@ -1,0 +1,5 @@
+moteur de recherche :
+        // Aux la meme dimensions
+        // espace entre les affiches
+        // correspondance exacte
+	// la pagination

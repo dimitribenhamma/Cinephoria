@@ -1,0 +1,116 @@
+<?php
+session_start();
+
+// Initialiser le compteur de tentatives si nécessaire
+if (!isset($_SESSION['tentatives'])) {
+    $_SESSION['tentatives'] = 0;
+}
+
+// Si le formulaire est soumis, incrémenter le nombre de tentatives
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $_SESSION['tentatives']++;
+}
+
+$max_attempts = 3;
+$disabled = $_SESSION['tentatives'] >= $max_attempts ? 'disabled' : '';
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Désactiver et réactiver un bouton après 3 tentatives</title>
+</head>
+<body>
+
+<h1>Test du bouton avec tentative</h1>
+<p>Nombre de tentatives : <?php echo $_SESSION['tentatives']; ?> / <?php echo $max_attempts; ?></p>
+
+<!-- Formulaire -->
+<form method="POST" action="">
+    <button type="submit" id="submitBtn" <?php echo $disabled; ?>>Soumettre</button>
+</form>
+
+<?php if ($_SESSION['tentatives'] >= $max_attempts): ?>
+    <p>Vous avez atteint la limite de tentatives. Le bouton sera réactivé après 5 secondes.</p>
+<?php endif; ?>
+
+<script>
+    // Si le bouton est désactivé (après 3 tentatives)
+    if (document.getElementById('submitBtn').disabled) {
+        setTimeout(function() {
+            document.getElementById('submitBtn').disabled = false; // Réactiver le bouton après 5 secondes
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>
+
+UPLOAD
+
+<script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-upload');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+
+        // Vérifie si une image est stockée dans localStorage au chargement de la page
+        window.onload = function() {
+            const storedImage = localStorage.getItem('uploadedImage');
+            if (storedImage) {
+                // Si une image est trouvée dans localStorage, affiche-la
+                imagePreview.src = storedImage;
+                previewContainer.style.display = 'block';
+            }
+        };
+
+        // Gérer l'événement de sélection de fichier
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Gérer l'événement de glisser-déposer
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            dropZone.classList.add('hover');
+        });
+
+        dropZone.addEventListener('dragleave', function() {
+            dropZone.classList.remove('hover');
+        });
+
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            dropZone.classList.remove('hover');
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files; // Affecter les fichiers déposés à l'input caché
+                handleFileSelect(); // Traiter l'image
+            }
+        });
+
+        // Permettre à l'utilisateur de cliquer sur la zone pour sélectionner un fichier
+        dropZone.addEventListener('click', function() {
+            fileInput.click(); // Simule un clic sur l'input caché
+        });
+
+        // Fonction qui gère l'affichage de l'aperçu après la sélection du fichier
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    // Affiche l'image dans l'aperçu
+                    const imageDataUrl = event.target.result;
+                    imagePreview.src = imageDataUrl;
+                    previewContainer.style.display = 'block';  // Afficher l'aperçu
+
+                    // Sauvegarde l'image dans localStorage
+                    localStorage.setItem('uploadedImage', imageDataUrl);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>

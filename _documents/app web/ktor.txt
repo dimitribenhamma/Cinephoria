@@ -1,0 +1,231 @@
+Ktor (Api en Jetpack compose)
+D'accord, pour créer un endpoint d'une API JSON en utilisant Kotlin, Jetpack Compose, et Ktor pour consommer une API externe, voici un guide détaillé avec un exemple complet.
+Nous allons créer une application Kotlin avec Jetpack Compose pour afficher les données récupérées d'une API JSON. Pour ce faire, nous allons :
+1.	Configurer les dépendances pour Jetpack Compose et Ktor.
+2.	Créer un modèle de données pour désérialiser le JSON.
+3.	Créer une fonction qui récupère les données à partir de l'API.
+4.	Utiliser un ViewModel pour gérer l'état.
+5.	Créer une interface utilisateur avec Jetpack Compose qui affichera les données.
+Étape 1 : Configuration des dépendances
+Tout d'abord, ajoute les dépendances nécessaires dans ton fichier build.gradle du module app :
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+}
+
+android {
+    compileSdk = 33
+    defaultConfig {
+        applicationId = "com.example.apiwithcompose"
+        minSdk = 21
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0"
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    // Jetpack Compose
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.material3:material3:1.0.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
+
+    // Ktor for network requests
+    implementation("io.ktor:ktor-client-android:2.3.1")
+    implementation("io.ktor:ktor-client-serialization:2.3.1")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.1")	
+
+    // Kotlin Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
+    // Jetpack Compose Preview
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.0")}
+Étape 2 : Créer un modèle de données
+Ensuite, crée un modèle de données pour désérialiser la réponse JSON de l'API. Imaginons que l'API renvoie un objet Person.
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Person(
+    val id: Int,
+    val name: String,
+    val age: Int
+)
+Étape 3 : Créer une fonction pour appeler l'API avec Ktor
+Voici la fonction qui utilise Ktor pour effectuer une requête GET à l'API et récupérer les données JSON. Nous allons également configurer la sérialisation JSON avec kotlinx.serialization.
+import io.ktor.client.*
+import io.ktor.client.engine.android.*
+import io.ktor.client.request.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+
+suspend fun fetchPersonFromApi(): Person? {
+    val client = HttpClient(Android) {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true })
+        }
+    }
+
+    return try {
+        val response: Person = client.get("https://api.example.com/person/1") // Change l'URL de l'API ici
+        response
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    } finally {
+        client.close()
+    }
+}
+Étape 4 : Créer un ViewModel pour gérer l'état
+Le ViewModel va gérer l'appel réseau et l'état de l'interface utilisateur (par exemple, chargé, échec, ou succès). Voici un exemple de ViewModel.
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+
+class PersonViewModel : ViewModel() {
+
+    var person by mutableStateOf<Person?>(null)
+        private set
+
+    var isLoading by mutableStateOf(false)
+        private set
+
+    var errorMessage by mutableStateOf<String?>(null)
+        private set
+
+    fun fetchPersonData() {
+        isLoading = true
+        errorMessage = null
+        viewModelScope.launch {
+            try {
+                val result = fetchPersonFromApi()
+                person = result
+            } catch (e: Exception) {
+                errorMessage = "Failed to fetch data"
+            } finally {
+                isLoading = false
+            }
+        }
+    }
+}
+Étape 5 : Créer une interface utilisateur avec Jetpack Compose
+Maintenant, créons une interface utilisateur simple avec Jetpack Compose pour afficher les données récupérées. Nous allons afficher un indicateur de chargement pendant que les données sont récupérées.
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+@Composable
+fun PersonScreen(personViewModel: PersonViewModel = viewModel()) {
+    // Observer les changements d'état dans le ViewModel
+    val person = personViewModel.person
+    val isLoading = personViewModel.isLoading
+    val errorMessage = personViewModel.errorMessage
+
+    // Charger les données au démarrage de l'écran
+    LaunchedEffect(Unit) {
+        personViewModel.fetchPersonData()
+    }
+
+    // Interface utilisateur
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Person Info") }
+            )
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator()
+                } else {
+                    person?.let {
+                        Text("ID: ${it.id}", style = MaterialTheme.typography.body1)
+                        Text("Name: ${it.name}", style = MaterialTheme.typography.body1)
+                        Text("Age: ${it.age}", style = MaterialTheme.typography.body1)
+                    }
+
+                    errorMessage?.let {
+                        Text(it, style = MaterialTheme.typography.body2)
+                    }
+                }
+            }
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewPersonScreen() {
+    PersonScreen()
+}
+Étape 6 : Lancer l'application
+Dans ta MainActivity, configure Jetpack Compose pour afficher l'écran.
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.apiwithcompose.ui.theme.ApiWithComposeTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ApiWithComposeTheme {
+                // Applique la surface et ton écran
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    PersonScreen()  // Affiche l'écran de la personne
+                }
+            }
+        }
+    }
+}
+Résumé des étapes :
+1.	Ktor est utilisé pour récupérer les données depuis l'API.
+2.	Le ViewModel gère les appels réseau et l'état de l'interface (chargement, données récupérées, ou erreur).
+3.	Jetpack Compose est utilisé pour afficher ces données dans une interface réactive.
+Exemple de réponse JSON de l'API :
+Si l'API renvoie un JSON comme ceci :
+{
+  "id": 1,
+  "name": "John Doe",
+  "age": 30
+}
+Ton interface affichera les détails de la personne (ID, Nom, Âge).
+Conclusion :
+Tu as maintenant une API JSON entièrement fonctionnelle avec Jetpack Compose et Ktor. Tu peux l'adapter à toute autre API que tu souhaites consommer. Si tu rencontres un problème avec l'API ou la mise en œuvre, fais-moi savoir !
+
+
+https://api.themoviedb.org/3/movie/latest?api_key=YOUR_API_KEY&language=fr
+
+

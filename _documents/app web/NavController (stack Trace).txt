@@ -1,0 +1,4 @@
+•	safe navigation so it won’t crash under any scenario ?
+•	gonfler avec quels éléments ?
+•	Calcul de la disposition en layout_width et layout_height dans le cas d’un TextView ?
+•	détails de la stack trace

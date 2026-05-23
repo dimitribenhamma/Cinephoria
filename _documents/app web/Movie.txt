@@ -1,0 +1,40 @@
+@Composable
+fun MovieItem(movie: Movie) {
+    Column(
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Text(text = movie.title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = movie.overview, maxLines = 3, overflow = TextOverflow.Ellipsis)
+    }
+}
+
+
+@Composable
+fun MovieList(movies: List<Movie>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        items(movies) { movie ->
+            MovieItem(movie = movie)
+        }
+    }
+}
+
+
+@Composable
+fun MovieScreen(viewModel: MovieViewModel, apiKey: String) {
+    val movies = viewModel.movies.value
+    val loading = viewModel.loading.value
+
+    // Appeler la fonction pour récupérer les films si ce n'est pas encore fait
+    LaunchedEffect(Unit) {
+        viewModel.fetchMovies(apiKey)
+    }
+
+    if (loading) {
+        CircularProgressIndicator(modifier = Modifier.fillMaxSize().wrapContentSize())
+    } else {
+        MovieList(movies = movies)
+    }
+}

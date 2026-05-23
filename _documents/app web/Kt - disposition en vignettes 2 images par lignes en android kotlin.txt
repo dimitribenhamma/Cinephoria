@@ -1,0 +1,88 @@
+disposition en vignettes 2 images par lignes en android kotlin
+Glide pour la gestion du chargement d’image.
+
+
+dependencies {
+    implementation "androidx.recyclerview:recyclerview:1.2.1" // ou la dernière version
+}
+
+
+activity_main.xml
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+
+item_image.xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop" />
+</LinearLayout>
+
+
+MainActivity.kt
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Initialisation du RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+        // Créer un GridLayoutManager avec 2 colonnes
+        val gridLayoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = gridLayoutManager
+
+        // Initialisation de l'adapter
+        val imageList = listOf("url_image_1", "url_image_2", "url_image_3", "url_image_4") // Liste des URLs des images
+        val adapter = ImageAdapter(imageList)
+        recyclerView.adapter = adapter
+    }
+}
+
+class ImageAdapter(private val images: List<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+        return ImageViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        // Utilisation de Glide pour charger l'image
+        Glide.with(holder.itemView.context)
+            .load(images[position]) // Remplacer avec l'URL ou la ressource de l'image
+            .into(holder.imageView)
+    }
+
+    override fun getItemCount() = images.size
+
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    }
+}
+
+
+dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+}
+
+
+

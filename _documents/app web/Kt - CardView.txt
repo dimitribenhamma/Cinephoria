@@ -1,0 +1,27 @@
+Par exemple, une animation d'entrée de fondu : 
+
+Crée un fichier d'animation dans res/anim/fade_in.xml
+<?xml version="1.0" encoding="utf-8"?>
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="500"
+    android:fromAlpha="0.0"
+    android:toAlpha="1.0"/>
+
+
+onBindViewHolder
+override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+    // Charger l'image avec Glide
+    Glide.with(holder.itemView.context)
+        .load(images[position])
+        .into(holder.imageView)
+
+    // Appliquer l'animation de fondu
+    val fadeIn = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade_in)
+    holder.itemView.startAnimation(fadeIn)
+}
+
+
+OnTouchListener
+Effet au survol (Hover Effect)
+
+

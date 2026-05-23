@@ -1,0 +1,291 @@
+Gestion des cookies en php
+
+Créer des cookies en PHP est simple grâce à la fonction native setcookie(). Voici un guide de base avec un exemple pratique.
+________________________________________
+? Syntaxe de setcookie()
+setcookie(name, value, expire, path, domain, secure, httponly);
+
+•  name : nom du cookie.
+•  value : valeur stockée.
+•  expire : timestamp d'expiration (time() + 3600 par exemple pour 1 heure).
+•  path : chemin du site pour lequel le cookie est valide.
+•  domain : domaine (souvent pas nécessaire).
+•  secure : true si le cookie doit être envoyé uniquement via HTTPS.
+•  httponly : true pour le rendre inaccessible en JavaScript (plus sécurisé).
+
+?? Exemple : Créer un cookie PHP
+
+<?php
+// Crée un cookie "user" avec la valeur "Jean", valable 1 heure
+setcookie("user", "Jean", time() + 3600, "/");
+
+// Vérifier si le cookie a été défini
+if (isset($_COOKIE['user'])) {
+    echo "Bienvenue " . $_COOKIE['user'];
+} else {
+    echo "Cookie non encore défini.";
+}
+?>
+
+?? Remarque importante : setcookie() doit être appelé avant tout affichage HTML (donc avant tout echo, print, ou HTML pur).
+________________________________________
+? Exemple incorrect
+echo "Salut !"; // ERREUR : déjà du HTML envoyé
+setcookie("test", "erreur", time() + 3600);
+
+?? Supprimer un cookie
+Pour supprimer un cookie, définissez-le avec une date d'expiration passée :
+setcookie("user", "", time() - 3600, "/");
+
+Parfait?! Voici un exemple complet avec un formulaire HTML et du code PHP pour :
+1.	Demander le nom de l'utilisateur.
+2.	Créer un cookie avec ce nom.
+3.	Afficher un message de bienvenue si le cookie est présent.
+________________________________________
+?? Fichier : index.php
+<?php
+// Si l'utilisateur a soumis le formulaire
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["username"])) {
+    $username = htmlspecialchars($_POST["username"]);
+    // Créer un cookie valable 1 heure
+    setcookie("user", $username, time() + 3600, "/");
+    // Recharger la page pour que le cookie soit accessible dans $_COOKIE
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit();
+}
+
+// Si le cookie est déjà défini
+if (isset($_COOKIE['user'])) {
+    $message = "Bienvenue " . htmlspecialchars($_COOKIE['user']) . "!";
+} else {
+    $message = "Veuillez entrer votre nom :";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookies en PHP</title>
+</head>
+<body>
+    <h2><?php echo $message; ?></h2>
+
+    <?php if (!isset($_COOKIE['user'])): ?>
+        <form method="post" action="">
+            <label for="username">Nom :</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">Envoyer</button>
+        </form>
+    <?php else: ?>
+        <form method="post" action="logout.php">
+            <button type="submit">Supprimer le cookie</button>
+        </form>
+    <?php endif; ?>
+</body>
+</html>
+
+??? Fichier : logout.php (pour supprimer le cookie)
+
+<?php
+// Supprimer le cookie
+setcookie("user", "", time() - 3600, "/");
+// Revenir à la page principale
+header("Location: index.php");
+exit();
+
+?? Testez-le :
+1.	Chargez index.php dans un serveur local (comme XAMPP ou WAMP).
+2.	Entrez un nom ? le cookie est créé.
+3.	Rechargez ? le message de bienvenue s’affiche.
+4.	Cliquez sur "Supprimer le cookie" ? retour au formulaire.
+Souhaitez-vous ajouter une expiration personnalisable, ou stocker plusieurs cookies ?
+créer un cookie avec ip et plus encore sur la page d'accueil php
+
+Très bien?! Créons un exemple complet pour une page d'accueil (index.php) qui :
+1.	?? Récupère l'adresse IP de l'utilisateur.
+2.	?? Crée un cookie avec cette IP (et éventuellement d'autres infos comme date, navigateur...).
+3.	?? Affiche un message personnalisé si le cookie est déjà présent.
+________________________________________
+? Fonctionnalités à intégrer
+•	Adresse IP de l'utilisateur.
+•	Date et heure de la visite.
+•	Navigateur utilisé (User-Agent).
+•	Création d'un cookie contenant ces informations (en JSON).
+•	Affichage conditionnel selon la présence du cookie.
+?? Fichier : index.php
+<?php
+// Fonction pour récupérer l'IP réelle
+function getUserIP() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        return explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]; // pour éviter les IP multiples
+    } else {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+}
+
+// Si le cookie n'existe pas, on le crée
+if (!isset($_COOKIE['visitor_info'])) {
+    $ip = getUserIP();
+    $date = date("Y-m-d H:i:s");
+    $browser = $_SERVER['HTTP_USER_AGENT'];
+
+    // On stocke les données dans un tableau
+    $visitor_data = [
+        'ip' => $ip,
+        'date' => $date,
+        'browser' => $browser
+    ];
+
+    // Encodage en JSON pour stockage dans un seul cookie
+    $cookie_value = json_encode($visitor_data);
+
+    // Création du cookie (valable 1 jour)
+    setcookie('visitor_info', $cookie_value, time() + 86400, "/");
+
+    // Recharger la page pour activer le cookie
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// Lecture du cookie
+$visitor_info = isset($_COOKIE['visitor_info']) ? json_decode($_COOKIE['visitor_info'], true) : null;
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page d'accueil avec cookie</title>
+</head>
+<body>
+    <h1>Bienvenue sur notre site</h1>
+
+    <?php if ($visitor_info): ?>
+        <p><strong>Votre IP :</strong> <?= htmlspecialchars($visitor_info['ip']) ?></p>
+        <p><strong>Date de votre première visite :</strong> <?= htmlspecialchars($visitor_info['date']) ?></p>
+        <p><strong>Votre navigateur :</strong> <?= htmlspecialchars($visitor_info['browser']) ?></p>
+        <form method="post" action="logout.php">
+            <button type="submit">Supprimer mes infos</button>
+        </form>
+    <?php else: ?>
+        <p>Chargement de vos données...</p>
+    <?php endif; ?>
+</body>
+</html>
+??? Fichier : logout.php (pour supprimer le cookie)
+<?php
+// Supprimer le cookie
+setcookie("visitor_info", "", time() - 3600, "/");
+header("Location: index.php");
+exit();
+?? Bonus (sécurité) :
+•  Utiliser json_encode(..., JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) pour éviter les caractères spéciaux si nécessaire.
+•  Ajouter le flag httponly dans setcookie() pour éviter l'accès JavaScript :
+setcookie("visitor_info", $cookie_value, time() + 86400, "/", "", false, true);
+créer une petite fenetre pour les rgpd nosu utilisons des cookies avec bouton ok autoriser refuser
+Pour créer une petite fenêtre (ou bannière de consentement RGPD) qui apparaît lorsqu'un utilisateur arrive sur la page et lui demande d'accepter ou de refuser l'utilisation de cookies, nous allons utiliser HTML, CSS et PHP.
+Fonctionnement :
+1.	La fenêtre s'affiche sur la page d'accueil.
+2.	Si l'utilisateur accepte, un cookie cookies_accepted est créé pour mémoriser le choix.
+3.	Si l'utilisateur refuse, un autre cookie cookies_refused est créé.
+4.	Une fois qu'un choix est fait, la fenêtre disparaît lors des visites suivantes.
+________________________________________
+? Étape 1 : Le HTML, CSS, et PHP de la fenêtre
+Voici un exemple complet avec le design de la fenêtre et la gestion des cookies.
+?? Fichier : index.php
+
+<?php
+// Vérification du choix de l'utilisateur sur les cookies
+if (isset($_POST['accept_cookies'])) {
+    setcookie("cookies_accepted", "true", time() + 3600 * 24 * 365, "/"); // Cookie valable 1 an
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+if (isset($_POST['reject_cookies'])) {
+    setcookie("cookies_refused", "true", time() + 3600 * 24 * 365, "/");
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// Vérification de la présence des cookies
+$cookies_accepted = isset($_COOKIE['cookies_accepted']);
+$cookies_refused = isset($_COOKIE['cookies_refused']);
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consentement Cookies RGPD</title>
+    <style>
+        /* Style de la fenêtre */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: <?php echo ($cookies_accepted || $cookies_refused) ? 'none' : 'block'; ?>;
+            z-index: 1000;
+        }
+        #cookie-banner button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        #cookie-banner button.refuse {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Le reste de votre page ici -->
+    <h1>Bienvenue sur notre site</h1>
+    <p>Contenu de la page...</p>
+
+    <!-- Bannière de consentement pour les cookies -->
+    <div id="cookie-banner">
+        <p>Nous utilisons des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation de cookies ?</p>
+        <form method="POST" style="display:inline;">
+            <button type="submit" name="accept_cookies">Accepter</button>
+        </form>
+        <form method="POST" style="display:inline;">
+            <button type="submit" name="reject_cookies" class="refuse">Refuser</button>
+        </form>
+    </div>
+
+</body>
+</html>
+Explications :
+1.	La fenêtre de consentement :
+o	Le code HTML pour la bannière est placé à la fin du <body>. Elle contient deux boutons : "Accepter" et "Refuser".
+o	CSS : Positionne la bannière en bas de la page et lui applique un fond semi-transparent pour la mettre en valeur.
+2.	Gestion des cookies :
+o	Lorsque l'utilisateur clique sur "Accepter", le cookie cookies_accepted est créé.
+o	Lorsqu'il clique sur "Refuser", le cookie cookies_refused est créé.
+o	Dès qu'un des cookies est créé, la bannière est cachée en utilisant display: none.
+3.	Redirection après choix :
+o	Après que l'utilisateur ait fait un choix, la page se recharge (header("Location: " . $_SERVER['PHP_SELF']);), et la bannière disparaît grâce à la vérification des cookies ($cookies_accepted ou $cookies_refused).
+________________________________________
+?? Ce qu'il se passe ensuite :
+•	Lors de la première visite : La bannière apparaît.
+•	Si l'utilisateur accepte : Un cookie cookies_accepted est créé, et la bannière ne réapparaît pas sur les futures visites pendant un an.
+•	Si l'utilisateur refuse : Un cookie cookies_refused est créé, et la bannière disparaît aussi.
+________________________________________
+?? Testez-le !
+1.	Lancez index.php sur votre serveur local (XAMPP, WAMP, etc.).
+2.	Cliquez sur "Accepter" ou "Refuser" la première fois.
+3.	Rechargez la page ou ouvrez-la dans une nouvelle fenêtre pour voir si la bannière ne réapparaît plus.
+

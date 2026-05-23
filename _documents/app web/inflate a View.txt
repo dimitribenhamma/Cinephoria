@@ -1,0 +1,6 @@
+👉 Inflater une View, ça veut dire :
+
+📄 Transformer un fichier XML (layout)
+➜ en objets View réels en mémoire
+
+Dans le onCreateView

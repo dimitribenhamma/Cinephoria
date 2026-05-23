@@ -1,0 +1,26 @@
+Cinéphoria est une plateforme complète de gestion de cinéma comprenant une application web, une application mobile et une application de bureau. Elle permet aux utilisateurs de consulter les films à l'affiche, de réserver des billets, et aux employés de gérer les salles et les séances.
+
+
+Liens des documents:
+
+Charte graphique : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/charte-graphique-cinephoria.pdf
+
+Documentation technique : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/documentation-technique.pdf
+
+Gestion de projet : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/gestion-de-projet.pdf
+
+Manuel d'utilisation : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/manuel-d-utilisation.pdf
+
+Maquettes application bureautique : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/maquettes-dektop-app.pdf
+
+Maquettes application mobile : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/maquettes-mobile-app_compressed.pdf
+
+Maquettes application web : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/maquettes-web-app_compressed.pdf
+
+Wireframes application bureautique : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/wireframes-desktop-app_compressed.pdf
+
+Wireframs application mobile : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/wireframes-mobile-app_compressed.pdf
+
+Wireframes application web : https://cinephoriamedia.s3.us-east-2.amazonaws.com/Documents/wireframes-web-app_compressed.pdf
+
+Transactions sql : https://github.com/jeremylhomme/cinephoria-cinema-app/tree/main/web-app/sql

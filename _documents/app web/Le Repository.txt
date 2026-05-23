@@ -1,0 +1,4 @@
+Le Repository est un intermédiaire :
+- Retrofit (API) → backend PHP
+- Room (local.db) → cache local
+- ViewModel / Fragment → UI

@@ -1,0 +1,37 @@
+Installer PHPMailer (manuellement ou via Composer)
+
+https://github.com/PHPMailer/PHPMailer
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+$mail = new PHPMailer(true);
+
+try {
+    // Configuration serveur SMTP
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'votre-adresse@gmail.com';
+    $mail->Password = 'mot-de-passe-app';  // Mot de passe d'application
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+
+    // Destinataires
+    $mail->setFrom('votre-adresse@gmail.com', 'Mon site');
+    $mail->addAddress('destinataire@example.com');
+
+    // Contenu
+    $mail->isHTML(true);
+    $mail->Subject = 'Confirmation';
+    $mail->Body    = 'Merci, votre fichier a bien été reçu !';
+
+    $mail->send();
+    echo 'E-mail envoyé.';
+} catch (Exception $e) {
+    echo "Erreur : {$mail->ErrorInfo}";
+}

@@ -1,0 +1,65 @@
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    <input type="file" id="fileInput" name="file" style="display: none;">
+    <label for="fileInput" style="cursor: pointer; padding: 10px; background-color: #007BFF; color: white; border-radius: 4px;">
+        Choisir un fichier
+    </label>
+    <button type="submit">Uploader</button>
+</form>
+
+
+Voici un exemple complet avec aperçu + upload automatique :
+
+<form id="uploadForm" action="upload.php" method="post" enctype="multipart/form-data">
+    <input type="file" id="fileInput" name="file" accept="image/*" style="display: none;">
+
+    <label for="fileInput" style="cursor: pointer; padding: 10px; background-color: #28a745; color: white; border-radius: 4px;">
+        Choisir une image
+    </label>
+
+    <div id="previewContainer" style="margin-top: 20px;"></div>
+</form>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadForm = document.getElementById('uploadForm');
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Affiche l’aperçu de l’image
+                previewContainer.innerHTML = `<img src="${e.target.result}" alt="Aperçu" style="max-width: 300px; height: auto; border: 1px solid #ccc;">`;
+
+                // Envoie automatique du formulaire après un court délai
+                setTimeout(() => uploadForm.submit(), 1000);
+            };
+
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+</script>
+
+
+<?php
+if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = 'uploads/';
+    $filename = basename($_FILES['file']['name']);
+    $targetFile = $uploadDir . $filename;
+
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
+        echo "Image uploadée avec succès : $filename";
+    } else {
+        echo "Erreur lors du téléchargement.";
+    }
+} else {
+    echo "Aucun fichier reçu.";
+}
+?>
+
+

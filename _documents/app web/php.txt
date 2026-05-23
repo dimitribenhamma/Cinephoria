@@ -1,0 +1,8 @@
+<?php
+// Vérifier si l'utilisateur vient d'une page interdite
+if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'page_interdite.php') !== false) {
+    // Rediriger l'utilisateur s'il vient de la page interdite
+    header('Location: autre_page.php');
+    exit();
+}
+?>

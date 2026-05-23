@@ -1,0 +1,6 @@
+| Concept     | À quoi ça sert                   |
+| ----------- | -------------------------------- |
+| **Context** | Accès à l’environnement Android  |
+| **View**    | Élément visuel affiché à l’écran |
+
+

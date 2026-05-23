@@ -1,0 +1,114 @@
+<style>
+    /* Style général du container du dropdown */
+    .custom-dropdown {
+      position: relative;
+      width: 200px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .custom-dropdown-select {
+      display: none; /* Cacher l'élément select natif */
+    }
+
+    /* Style de la partie qui affiche la valeur sélectionnée */
+    .custom-dropdown-selected {
+      padding: 8px;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Style du menu déroulant */
+    .custom-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      display: none;
+      z-index: 999;
+    }
+
+    /* Style des éléments de la liste */
+    .custom-dropdown-item {
+      padding: 10px;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .custom-dropdown-item:hover {
+      background-color: #3498db;
+      color: white;
+    }
+
+    /* Flèche du dropdown */
+    .custom-dropdown-selected::after {
+      content: "?";
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    /* Affichage du menu au clic */
+    .custom-dropdown.open .custom-dropdown-menu {
+      display: block;
+    }
+  </style>
+
+
+
+<div class="custom-dropdown">
+    <div class="custom-dropdown-selected">Sélectionnez une option</div>
+    <div class="custom-dropdown-menu">
+      <div class="custom-dropdown-item" data-value="1">Option 1</div>
+      <div class="custom-dropdown-item" data-value="2">Option 2</div>
+      <div class="custom-dropdown-item" data-value="3">Option 3</div>
+      <div class="custom-dropdown-item" data-value="4">Option 4</div>
+    </div>
+    <!-- Select natif caché pour la soumission des données -->
+    <select class="custom-dropdown-select" name="options">
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+      <option value="4">Option 4</option>
+    </select>
+  </div>
+
+  <script>
+    // Script pour gérer l'ouverture et la fermeture du dropdown
+    const dropdown = document.querySelector('.custom-dropdown');
+    const dropdownSelected = dropdown.querySelector('.custom-dropdown-selected');
+    const dropdownMenu = dropdown.querySelector('.custom-dropdown-menu');
+    const dropdownItems = dropdown.querySelectorAll('.custom-dropdown-item');
+    const select = dropdown.querySelector('.custom-dropdown-select');
+
+    // Lors du clic sur le dropdown, on l'ouvre ou le ferme
+    dropdown.addEventListener('click', () => {
+      dropdown.classList.toggle('open');
+    });
+
+    // Lors de la sélection d'une option, on met à jour le texte et on ferme le menu
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', () => {
+        dropdownSelected.textContent = item.textContent;
+        select.value = item.getAttribute('data-value');
+        dropdown.classList.remove('open');
+      });
+    });
+
+    // Fermeture du menu si on clique en dehors
+    window.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+  </script>

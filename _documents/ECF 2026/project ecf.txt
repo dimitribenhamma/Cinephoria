@@ -1,0 +1,12 @@
+dossier projet Dejourcommedenuit
+
+- indenter, console.log, commentaires
+- expliquer le formulaire mercredi
+- accessibilité et keyboard focusable
+- media audio start, stop, reset (Android)
+- restriction par ip (blacklistée)
+fly.io tests un.
+Gitflow organisation des branches
+obvidian google
+
+- Narrateur (Windows + Ctrl + Entrée)

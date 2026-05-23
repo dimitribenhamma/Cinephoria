@@ -1,0 +1,368 @@
+écrire des tests unitaires et fonctionnels pour le log-in d'une application pur php avec PHP UNIT
+
+
+
+Outils de CI/CD : Doctolib a utilisé plusieurs outils pour gérer sa CI/CD. Après avoir commencé avec Jenkins, ils ont migré vers Heroku CI, puis vers TeamCity et une solution custom nommée Cirrus, basée sur Kubernetes
+
+
+comment installer chocolatey ?
+
+Très bonne question 👏
+Chocolatey est un gestionnaire de paquets pour Windows, un peu comme apt sous Linux ou brew sur macOS.
+Il te permet d’installer facilement des outils comme Kubernetes, Node.js, Git, etc. en une seule commande.
+
+Voici la méthode officielle et sécurisée pour l’installer 👇
+🧰 1. Ouvre PowerShell en mode administrateur
+
+    Clique sur le menu Démarrer
+
+    Tape PowerShell
+
+    Fais un clic droit → “Exécuter en tant qu’administrateur”
+
+⚙️ 2. Vérifie que l’exécution de scripts est autorisée
+
+Dans la fenêtre PowerShell, tape :
+
+Get-ExecutionPolicy
+
+Si tu obtiens Restricted, exécute :
+
+Set-ExecutionPolicy Bypass -Scope Process -Force
+
+Cela autorise temporairement l’exécution du script d’installation.
+💾 3. Installe Chocolatey
+
+Toujours dans PowerShell (admin), copie/colle cette commande officielle :
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; `
+[System.Net.ServicePointManager]::SecurityProtocol = `
+[System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+(Tu peux vérifier que le script provient bien du site officiel : https://chocolatey.org/install
+
+) ✅
+🧩 4. Vérifie l’installation
+
+Ferme puis rouvre PowerShell (en mode normal) et teste :
+
+choco --version
+
+Si tu vois un numéro de version (ex. 2.3.0), c’est bon 🎉
+Tu as maintenant Chocolatey installé sur ton système.
+💡 5. (Optionnel) Mets à jour Chocolatey
+
+choco upgrade chocolatey
+
+Tu veux que je t’enchaîne directement avec la commande pour installer Minikube et kubectl juste après l’installation de Chocolatey ?
+Vous avez dit :
+Get-ExecutionPolicy n'est pas reconnu comme une commadne
+ChatGPT a dit :
+
+Pas de panique 😄
+Si PowerShell te dit que Get-ExecutionPolicy n’est pas reconnu comme une commande, c’est souvent lié à l’environnement PowerShell ou à une mauvaise ouverture de session. Voici comment corriger ça 👇
+🧩 1. Vérifie que tu es bien dans PowerShell, pas dans “Invite de commandes (cmd)”
+
+➡️ Regarde le texte au début de ta fenêtre :
+
+    Si tu vois quelque chose comme :
+
+PS C:\Users\ton_nom>
+
+✅ c’est PowerShell.
+
+Si tu vois :
+
+    C:\Users\ton_nom>
+
+    ❌ c’est l’invite de commandes (cmd), et les commandes PowerShell comme Get-ExecutionPolicy n’y fonctionnent pas.
+
+👉 Solution :
+
+    Ferme cette fenêtre.
+
+    Clique sur Démarrer > tape PowerShell,
+
+    Clique droit → “Exécuter en tant qu’administrateur”.
+
+🧰 2. Une fois dans PowerShell (admin), retape :
+
+Get-ExecutionPolicy
+
+Si tout va bien, tu devrais obtenir une réponse du type :
+
+Restricted
+
+ou
+
+RemoteSigned
+
+⚙️ 3. Si tu veux aller directement à l’installation de Chocolatey
+
+Tu peux exécuter en une seule fois (copie/colle cette commande complète) :
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; `
+[System.Net.ServicePointManager]::SecurityProtocol = `
+[System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+💡 Cette commande :
+
+    désactive temporairement la restriction d’exécution de script,
+
+    télécharge le script d’installation officiel depuis chocolatey.org,
+
+    et l’exécute.
+
+🔍 4. Vérifie ensuite que tout est bien installé :
+
+Ferme PowerShell, rouvre une nouvelle fenêtre (normale, pas admin), puis tape :
+
+choco --version
+
+Si tu vois un numéro (ex. 2.3.0), c’est bon ✅
+
+Souhaites-tu que je te montre comment vérifier que PowerShell est bien activé sur ton Windows (au cas où tu n’arriverais pas à le lancer) ?
+
+
+kubernetes est payant ou pas
+ChatGPT a dit :
+
+Bonne question 👍
+
+Kubernetes en soi n’est pas payant.
+C’est un logiciel open source, développé à l’origine par Google et maintenant géré par la Cloud Native Computing Foundation (CNCF).
+Tu peux donc :
+
+    Télécharger Kubernetes,
+
+    L’installer sur tes propres serveurs,
+
+    Et l’utiliser gratuitement.
+
+💡 Mais attention :
+Ce qui peut coûter de l’argent, c’est l’infrastructure sur laquelle tu l’exécutes ou les services managés que tu choisis.
+
+Voici les principales options :
+
+    🖥️ Auto-hébergé (gratuit)
+
+        Tu installes Kubernetes sur tes propres machines (physiques ou virtuelles).
+
+        Le logiciel est gratuit, mais tu payes les serveurs, le stockage, la maintenance, etc.
+
+    ☁️ Service managé (payant)
+    Les grands clouds proposent Kubernetes "clé en main" :
+
+        Google Kubernetes Engine (GKE) — payant au-delà d’un petit niveau gratuit
+
+        Amazon EKS — payant (frais par cluster + ressources AWS)
+
+        Azure AKS — souvent gratuit pour le plan de contrôle, mais tu payes les nœuds et le stockage
+
+        OVH Managed Kubernetes, Scaleway Kapsule, etc. — modèle similaire
+
+Donc :
+
+    🔹 Kubernetes = gratuit
+    🔹 Utiliser Kubernetes sur le cloud = souvent payant (infrastructure et gestion)
+
+Souhaites-tu que je te montre combien coûterait environ un petit cluster Kubernetes sur un cloud comme AWS, GCP ou OVH ?
+Vous avez dit :
+ovh
+ChatGPT a dit :
+
+Oui — avec OVHcloud tu as plusieurs options pour utiliser Kubernetes, et les coûts dépendent de l’offre et de l’infrastructure. Voici un résumé clair des principaux tarifs et modèles :
+✅ Ce qui est gratuit / inclus
+
+    OVHcloud propose une offre managée appelée MKS Free (anciennement « Managed Kubernetes Service ») sans frais additionnels pour le plan de contrôle (« control plane ») du cluster.
+    Euronext+2OVHcloud+2
+
+    L’outil Kubernetes lui-même est open-source et l’utilisation de cette offre ne vous impose pas de frais pour le logiciel d’orchestration.
+    OVHcloud+1
+
+⚙️ Ce qui se paye
+
+    Vous payez les nœuds de travail (workers), c’est-à-dire les machines virtuelles ou ressources de calcul + mémoire + stockage que vous utilisez pour exécuter vos conteneurs.
+    Revista Byte TI+1
+
+    Vous payez aussi le stockage persistant (volumes, disques) si vous en utilisez.
+    LeMagIT+1
+
+    Dans l’offre dite « Standard », il y a un tarif pour le cluster managé dans une configuration très résiliente (3 zones de disponibilité) : 0,09 €/heure par cluster dans la région 3-AZ Paris.
+    Informatiquenews+2MarketScreener Canada+2
+
+💶 Exemple de tarification
+
+    Pour un petit cluster : démarrage à 22 €/mois HT pour un cluster 2 vCores + 7 Go RAM (avec ressources constantes garanties).
+    LeMagIT
+
+    Exemple d’un cluster de 3 nœuds de travail (chacun « B2-7 ») + 100 Go de volume persistant : ≈ 74 €/mois HT.
+    Le Monde Informatique
+
+🎯 Ce qu’il faut vérifier
+
+    Quelle version de Kubernetes et quelles mises à jour sont comprises.
+
+    Quelle répartition des zones de disponibilité : 1 zone vs 3 zones (plus résilient, prix plus élevé).
+
+    Combien de nœuds de travail vous activez, et de quelles tailles (vCores, RAM).
+
+    Le coût du stockage persistant.
+
+    Les frais associés à la bande passante, aux adresses IP, aux services additionnels.
+
+Si tu veux, je peux regarder les tarifs détaillés actuels pour la région France-Paris (valeurs à jour) chez OVHcloud pour un petit cluster standard (ex : 3 nœuds, taille définie) afin qu’on ait une estimation chiffrée pour ton cas. Veux-tu que je fasse ça ?
+Vous avez dit :
+comment télécharger kubernetes
+ChatGPT a dit :
+
+Excellente question 👏
+
+Tu peux télécharger Kubernetes gratuitement — mais attention, Kubernetes n’est pas une simple application « à installer », c’est un ensemble d’outils qui tournent sur plusieurs machines (ou VM).
+👉 Pour l’utiliser localement ou en production, il existe plusieurs méthodes selon ton objectif.
+🧩 1. Installer Kubernetes en local (pour apprendre ou tester)
+🟢 Option la plus simple : Minikube
+
+    Minikube crée un petit cluster Kubernetes sur ta machine (Windows, macOS, Linux).
+
+    C’est parfait pour tester, faire du développement ou apprendre.
+
+🔽 Installation rapide :
+Sous Linux / macOS
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+Sous Windows (PowerShell)
+
+choco install minikube
+
+(nécessite Chocolatey
+
+)
+Ensuite :
+
+minikube start
+kubectl get nodes
+
+Tu auras un cluster Kubernetes prêt à l’emploi 🎉
+⚙️ 2. Installer Kubernetes manuellement (avancé)
+
+Tu peux installer un cluster complet sur plusieurs serveurs avec :
+
+    kubeadm (outil officiel)
+
+    kops, Kuberspray, ou Rancher (outils de déploiement)
+
+Exemple avec kubeadm :
+
+sudo apt update && sudo apt install -y kubeadm kubelet kubectl
+sudo kubeadm init
+
+Puis tu rejoins les nœuds :
+
+sudo kubeadm join <adresse-master>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
+
+🧠 C’est plus complexe mais c’est ce qu’on utilise pour les environnements de production.
+☁️ 3. Utiliser un Kubernetes déjà prêt (cloud)
+
+Si tu veux éviter l’installation :
+
+    OVHcloud Managed Kubernetes Service
+
+    Google GKE
+
+    AWS EKS
+
+    Azure AKS
+
+➡️ Tu crées un cluster en quelques clics depuis le tableau de bord cloud, sans gérer l’installation.
+📦 4. Installer kubectl (le client Kubernetes)
+
+Quel que soit ton choix, tu auras besoin de kubectl, l’outil en ligne de commande.
+Installation (Linux / macOS / Windows)
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+Puis vérifie :
+
+kubectl version --client
+
+Souhaites-tu que je te montre la méthode la plus simple pour ton cas (par exemple « installer Kubernetes sur Windows » ou « sur Ubuntu ») ?
+Vous avez dit :
+sous windows avec chocolatey
+ChatGPT a dit :
+
+Parfait 👌 Tu es sur la bonne voie !
+Voici toutes les étapes pour installer Kubernetes sur Windows avec Chocolatey, de manière simple et propre ✅
+🧰 Prérequis
+
+    Windows 10/11 64 bits
+
+    Avoir Chocolatey installé
+
+Pour vérifier :
+
+    choco --version
+
+    Si ça te renvoie un numéro de version, c’est bon.
+
+Avoir activé la virtualisation (Hyper-V ou WSL2)
+
+    Pour WSL2 :
+
+        wsl --install
+
+        Redémarre ensuite ton PC.
+
+🚀 Étape 1 : Installer Minikube
+
+Minikube est le moyen le plus simple d’avoir Kubernetes en local.
+
+choco install minikube -y
+
+💡 Cela installe aussi les dépendances nécessaires (comme VirtualBox ou Hyper-V si besoin).
+⚙️ Étape 2 : Installer kubectl
+
+kubectl est la commande pour interagir avec ton cluster Kubernetes.
+
+choco install kubernetes-cli -y
+
+Vérifie l’installation :
+
+kubectl version --client
+
+🧩 Étape 3 : Démarrer ton cluster local
+
+Lance Minikube avec le moteur que tu veux (WSL2 recommandé) :
+
+minikube start --driver=wsl2
+
+💬 Si tu utilises Hyper-V :
+
+minikube start --driver=hyperv
+
+✅ Étape 4 : Vérifier que tout fonctionne
+
+Une fois démarré, teste ton cluster :
+
+kubectl get nodes
+
+Tu devrais voir quelque chose comme :
+
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   2m    v1.30.0
+
+🎉 Bravo ! Tu as un cluster Kubernetes fonctionnel sur ton PC Windows.
+🔍 Étape 5 : (Optionnel) Accéder au tableau de bord
+
+Tu peux lancer le tableau de bord web :
+
+minikube dashboard
+
+Cela ouvrira une interface graphique dans ton navigateur pour gérer les pods, services, etc.
+
+Souhaites-tu que je te donne ensuite un exemple d’application simple à déployer sur ton Kubernetes local (par ex. un petit site web Nginx) ?

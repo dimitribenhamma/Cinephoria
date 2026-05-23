@@ -1,0 +1,48 @@
+// En utilisant PHP Coté serveur pour attendre, cela bloque le processus du serveur pendant le temps de l'attente.
+// Cela empêche le serveur de traiter d'autres requêtes pendant ce délai.
+// JAVASCRIPT coté client peut être une bonne solution pour éviter de bloquer le serveur avec un délai !
+
+
+<?php
+// Démarrer la session pour suivre l'heure de la dernière tentative
+
+// Si l'utilisateur a déjà essayé et qu'il doit attendre
+if (isset($_SESSION['last_attempt'])) {
+    $lastAttempt = $_SESSION['last_attempt'];
+    $timeElapsed = time() - $lastAttempt;
+
+    // Si moins de 5 secondes se sont écoulées
+    if ($timeElapsed < 5) {
+        $timeRemaining = 5 - $timeElapsed; // Temps restant avant de pouvoir se reconnecter
+        $secondsRemaining = ceil($timeRemaining); // Conversion en secondes
+        echo "Veuillez attendre $secondsRemaining seconde(s) avant d'interagir.";
+        exit();
+    }
+     // L'exécution du script PHP est arrêtée ici
+}
+
+// Si la page a été rechargée après 5 secondes, réinitialiser l'heure de la dernière tentative
+$_SESSION['last_attempt'] = time();
+?>
+
+
+!ou 
+
+<?php 
+
+    $max_attempts = 3;
+    $disable = ' ';
+
+   // Initialiser le compteur de tentatives si nécessaire
+    if (!isset($_SESSION['tentatives'])) {
+        $_SESSION['tentatives'] = 0;
+}
+
+    // Si le formulaire est soumis, incrémenter le nombre de tentatives
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $_SESSION['tentatives']++;        
+    }
+
+    
+    
+?>

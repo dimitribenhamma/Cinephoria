@@ -1,0 +1,125 @@
+En Jetpack Compose, créer une disposition en vignettes avec deux images par ligne est assez simple grâce à la fonction LazyVerticalGrid qui te permet de définir un nombre de colonnes dans un Grid. Voici un exemple détaillé pour t’aider à configurer une telle disposition.
+1. Ajouter les dépendances nécessaires :
+
+Assure-toi d'avoir Jetpack Compose configuré dans ton projet. Si tu ne l'as pas encore fait, ajoute les dépendances suivantes dans ton build.gradle (Module) :
+dependencies {
+    implementation "androidx.compose.ui:ui:1.4.0" // Utilise la dernière version de Compose
+    implementation "androidx.compose.material:material:1.4.0"
+    implementation "androidx.compose.foundation:foundation:1.4.0"
+    implementation "androidx.compose.runtime:runtime:1.4.0"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.4.0"
+    implementation "androidx.compose.foundation:foundation-layout:1.4.0"
+}
+
+
+2. Utilisation de LazyVerticalGrid pour la disposition en vignettes :
+
+Voici un exemple complet d'implémentation en utilisant LazyVerticalGrid pour afficher deux images par ligne dans une grille :
+a. Créer une fonction qui représente l'écran principal :
+
+package com.example.vignettesgrid
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.vignettesgrid.ui.theme.VignettesGridTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            VignettesGridTheme {
+                Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) {
+                    GridExample()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GridExample() {
+    // Liste des images à afficher
+    val imageList = listOf(
+        R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4,
+        R.drawable.image5, R.drawable.image6, R.drawable.image7, R.drawable.image8
+    )
+
+    // LazyVerticalGrid avec 2 colonnes
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),  // 2 colonnes par ligne
+        contentPadding = androidx.compose.ui.unit.PaddingValues(8.dp)
+    ) {
+        items(imageList.size) { index ->
+            Card(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                elevation = CardElevation(4.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+                backgroundColor = Color.White
+            ) {
+                Image(
+                    painter = painterResource(id = imageList[index]),
+                    contentDescription = "Image $index",
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+    }
+}
+
+
+Explications détaillées :
+
+    LazyVerticalGrid : Cette fonction est utilisée pour créer une grille à défilement vertical. Nous avons spécifié GridCells.Fixed(2) pour avoir deux colonnes.
+
+        contentPadding est utilisé pour ajouter un peu d'espace autour des éléments de la grille.
+
+    Card : Chaque élément de la grille est contenu dans une Card, qui permet d'ajouter des coins arrondis et des ombres.
+
+        CardElevation(4.dp) ajoute une ombre pour donner un effet de profondeur.
+
+        RoundedCornerShape(8.dp) définit des coins arrondis pour chaque Card.
+
+    Image : Cette fonction est utilisée pour afficher une image à l'intérieur de chaque élément de la grille. Le contentScale = ContentScale.Crop est utilisé pour s'assurer que l'image remplit l'espace disponible sans déformer l'image, tout en coupant les parties excédentaires si nécessaire.
+
+    painterResource(id = imageList[index]) : Charge les images à partir des ressources. Remplace R.drawable.image1, etc., par les noms réels de tes images dans le dossier res/drawable.
+
+3. Créer les images dans res/drawable :
+
+Assure-toi que tu as des images disponibles dans ton dossier res/drawable. Par exemple, crée des images comme image1.jpg, image2.jpg, etc.
+4. Thème Compose :
+
+L'application utilise un thème personnalisé (VignettesGridTheme), mais tu peux utiliser le thème par défaut de Compose si tu veux.
+5. Exécution de l'application :
+
+Lorsque tu exécutes cette application, tu verras une grille de vignettes avec deux images par ligne. Si tu ajoutes davantage d'images à la liste imageList, elles seront automatiquement ajoutées à la grille.
+Personnalisation supplémentaire :
+
+Tu peux personnaliser encore plus l'apparence et le comportement de cette grille en fonction de tes besoins :
+
+    Ajouter un clic sur chaque Card pour naviguer ou afficher des détails sur l'image.
+
+    Utiliser des transitions d'animation en combinaison avec Modifier pour des effets dynamiques.
+
+    Modifier l’espacement entre les éléments en ajustant padding, contentPadding et elevation de la Card.
+
+Jetpack Compose rend ce type de mise en page beaucoup plus flexible et plus rapide à implémenter par rapport aux anciennes vues Android. Si tu as d'autres questions ou si tu souhaites ajouter plus d'effets, n'hésite pas à demander !

@@ -1,0 +1,29 @@
+<?php 
+// Fonction pour bloquer l'IP après 3 tentatives échouées
+function checkBlacklist() {
+    // Récupérer l'adresse IP du client
+    $ip = $_SERVER['REMOTE_ADDR'];
+    
+
+    // Si la session des tentatives échouées n'existe pas, l'initialiser
+    if (!isset($_SESSION['failed_attempts'])) {
+        $_SESSION['failed_attempts'] = [];
+    }
+
+    // Si l'IP a déjà échoué, incrémenter le compteur
+    if (isset($_SESSION['failed_attempts'][$ip])) {
+        $_SESSION['failed_attempts'][$ip]++;
+    } else {
+        // Sinon, initialiser à 1 tentative
+        $_SESSION['failed_attempts'][$ip] = 1;
+    }
+
+    // Vérifier si l'IP a échoué 4 fois
+    if ($_SESSION['failed_attempts'][$ip] >= 3) {
+        $_SESSION['failed_attempts'][$ip] = 0;        
+        sleep(5); 
+        echo 'Vous devez attendre 5 secondes avant de vous reconnecter.';    
+    }
+}
+
+?>

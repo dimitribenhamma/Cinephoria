@@ -1,0 +1,9 @@
+Attention : PreferenceScreen N’EST PAS une View XML classique
+❌ Elle ne peut PAS être utilisée dans un layout d’Activity
+👉 PreferenceScreen appartient au système de préférences
+
+Elle doit être utilisée :
+👉 soit dans un fichier XML de préférences
+👉 soit via un PreferenceFragmentCompat
+
+Android essaie de l’inflater comme une View → 💥 crash

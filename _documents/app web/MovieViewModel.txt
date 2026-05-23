@@ -1,0 +1,20 @@
+class MovieViewModel : ViewModel() {
+    private val _movies = mutableStateOf<List<Movie>>(emptyList())
+    val movies: State<List<Movie>> get() = _movies
+
+    private val _loading = mutableStateOf(false)
+    val loading: State<Boolean> get() = _loading
+
+    fun fetchMovies(apiKey: String) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                val response = RetrofitInstance.apiService.getPopularMovies(apiKey)
+                _movies.value = response.results
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            _loading.value = false
+        }
+    }
+}

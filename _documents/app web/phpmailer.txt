@@ -1,0 +1,37 @@
+<?php
+// Inclure le fichier autoload.php de Composer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+$mail = new PHPMailer(true); // Crée une nouvelle instance de PHPMailer
+
+try {
+    // Configuration du serveur SMTP
+    $mail->isSMTP();
+    $mail->Host = 'smtp.example.com'; // Remplacez par l'adresse de votre serveur SMTP
+    $mail->SMTPAuth = true;
+    $mail->Username = 'votre_email@example.com'; // Remplacez par votre email
+    $mail->Password = 'votre_mot_de_passe'; // Remplacez par votre mot de passe
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    // Destinataires
+    $mail->setFrom('votre_email@example.com', 'Nom de l\'expéditeur');
+    $mail->addAddress('destinataire@example.com', 'Nom du destinataire'); // Adresse du destinataire
+    $mail->addReplyTo('votre_email@example.com', 'Nom de l\'expéditeur');
+
+    // Contenu de l'email
+    $mail->isHTML(true);
+    $mail->Subject = 'Test PHPMailer';
+    $mail->Body    = 'Ceci est un test d\'envoi d\'email avec <b>PHPMailer</b>.';
+    $mail->AltBody = 'Ceci est un test d\'envoi d\'email avec PHPMailer.';
+
+    // Envoi de l'email
+    $mail->send();
+    echo 'L\'email a été envoyé avec succès';
+} catch (Exception $e) {
+    echo "L'email n'a pas pu être envoyé. Erreur : {$mail->ErrorInfo}";
+}
+?>

@@ -1,0 +1,12 @@
+Cours sur l'HMAC
+
+- Message "nu" : { "amount" : 100 } en JSON
+- Signature = HMAC(secret, message)
+- Une empreinte est calculée
+
+
+L'intégrité des données 
+
+- HMAC est une fonction cryptographique d'usage facile à sens unique
+- La signature et les données sont différentes => Intégrité OK 
+- Message lisible par TOUT le monde (Sécurité minimale) partout où le message circule ou est stocké en clair

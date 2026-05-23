@@ -1,0 +1,61 @@
+1.
+interface CountriesService {
+    @GET("/v3.1/all")
+    fun listCountries(): Call<List<Country>>
+}
+
+
+import retrofit2.Call
+import retrofit2.http.GET
+
+2.Créer l’instance du client Retrofit
+NetworkFragment:
+
+    import retrofit2.Retrofit
+    import retrofit2.converter.moshi.MoshiConverterFactory
+
+    val retrofit = Retrofit.Builder()
+     .baseUrl(URL_COUNTRY_API)
+     .addConverterFactory(MoshiConverterFactory.create())
+     .build()
+
+avec l’url :
+
+
+
+companion object {
+    const val URL_COUNTRY_API = "https://restcountries.com/"
+}
+
+val service = retro.create(CountriesService::class.java)
+val countryRequest = service.listCountries()
+
+Exécuter la requête GET
+
+Enfin, il est possible d’exécuter la requête venant d’être créée via la fonction enqueue(object: Callback<…>) de Retrofit :
+
+countryRequest.enqueue(object : Callback<List<Country>> {
+        override fun onResponse(call: Call<List<Country>>, response: Response<List<Country>>) {
+            val allCountry = response.body()
+            for (c in allCountry!!)
+                Log.v(
+                    MainActivity::class.simpleName,
+                    "NAME: ${c.name.common} \n "
+                )
+        }
+
+
+        override fun onFailure(call: Call<List<Country>>, t: Throwable) {
+            Log.i(MainActivity::class.simpleName, "RETRY AND GOOD LUCK.")
+        }
+
+    })
+
+les importations associées sont les suivantes :
+
+      import retrofit2.Call
+      import retrofit2.Callback
+      import retrofit2.Response
+
+
+

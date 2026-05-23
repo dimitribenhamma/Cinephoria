@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload automatique sans bouton personnalisé</title>
+    <style>
+        /* Cache le bouton classique */
+        .upload-btn {
+            display: none;
+        }
+
+        /* Zone d'aperçu de l'image */
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Zone de drop (glisser-déposer) */
+        .drop-zone {
+            width: 100%;
+            height: 250px;
+            border: 2px dashed #007BFF;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #007BFF;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .drop-zone.hover {
+            background-color: #f0f8ff;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Zone de drag-and-drop pour télécharger l'image -->
+    <div class="drop-zone" id="drop-zone">
+        <span>changer la photo</span>
+    </div>
+    
+    <!-- Zone d'aperçu de l'image -->
+    <div id="preview-container" style="display: none;">
+        <img id="image-preview" class="image-preview" src="../img/gnome.jpg" alt="Aucun fichier sélectionné">
+    </div>
+
+    <!-- Input file caché -->
+    <input type="file" id="file-upload" class="upload-btn" accept="image/*">
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-upload');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+
+        // Gérer l'événement de sélection de fichier
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Gérer l'événement de glisser-déposer
+        dropZone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            dropZone.classList.add('hover');
+        });
+
+        dropZone.addEventListener('dragleave', function() {
+            dropZone.classList.remove('hover');
+        });
+
+        dropZone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            dropZone.classList.remove('hover');
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files; // Affecter les fichiers déposés à l'input caché
+                handleFileSelect(); // Traiter l'image
+            }
+        });
+
+        // Permettre à l'utilisateur de cliquer sur la zone pour sélectionner un fichier
+        dropZone.addEventListener('click', function() {
+            fileInput.click(); // Simule un clic sur l'input caché
+        });
+
+        // Fonction qui gère l'affichage de l'aperçu après la sélection du fichier
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    // Affiche l'image dans l'aperçu
+                    imagePreview.src = event.target.result;
+                    previewContainer.style.display = 'block';  // Afficher l'aperçu
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+@startuml
+actor "Employer" as Employer <<actor>>
+
+participant "IHM Home" as IHM <<boundary>> #LightGreen
+participant "Details" as Détails <<boundary>> #LightGreen
+participant "Login" as Login <<boundary>> #LightGreen
+participant "MenuAdmin" as MenuAdmin <<boundary>> #LightGreen
+
+participant "LoginController" as LoginCtrl <<control>> #LightBlue
+participant "ManageProductsController" as GérerProduitHandler <<control>> #LightBlue
+
+participant "movies" as films <<entity>> #FFD8A8
+participant "MembersDB" as Membres <<entity>> #FFD8A8
+
+
+Employer -> IHM : renduFilms
+IHM -> Détails : renduFilm
+
+alt Employer non authentifié
+    alt Connexion
+	IHM --> Login : LoginAuthentification
+        Login -> Employer : afficherLoginPage
+        Employer -> IHM : saisirIdentifiants
+        IHM -> LoginCtrl : LoginAuthentifier
+        LoginCtrl -> Membres : vérifierIdentifiants
+        Membres --> LoginCtrl : authentificationOK
+        LoginCtrl --> IHM : redirection
+    end
+end
+
+IHM --> Employer: afficherMenuAdmin
+Employer -> IHM : voirFilms
+IHM -> MenuAdmin : gérerFilms
+
+alt Ajouter
+        MenuAdmin -> Employer: ajouterFilm
+        Employer -> IHM : saisirInfos
+        IHM -> GérerProduitHandler : soumettreInfos
+        GérerProduitHandler --> IHM : afficherConfirmation
+end
+
+alt Modifier
+        MenuAdmin -> Employer: modifierFilm
+        Employer -> IHM : saisirInfos
+        IHM -> GérerProduitHandler : soumettreInfos
+        GérerProduitHandler --> IHM : afficherConfirmation
+end
+
+alt Supprimer
+        MenuAdmin -> Employer: supprimerFilm
+        Employer -> IHM : saisirInfos
+        IHM -> GérerProduitHandler : soumettreInfos
+        GérerProduitHandler --> IHM : afficherConfirmation
+end
+
+IHM --> Employer : déconnexion
+
+@enduml
