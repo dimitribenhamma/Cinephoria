@@ -52,8 +52,9 @@
 												':Visits' => $tableau[$labelVisits],
 												':Role' => $tableau[$labelRole],
 												':Cookie_date' => $tableau[$labelCookieDate]
-											]) ;						
-						}										
+											]) ;
+					include_once ROOT_PATH . '/src/View/components/cookie_output.php' ;
+				}										
 
 				catch (PDOException $e) {					
 					/* PDOException : attrape uniquement les erreurs de base de données (ici MySQL) */			

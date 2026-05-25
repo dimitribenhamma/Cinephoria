@@ -7,8 +7,8 @@
 			
 			// Assignation
 			$catchPage = "password" ;
-			$emailInvalid = "Email invalide" ;
-			$emailMember = "L'e-mail est absent dans la base de données" ;
+			$emailInvalid = "E-mail invalide" ;
+			$emailMember = "L'E-mail est absent dans la base de données" ;
 
 			// Normalise la donnée du formulaire de $_POST[] (supprime les espaces)
 			$email = isset($_POST['email']) ? trim($_POST['email']) : null ;
@@ -18,9 +18,9 @@
 					// Affiche le message dans le journal de log Apache 	
 					error_log($emailInvalid) ;
 					// Un message en rouge pour signaler un e-mail invalide
-					$_SESSION['error'] = "Email invalide" ;
+					$_SESSION['error'] = "E-mail invalide" ;
 					header("Location: index.php?page=" . $passwordPage) ;
-					exit("Format de l'e-mail invalide") ;
+					exit("Format de l'E-mail invalide") ;
 				}
             
             try {
@@ -46,10 +46,10 @@
 									<?php
 											// Configuration du serveur SMTP
 											$mail->isSMTP();
-											$mail->Host = 'smtp.gmail.com'; // Remplacez 	 par l'adresse de votre serveur SMTP
+											$mail->Host = $_ENV['SMTP_HOST']; // Remplacez par l'adresse de votre serveur SMTP
 											$mail->SMTPAuth = true;
-											$mail->Username = 'contact.cinephoria94@gmail.com'; // L'email
-											$mail->Password = 'kxzhqwssugocuxco'; // Le mot de passe smtp de l'application 'Mail' fgmail 'myaccount.com/apppaswords'
+											$mail->Username = $_ENV['SMTP_CONTACT']; // L'email
+											$mail->Password = $_ENV['SMTP_PASS']; // Le mot de passe smtp de l'application 'Mail' gmail 'myaccount.com/apppaswords'
 											$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 											$mail->Port = 587;
 
@@ -58,9 +58,9 @@
 											<?php
 											
 											// Destinataires
-											$mail->setFrom('suivi.cinephoria94@gmail.com', 'Contact Cinephoria');
-											$mail->addAddress('suivi.cinephoria94@gmail.com', $resultat['nom'] . '' . $resultat['prenom']); // Adresse du destinataire
-											$mail->addReplyTo('suivi.cinephoria94@gmail.com', 'Contact Cinephoria');
+											$mail->setFrom($_ENV['SMTP_CONTACT'], 'Contact Cinephoria');
+											$mail->addAddress($_ENV['SMTP_CONTACT'], $resultat['nom'] . '' . $resultat['prenom']); // Adresse du destinataire
+											$mail->addReplyTo($_ENV['SMTP_CONTACT'], 'Contact Cinephoria');
 											
 											?>     
 											<script>console.log('configuration des destinataires');</script>											
@@ -97,7 +97,7 @@
 										// Un message en rouge pour signaler l'abscence dans la base
 										$_SESSION['error'] = true ;													
 										header("Location: index.php?page=" . $passwordPage) ;
-										exit("L'e-mail est absent dans la base de données") ;
+										exit("L'E-mail est absent dans la base de données") ;
 									}
 								}									            
                         

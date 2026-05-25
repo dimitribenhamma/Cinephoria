@@ -225,7 +225,7 @@
 	$tests = "Voir les tests" ;
 	$ManageRooms = "Gérer les salles" ;
 	$logout = "Se déconnecter" ;
-    $menuAdmin = ['Dashboard' => ['label' => $dashboard, 'data' => $table],
+    $menuAdminItems = ['Dashboard' => ['label' => $dashboard, 'data' => $table],
 					'manage-users' => ['label' => $ManageUsers, 'data' => 'users'],
 					'manage-cinemas' => ['label' => $ManageCinemas, 'data' => $cinemas],
 					'manage-products' => ['label' => $ManageProducts, 'data' => $products],

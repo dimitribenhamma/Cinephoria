@@ -27,10 +27,7 @@
 <body> 	
 	<?php		    	  		
               // le header et le menu-admin sont à inclure sur chaque page
-              include_once ROOT_PATH . $header_path ;                   		  			
-		  	
-          if (!$roleCustomer) {		  			
-              include_once ROOT_PATH . $menuAdmin_path ;}
+              include_once ROOT_PATH . $header_path ;
 	?>
 
 <!-- Crée une section de page -->
@@ -46,8 +43,6 @@
             <!-- Partie php du pied de page en bas -->
       		<footer class="under">
          		<?php include_once ROOT_PATH . $bottom_path ; ?>
-			</footer>
-			<!-- Partie php du bandeau noir persistant -->				
-				<?php include_once ROOT_PATH . $footer_path ; ?>
+			</footer>			
   </body>
 </html>

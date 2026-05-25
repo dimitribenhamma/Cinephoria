@@ -1,6 +1,5 @@
 <!-- Class CinemaSelector.php -->
 <?php
-$login = ‘SELECT id,user,email,password,role_id FROM `client` WHERE email = :email’ // Erreur de conception SQL
 // Utilisation de classes
 class CinemaSelector
 {

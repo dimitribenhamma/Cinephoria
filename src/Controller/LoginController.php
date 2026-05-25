@@ -37,14 +37,14 @@
 		}		
 
 		// Messages clairs pour la gestion des erreurs/succès
-		$errorLoginMember = "[Connexion] L'identifiant ou le mot de passe (ou les deux) ne correspondent pas ! (IP : " . getUserIP() . " ; e-mail : $email)" ;
-		$errorLoginFormIncomplete = "[Connexion] Le formulaire est incomplet ! (IP : " . getUserIP()  . " ; e-mail : $email)" ;	
+		$errorLoginMember = "[Connexion] L'identifiant ou le mot de passe (ou les deux) ne correspondent pas ! (IP : " . getUserIP() . " ; E-mail : $email)" ;
+		$errorLoginFormIncomplete = "[Connexion] Le formulaire est incomplet ! (IP : " . getUserIP()  . " ; E-mail : $email)" ;	
 				
 		try {
 			/* Attention aux erreurs de logique */
 
 				/* On veut se connecter au SGBD MySQL avec le mode d'erreur sur 'PDO Exception' */	
-				$conn = new PDO("mysql:host=" . getenv('DB_HOST') . ";port=" . getenv('DB_PORT') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS')) ;
+				$conn = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS) ;
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ;
 						
 				/* Le contexte vérifie des données d’un formulaire via l'existence de $_POST[] */
@@ -61,23 +61,23 @@
 					/* cas avec succès */
 										
 					// on vérifie la combinaison mot de passe avec password_hash()
-					if (isset($resultat['id']) && password_verify($password, $resultat['password'])){
+					if (isset($resultat['Id']) && password_verify($password, $resultat['Password'])){
 						// Session enregistre les données 
-						$_SESSION['user'] = $resultat['user'] ?? '' ;						
-						$_SESSION['id'] = $resultat['id'] ;
+						$_SESSION['user'] = $resultat['Username'] ?? '' ;						
+						$_SESSION['id'] = $resultat['Id'] ;
 						
-						switch ((int)$resultat['role_id']) {
+						switch ((int)$resultat['Role_Id']) {
 								case 1:
-									$_SESSION['role'] = 'client';
+									$_SESSION['role'] = 'Client';
 									break;
 								case 2:
-									$_SESSION['role'] = 'employe';
+									$_SESSION['role'] = 'Employe';
 									break;
 								case 3:
-									$_SESSION['role'] = 'admin';
+									$_SESSION['role'] = 'Admin';
 									break;
 								default:
-									$_SESSION['role'] = 'client'; // ou null / logout
+									$_SESSION['role'] = 'Visitor';
 							}						
 						
 						// Succès !												

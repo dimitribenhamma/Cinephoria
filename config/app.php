@@ -29,8 +29,9 @@
 	$referencementProperty = "https://www.cinephoria.com/" ;
 
 	// Données Admin
-	$customer = 'client' ;
-	$roleCustomer = isset($_SESSION['role']) && $_SESSION['role'] === $customer ;
+	$visitor = 'Visitor' ;
+	$customer = 'Client' ;
+	$roleCustomer = $_SESSION['role'] ?? $visitor ;
 
 	// Fonctions
 	$ipName = 'IP' ;

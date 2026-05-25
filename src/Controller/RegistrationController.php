@@ -18,7 +18,7 @@
 				include_once ROOT_PATH . $sql ;
 
 		if (!isset($_SESSION['role'])) {
-			$_SESSION['role'] = 'client';
+			$_SESSION['role'] = 'Client';
 		}	
 		
 		if (!isset($_SESSION['errorRegistration'])) {
@@ -40,8 +40,8 @@
 		$errorMemberPage = $errorFormPage = $catchPage = "registration";
 		
 		// Messages clairs pour la gestion des erreurs/succès
-		$registrationMember = "[Inscription] L'e-mail d'inscription appartient déjà à un membre ! (IP : " . getUserIP() . " ; e-mail : $email)";
-		$registrationFormIncomplete = "[Inscription] Le formulaire est incomplet ! (IP : " . getUserIP()  . " ; e-mail : $email)" ;				
+		$registrationMember = "[Inscription] L'Ee-mail d'inscription appartient déjà à un membre ! (IP : " . getUserIP() . " ; E-mail : $email)";
+		$registrationFormIncomplete = "[Inscription] Le formulaire est incomplet ! (IP : " . getUserIP()  . " ; E-mail : $email)" ;				
 
 
 		try {	
@@ -59,7 +59,7 @@
 								
 						/* Vérifie si l'utilisateur existe déjà */																			
 								$sth = $conn->prepare($registered);
-								$sth->execute([':user' => $user, ':email' => $email]);
+								$sth->execute([':username' => $user, ':email' => $email]);
 								$result = $sth->fetch(PDO::FETCH_ASSOC);
 
 																									
@@ -71,22 +71,21 @@
 										$hashedPassword = password_hash($password, PASSWORD_BCRYPT);										
 														
 										// Sécurité contre injections SQL ; on traite comme du texte les données de $_POST[] 
-										$st = $conn->prepare('INSERT INTO `client` (nom, prenom, user, password, email, date_inscription, role_id)
-										VALUES (:name, :surname, :user, :password, :email, :date_inscription, :role_id)');
+										$st = $conn->prepare($registrationController);
 												// On veut l'enregistrer en base de données
 											$st->execute([
 												':name' => $name,
 												':surname' => $surname,
-												':user' => $user,
+												':username' => $user,
 												':password' => $hashedPassword,
 												':email' => $email,
-												':date_inscription' => $date,								
+												':date_registration' => $date,								
 												':role_id' => 1 // 'client'
 											]);
 				
 										// Session enregistre les données 
 										 $_SESSION['user'] = $user;
-           								 $_SESSION['role'] = 'client';										 
+           								 $_SESSION['role'] = 'Client';										 
 										 unset($_SESSION['errorRegistration']);
 										 
 										// Succès !
@@ -101,7 +100,7 @@
 											error_log($registrationMember);
 											$_SESSION['errorRegistration'] = true;									
 											//header("Location: index.php?page=$errorMemberPage");
-											exit("L'e-mail d'inscription appartient déjà à un membre !");
+											exit("L'E-mail d'inscription appartient déjà à un membre !");
 										}
 								}
 								

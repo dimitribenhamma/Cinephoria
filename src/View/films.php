@@ -39,23 +39,23 @@
 			<div style="display:flex;">
 				<?php
 				
-					// le header et le menu-admin sont à inclure sur chaque page
-					include_once ROOT_PATH . $header_path ;
-				if (!$roleCustomer) {		  			
-					include_once ROOT_PATH . $menuAdmin_path ;}
+						// le header et le menu-admin sont à inclure sur chaque page
+						include_once ROOT_PATH . $header_path ;
+					
+				if ($roleCustomer === 'Admin') {		  			
+						include_once ROOT_PATH . $menuAdmin_path ;
+					}
 				?>
 			</div>	
 			<!-- Conteneur principal : Le bloc dans main (contenu principal) contient les recommandations d'accessibilité de lecteurs d’écran et de moteurs de recherche. -->
 			<div style="display:flex;">
 			<main style="display:flex;flex:1;width:100%;">
-				<?php
-
+				<?php if ($roleCustomer === 'Admin') { ?>
+				<dialog id="popup"><?= $message ?></dialog>
+				<?php }
+								
 						// Vérifie si le popup a déjà été affiché dans cette session
-						if (!isset($_SESSION['popup_shown'])) {
-
-							if ($roleCustomer) { ?>
-								<dialog id="popup"><?= $message ?></dialog>
-							<?php }
+						if (!isset($_SESSION['popup_shown'])) {							
 
 							// Marque le popup comme déjà affiché
 							$_SESSION['popup_shown'] = true;

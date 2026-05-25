@@ -9,13 +9,13 @@
 				include_once ROOT_PATH . "/lang/$currentLang.php" ;
 
     // Vérification si l'utilisateur est employé ou administrateur
-    if (isset($_SESSION['role']) && (($_SESSION['role'] === "employe") || ($_SESSION['role'] === "admin"))) {	
+    if (isset($_SESSION['role']) && (($_SESSION['role'] === "Employe") || ($_SESSION['role'] === "Admin"))) {	
 ?>
         <!-- Code HTML pour afficher le menu administrateur -->		
         <nav class="admin">
             <h1><?= $textAdmin ; ?></h1>
             <ul> 
-                <?php foreach ($menuAdmin as $key => $item): ?>
+                <?php foreach ($menuAdminItems as $key => $item): ?>
                         <li>
                             <a class="link <?= ($page === $key) ? 'actif' : '' ?>" 
                             href="index.php?page=<?= htmlspecialchars($key) ?>" 

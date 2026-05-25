@@ -20,10 +20,7 @@
 <body> 	
 	<?php		    	  		
               // Le header et le menu-admin sont à inclure sur chaque page
-              include_once ROOT_PATH . $header_path ;                   		  			
-		  	
-          if (!$roleCustomer) {		  			
-              include_once ROOT_PATH . $menu_admin_path ;}		
+              include_once ROOT_PATH . $header_path ;		
 	?>
 
 <!-- Conteneur principal : Le bloc dans main (contenu principal) contient les recommandations d'accessibilité de lecteurs d’écran et de moteurs de recherche. -->
