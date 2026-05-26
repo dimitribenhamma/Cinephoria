@@ -108,7 +108,7 @@ COMMIT;
 
 -- créer l'utilisateur s'il n'existe pas
 CREATE USER IF NOT EXISTS 'dimitri'@'127.0.0.1' IDENTIFIED BY 'dimitri' ;
--- donner tous les privilèges sur la base cinephoria
+-- donner tous les privilèges sur la base cinephoria (PAS le droit de faire DROP DATABASE , sinon GRANT ALL PRIVILEGES ON *.* ...)
 GRANT ALL PRIVILEGES ON Cinephoria.* TO 'dimitri'@'127.0.0.1' ;
 -- appliquer les privilèges
 FLUSH PRIVILEGES ;

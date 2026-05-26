@@ -37,12 +37,14 @@
 	<body class="vertical">
 		<div>
 			<div style="display:flex;">
-				<?php
-				
-						// le header et le menu-admin sont à inclure sur chaque page
-						include_once ROOT_PATH . $header_path ;
-					
-				if ($roleCustomer === 'Admin') {		  			
+				<?php				
+					// le header et le menu-admin sont à inclure sur chaque page
+					include_once ROOT_PATH . $header_path ;
+				?>		
+			</div>			
+			<div style="display:flex;">		
+				<?php 
+					if (isset($_SESSION['role']) && (($_SESSION['role'] === "Employe") || ($_SESSION['role'] === "Admin"))) {		  			
 						include_once ROOT_PATH . $menuAdmin_path ;
 					}
 				?>

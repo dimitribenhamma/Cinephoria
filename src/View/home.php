@@ -7,23 +7,12 @@
 
 			  
 	if (!defined('ROOT_PATH')) { echo 'Accès direct interdit 🚫';  die('Accès direct interdit 🚫');}
-
-			/* variables */			
-			$paths_path = '/config/paths.php' ;
-					
-			/* Fichiers à inclure */			
-			include_once ROOT_PATH . $paths_path ;
-			include_once ROOT_PATH . $app_path ;	
-
-
-
-		include_once ROOT_PATH . $meta_path;
-	
+			
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-	<head>		
-			<title><?= getenv("APP_NAME") ; ?></title>
+	<head>					
+			<?php include_once ROOT_PATH . $meta_path; ?>
 	</head>
 	<body> 	
 <!-- Partie Javascript -->		

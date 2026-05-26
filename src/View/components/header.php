@@ -120,11 +120,11 @@
         
         </header>  
         
-        
+        <?php if (isset($_SESSION['role']) && (($_SESSION['role'] === "Employe") || ($_SESSION['role'] === "Admin"))) { ?>
 
-        <?php $isFilmsPage = (isset($_GET['page']) && $_GET['page'] === $filmsPage); ?>
+        <?php $isBannerPage = (isset($_GET['page']) && (($_GET['page'] === $filmsPage) || ($_GET['page'] === $reservationsPage))); ?>
 
-        <?php if ($isFilmsPage === true) { ?>
+        <?php if ($isBannerPage === true) { ?>
         
         <div class="tv-frame">
 
@@ -161,6 +161,7 @@
 
         </div>                                     
             <?php } ?>
+        <?php } ?>
                     
         <script>
             document.addEventListener("DOMContentLoaded", function () {

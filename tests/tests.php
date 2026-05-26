@@ -14,6 +14,17 @@
     $sql= "/config/sql.php" ;
     include_once ROOT_PATH . $sql ;
 
+    if ($_ENV['APP_ENV'] === 'prod') {
+        exit('Disabled in production');
+    }
+
+    // Protection par IP (très utilisé)
+    $allowedIps = ['127.0.0.1', '::1'];
+    if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIps)) {
+        http_response_code(403);
+        exit('Access denied');
+    }
+
     echo "<h1>Tests unitaires</h1>";
         // Connexion au serveur
         echo "<h2>Connexion au serveur</h2>";
@@ -102,22 +113,22 @@
                         if (!empty($rec)) {
                             if ($table === 'client'){
                                 echo "<ul>";
-                                echo "<li><strong>{$rec['id']}</strong> | {$rec['user']} - email : ({$rec['email']})</li>";
+                                echo "<li><strong>{$rec['Id']}</strong> | {$rec['Username']} - email : ({$rec['Email']})</li>";
                                 echo "</ul>";
                             }
                             if ($table === 'cookies'){
                                 echo "<ul>";
-                                echo "<li><strong>{$rec['id']}</strong> ({$rec['ip']}) - user : {$rec['user']}</li>";
+                                echo "<li><strong>{$rec['Id']}</strong> ({$rec['Ip']}) - user : {$rec['Username']}</li>";
                                 echo "</ul>";
                             }
-                            if ($table === 'reservation'){
+                            if ($table === 'booking'){
                                 echo "<ul>";
-                                echo "<li><strong>{$rec['id']}</strong> ({$rec['movie_id']}) - date : {$rec['date_reservation']}</li>";
+                                echo "<li><strong>{$rec['Id']}</strong> ({$rec['Movie_Id']}) - date : {$rec['Date_Reservation']}</li>";
                                 echo "</ul>";
                             }
                             if ($table === 'roles'){
                                 echo "<ul>";
-                                echo "<li><strong>{$rec['id']}</strong> | rôle : {$rec['nom']}</li>";
+                                echo "<li><strong>{$rec['Id']}</strong> | rôle : {$rec['Name']}</li>";
                                 echo "</ul>";
                             }
 
@@ -127,17 +138,17 @@
 
             // Test 3: Admin
             echo "<h3><u>3. Admin</u></h3>";
-            $stmt = $conn->prepare("SELECT id, user, email, role_id FROM client WHERE role_id = ?");
+            $stmt = $conn->prepare("SELECT Id, Username, Email, Role_Id FROM Client WHERE Role_Id = ?");
             $stmt->execute(['3']);
             $user = $stmt->fetch();
             
                 if ($user) {
                     echo "<p style='color: green;'>✅ Le rôle Admin existe dans la base!</p>";
                     echo "<pre>";
-                    echo "ID: " . $user['id'] . "\n";
-                    echo "Username: " . $user['user'] . "\n";
-                    echo "Email: " . $user['email'] . "\n";
-                    echo "Role: " . $user['role_id'] . "\n";
+                    echo "ID: " . $user['Id'] . "\n";
+                    echo "Username: " . $user['Username'] . "\n";
+                    echo "Email: " . $user['Email'] . "\n";
+                    echo "Role: " . $user['Role_Id'] . "\n";
                     echo "</pre>";                          
                 }
                 else {

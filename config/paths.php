@@ -62,7 +62,7 @@
 	$passwordName = 'password' ;
 	$registrationName = 'registration' ;
 	$tmdbName = 'films-tmdb' ;
-	$reservationsName = 'reservations' ;
+	$reservationsName = $reservationsPage = 'reservations' ;
 	$reserveName = 'show' ;
 	$filmsName = 'films' ;
 	$detailsName = 'details';

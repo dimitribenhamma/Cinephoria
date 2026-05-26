@@ -150,12 +150,12 @@
 					}		
 
 					// Infos de base des cookies de session
-					$geo = getGeoInfo($ip); // getGeoInfo($ip) (en prod)
-					$country = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['country'] ?? 'API#ERROR') : null ;
-					$city = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['city'] ?? 'API#ERROR') : null ;
-					$isp = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['isp'] ?? 'API#ERROR') : null ;
-					$lat = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['lat'] ?? 'API#ERROR') : null ;
-					$lon = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['lon'] ?? 'API#ERROR') : null ;
+						$geo = getGeoInfo($ip); // getGeoInfo($ip) (en prod)					
+						$country = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['country'] ?? 'API#ERROR') : null ;
+						$city = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['city'] ?? 'API#ERROR') : null ;
+						$isp = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['isp'] ?? 'API#ERROR') : null ;
+						$lat = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['lat'] ?? 'API#ERROR') : null ;
+						$lon = (isset($_COOKIE[$_ENV['COOKIE_NAME']])) ? ($geo['lon'] ?? 'API#ERROR') : null ;
 
 					function getResolution() {
 						if (isset($_POST['width']) && isset($_POST['height'])) {

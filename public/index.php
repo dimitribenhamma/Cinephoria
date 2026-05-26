@@ -10,7 +10,7 @@
 		
 			// Charge avant tout les infos sensibles du .env correctement (en front controller)
 				include_once ROOT_PATH . '/vendor/autoload.php';
-				$dotenv = Dotenv\Dotenv::createImmutable(__DIR__. '/..') ;
+				$dotenv = Dotenv\Dotenv::createImmutable(ROOT_PATH) ;
 				$dotenv->load() ; 
 
 			// Constantes globales à tout le script et tous les sous-fichiers inclus (en front controller)
@@ -23,18 +23,26 @@
 
 
 				/* Fichiers à inclure */
-				include_once ROOT_PATH . "/src/View/components/IP.php" ;
-				$currentLang = language_nav() ;
-				include_once ROOT_PATH . "/lang/$currentLang.php" ;
-				$appName = 'app' ;
-				$app_path = "/config/$appName.php" ;
-				include_once ROOT_PATH . $app_path ;
-				$paths_path = "/config/paths.php" ;
-				include_once ROOT_PATH . $paths_path ;
-				include_once ROOT_PATH . $cookiesBanner_path ;
+					include_once ROOT_PATH . "/src/View/components/IP.php" ;
+					$currentLang = language_nav() ;
+					include_once ROOT_PATH . "/lang/$currentLang.php" ;
+					$appName = 'app' ;
+					$app_path = "/config/$appName.php" ;
+					include_once ROOT_PATH . $app_path ;
+					$paths_path = "/config/paths.php" ;
+					include_once ROOT_PATH . $paths_path ;
+
+			// Notre routeur ici est la page
+			$page = $_GET['page'] ?? 'home' ;
+
+			if(isset($_SESSION['role'])) {
+				if(!(($page === 'tests.php') || ($_SESSION['role'] === 'Admin') || ($_SESSION['role'] === 'Employe'))) {
+					include_once ROOT_PATH . $cookiesBanner_path ;
+				}
+			}
 
 				
-			// Affiche les erreurs mais doit être journalisé (et enlevé en prod)
+			// Affiche les erreurs mais doit être journalisé (et a enlever en prod)
 			error_reporting(E_ALL) ; 
 			ini_set('display_errors', 1) ;
 			ini_set('display_startup_errors', 1) ;
@@ -43,11 +51,6 @@
 			if (!defined('ROOT_PATH')) {
 				die('Accès direct interdit 🚫') ;
 			  }
-
-
-			
-			// Notre routeur ici est la page
-				$page = $_GET['page'] ?? 'home' ;
 
 			/* Compteur de session */
 			if (!isset($_SESSION['visits'])) {

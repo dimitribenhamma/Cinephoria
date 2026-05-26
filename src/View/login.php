@@ -2,14 +2,11 @@
 <!DOCTYPE html> 
 <html lang="fr">
   <head>
-        <?php 
-
-            /* Donnée de départ */            
-			$paths_path = '/config/paths.php' ;
-            /* Fichiers à inclure */
-			include_once ROOT_PATH . $paths_path ;                        
-            include_once ROOT_PATH . $meta_path ;
-
+        <?php
+            /* Donnée de départ */
+            $_SESSION['role'] = $roleCustomer ;
+             /* Fichiers à inclure */			                        
+            include_once ROOT_PATH . $meta_path ;                                        
         ?>            
         <!-- Notre fichier .env est situé à la racine du projet -->
         <title><?= $_ENV["APP_NAME"]; ?></title>    
@@ -22,9 +19,7 @@
               /* Les fichiers à inclure */
               include_once ROOT_PATH . $header_path ;
               include_once ROOT_PATH . $app_path ;                   		  			
-              
-          if (!$roleCustomer) {		  			
-              include_once ROOT_PATH . $menuAdmin_path ;}	
+
 		?>
 
 <!-- Conteneur principal : Le bloc dans main (contenu principal) contient les recommandations d'accessibilité de lecteurs d’écran et de moteurs de recherche. -->
