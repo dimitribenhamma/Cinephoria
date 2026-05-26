@@ -161,4 +161,3 @@
 					include_once ROOT_PATH . $error404_path ;
 					exit("erreur 404") ;				
 				}
-?>
