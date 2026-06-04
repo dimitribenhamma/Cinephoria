@@ -5,11 +5,6 @@
 # Pour déployer mon application en local #
 # Configuration minimale système
 
-# README Cinéphoria #
-
-# Pour déployer mon application en local #
-# Configuration minimale système
-
 > Type: dev
 
 > Windows (10/11)
