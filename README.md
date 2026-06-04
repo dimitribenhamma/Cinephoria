@@ -5,6 +5,13 @@
 # Pour déployer mon application en local #
 # Configuration minimale système
 
+# README Cinéphoria #
+
+# Pour déployer mon application en local #
+# Configuration minimale système
+
+> Type: dev
+
 > Windows (10/11)
 
 > WAMP Server
@@ -31,6 +38,10 @@ Contient :
 # Pour déployer mon application sur internet #
 # Cas Windows Server (2019/2022)
 
+> Type: preprod
+
+> Windows Server (2019/2022)
+
 > MySQL
 Nécessite MySQL (via IIS + PHP + MySQL, Apache + PHP + MySQL , en dernier recours WAMP)
 
@@ -53,6 +64,8 @@ Nécessite : Apache ou IIS
 
 # Cas Ubuntu Server (LTS)
 
+> Type: preprod
+
 > MySQL
 Nécessite MySQL (via Nginx + PHP + MySQL, Apache + PHP + MySQL , en dernier recours LAMP)
 
@@ -73,6 +86,8 @@ Nécessite : Apache ou Nginx
 
 # Cas hébergeur en ligne
 
+> Type: preprod
+
 > Gandi et OVH
 Contient : 
 - MySQL
@@ -91,4 +106,5 @@ Gandi
 
 
 # Comment lancer l'application en local : http://localhost
-# dimitri.benhamma@gmail.com , GitHub : https://github.com/dimitribenhamma/Cinephoria
+# dépôt distant : GitHub : https://github.com/dimitribenhamma/Cinephoria/develop
+# suivi-cinephoria@gmail.com
