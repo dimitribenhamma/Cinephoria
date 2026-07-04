@@ -12,18 +12,6 @@ SET SQL_MODE = 'STRICT_TRANS_TABLES,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION
 START TRANSACTION ; 
 SET time_zone = "+00:00" ;
 
-
---
--- Base de données : `Cinephoria`
---
-
--- Base de données
-CREATE DATABASE IF NOT EXISTS Cinephoria
-  DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci ;
-
-USE Cinephoria ;
-
 -- --------------------------------------------------------
 
 --
@@ -55,7 +43,7 @@ CREATE TABLE `Client` ( -- Début de la table client
   `Role_Id` TINYINT UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`Id`),
   CONSTRAINT fk_Client_Role
-    FOREIGN KEY (`Role_Id`) REFERENCES roles(`Id`)
+    FOREIGN KEY (`Role_Id`) REFERENCES Roles(`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ;
 
 
@@ -69,7 +57,7 @@ CREATE TABLE `Booking` (
   `Date_Reservation` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   CONSTRAINT fk_Booking_Client
-    FOREIGN KEY (`Client_Id`) REFERENCES client(`Id`)
+    FOREIGN KEY (`Client_Id`) REFERENCES Client(`Id`)
       ON DELETE CASCADE
 ) ENGINE=InnoDB ;
 
@@ -99,16 +87,7 @@ CREATE TABLE `Cookies` (
   `Cookie_Date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
   CONSTRAINT fk_Cookies_Client
-    FOREIGN KEY (`Client_Cookies_Id`) REFERENCES client(`Id`)
+    FOREIGN KEY (`Client_Cookies_Id`) REFERENCES Client(`Id`)
       ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ;
 COMMIT;
-
-
-
--- créer l'utilisateur s'il n'existe pas
-CREATE USER IF NOT EXISTS 'dimitri'@'127.0.0.1' IDENTIFIED BY 'dimitri' ;
--- donner tous les privilèges sur la base cinephoria (PAS le droit de faire DROP DATABASE , sinon GRANT ALL PRIVILEGES ON *.* ...)
-GRANT ALL PRIVILEGES ON Cinephoria.* TO 'dimitri'@'127.0.0.1' ;
--- appliquer les privilèges
-FLUSH PRIVILEGES ;
