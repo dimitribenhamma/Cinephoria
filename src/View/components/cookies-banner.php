@@ -148,9 +148,7 @@
                             setcookie($_ENV['COOKIE_NAME'], '', time() - $duration_cookie, '/');
                         }
                     // Exception (en console) 
-                    ?><script>
-                            console.log(<?= json_encode(($textCookieException . " : " . $e->getMessage()), JSON_UNESCAPED_UNICODE) ?>) ;
-                        </script><?php
+                    
             }        
         
     ?>
