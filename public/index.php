@@ -1,8 +1,5 @@
-<!-- La page du site routeur index.php (pur PHP dynamique) : Style K&R , indentation Ok -->
 <?php
-
-			// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-			if (session_status() === PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE) {
 				session_start() ;
 			  } 
 
