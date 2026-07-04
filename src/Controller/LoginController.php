@@ -1,5 +1,4 @@
-<?php
-		
+<?php		
 				/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
@@ -11,8 +10,6 @@
 				include_once ROOT_PATH . $paths_path ;
 				$sql= "/config/sql.php" ;
 				include_once ROOT_PATH . $sql ;
-				$ip_path = '/src/View/components/IP.php' ;
-				include_once ROOT_PATH . $ip_path ;
 				include_once ROOT_PATH . $exceptionHandle_path ;
 						
 		if (!isset($_SESSION['errorLogin'])) {
