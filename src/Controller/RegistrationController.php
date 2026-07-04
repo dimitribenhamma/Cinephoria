@@ -1,4 +1,5 @@
 <?php
+ob_start();
 		/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
@@ -83,6 +84,7 @@
 										 unset($_SESSION['errorRegistration']);
 										 
 										// Succès !
+										ob_clean();
 										header("Location: index.php?page=$successRegistrationPage");
 										exit;
 									}
@@ -103,7 +105,8 @@
 								{						    									
 									error_log($registrationFormIncomplete);
 									$_SESSION['errorRegistration'] = true;
-									//header("Location: index.php?page=$errorFormPage");
+									ob_clean();
+									header("Location: index.php?page=$errorFormPage");
 									exit("Le formulaire est incomplet !");
 								}
 				} }
