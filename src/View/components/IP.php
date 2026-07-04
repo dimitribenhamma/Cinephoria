@@ -1,4 +1,3 @@
-<!-- La page ip.php : Style K&R , indentation Ok -->
 <script>
 /* Résolution d’écran en PHP */
   var width = screen.width;
