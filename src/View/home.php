@@ -1,10 +1,5 @@
 <!-- La page d'accueil home.php : Style K&R , indentation Ok -->
 <?php
-				// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-			if (session_status() === PHP_SESSION_NONE) {
-				session_start() ;
-			  }
-
 			  
 	if (!defined('ROOT_PATH')) { echo 'Accès direct interdit 🚫';  die('Accès direct interdit 🚫');}
 			
