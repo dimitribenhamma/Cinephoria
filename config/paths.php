@@ -1,4 +1,3 @@
-<!-- la page paths.php : style K&R , Indentation Ok -->
 <?php
 
 	// Environnement
