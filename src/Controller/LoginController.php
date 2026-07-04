@@ -1,4 +1,10 @@
-<?php		
+<!-- La page LoginController.php (gestion PHP + requêtes SQL) style K&R , indentation Ok -->
+<?php
+		// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start() ;
+		}	
+		
 				/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
@@ -10,7 +16,8 @@
 				include_once ROOT_PATH . $paths_path ;
 				$sql= "/config/sql.php" ;
 				include_once ROOT_PATH . $sql ;
-				include_once ROOT_PATH . $exceptionHandle_path ;
+				$ip_path = '/src/View/components/IP.php' ;
+				include_once ROOT_PATH . $ip_path ;	
 						
 		if (!isset($_SESSION['errorLogin'])) {
 			$_SESSION['errorLogin'] = false ;
@@ -37,7 +44,7 @@
 			/* Attention aux erreurs de logique */
 
 				/* On veut se connecter au SGBD MySQL avec le mode d'erreur sur 'PDO Exception' */	
-				$conn = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS) ;
+				$conn = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS) ;
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ;
 						
 				/* Le contexte vérifie des données d’un formulaire via l'existence de $_POST[] */
@@ -71,7 +78,7 @@
 									break;
 								default:
 									$_SESSION['role'] = 'Visitor';
-							}							
+							}						
 						
 						// Succès !												
 						header("Location: index.php?page=$successLoginPage") ;

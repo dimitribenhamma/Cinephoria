@@ -1,4 +1,10 @@
+<!-- RegistrationController.php (gestion PHP + requêtes SQL) style K&R , indentation Ok -->
 <?php
+		// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start();
+		}
+
 		/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
@@ -43,11 +49,7 @@
 			/* Attention aux erreurs de logique */
 
 				/* On veut se connecter au SGBD MySQL avec le mode d'erreur sur 'PDO Exception' */			
-				$conn = new PDO(
-    "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME,
-    DB_USER,
-    DB_PASS
-);
+				$conn = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS) ;
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ;              
 					
 				/* Le contexte vérifie des données d’un formulaire via l'existence de $_POST[] */
@@ -77,7 +79,7 @@
 												':username' => $user,
 												':password' => $hashedPassword,
 												':email' => $email,
-												':date_registration' => date('Y-m-d'),								
+												':date_registration' => $date,								
 												':role_id' => 1 // 'client'
 											]);
 				
