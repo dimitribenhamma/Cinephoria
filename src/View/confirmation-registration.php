@@ -13,7 +13,7 @@
 			include_once ROOT_PATH . $meta_path ;
 		?>
 		<title><?= $_ENV["APP_NAME"] ; ?></title>
-		<script src="<?= ROOT_PATH . 'js/films.js' ?>"></script> <!-- Fichier externe Javascript -->
+		
 	</head>
 <body> 	
 	<?php		    	  		
