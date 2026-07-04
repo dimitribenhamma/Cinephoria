@@ -1,11 +1,4 @@
-<!-- La page UI du site show.php (texte pur HTML & PHP dynamique) : Style K&R , Indentation Ok -->
 <?php
-
-        // Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start() ;
-          }
-    
         /* Fichiers à inclure */
         include_once ROOT_PATH . $moviesData_path ; // Le fichier de films
         include_once ROOT_PATH . $roomsData_path;
