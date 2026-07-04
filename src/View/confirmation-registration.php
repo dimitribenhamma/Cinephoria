@@ -1,5 +1,4 @@
 <?php
-
 	/* Initialisation de nos variables dynamiques */
 	$titleConfirm = "Confirmation d'inscription" ;
 	$text_button = "Continuer" ;
