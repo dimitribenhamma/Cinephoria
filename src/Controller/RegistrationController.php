@@ -86,7 +86,7 @@
 										// Succès !
 										
 										header("Location: index.php?page=$successRegistrationPage");
-										exit;
+										exit("OK");
 									}
 
 							/* Si l'Utilisateur existe déjà dans la base de données */
