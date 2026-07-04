@@ -1,10 +1,4 @@
-<!-- RegistrationController.php (gestion PHP + requêtes SQL) style K&R , indentation Ok -->
 <?php
-		// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-		if (session_status() === PHP_SESSION_NONE) {
-			session_start();
-		}
-
 		/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
