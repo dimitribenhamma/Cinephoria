@@ -1,5 +1,4 @@
-    <!-- La page cookies-banner.php : Style K&R , indentation Ok -->
-    <?php    
+<?php    
         /* 
         * Pour déposer un Cookie encrypté : 
         ** - Vérifications du choix de l'utilisateur, 
@@ -12,12 +11,7 @@
         ** - dépôt du cookie encrypté en BDD serveur, sur la machine cliente en JS.
         *
         */
-        
-            // Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start() ;
-            }
-
+    
             /* Donnée de départ */
             $paths = "paths" ;
             $paths_path = "/config/$paths.php" ;
