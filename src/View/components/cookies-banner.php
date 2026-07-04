@@ -144,9 +144,6 @@
         catch (Exception $e) {
                     // Journal de log Apache
                     error_log($textCookieException . " : " . $e->getMessage()) ;
-                    if (isset($_COOKIE[$_ENV['COOKIE_NAME']])) {
-                            setcookie($_ENV['COOKIE_NAME'], '', time() - $duration_cookie, '/');
-                        }
                     // Exception (en console) 
                     
             }        
