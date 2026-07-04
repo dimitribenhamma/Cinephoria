@@ -85,7 +85,7 @@
 										 
 										// Succès !
 										
-										header("Location: index.php?page=$successRegistrationPage");
+										header("Location: index.php?page=confirmation-registration");
 										exit("OK");
 									}
 
