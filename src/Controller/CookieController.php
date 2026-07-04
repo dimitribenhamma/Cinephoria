@@ -1,11 +1,5 @@
--<!-- La page CookieController.php (gestion PHP + requêtes SQL) style K&R , indentation Ok -->
 <?php
-		// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
-		if (session_status() === PHP_SESSION_NONE) {
-				session_start() ;
-			}	
-
-				/* Fichiers à inclure */
+			/* Fichiers à inclure */
 				$currentLang = language_nav() ;
 				include_once ROOT_PATH . "/lang/$currentLang.php" ;
 				include_once ROOT_PATH . "/config/paths.php" ;
