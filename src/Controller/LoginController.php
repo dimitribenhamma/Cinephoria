@@ -15,7 +15,8 @@ if (session_status() === PHP_SESSION_NONE) {
 				$sql= "/config/sql.php" ;
 				include_once ROOT_PATH . $sql ;
 				$ip_path = '/src/View/components/IP.php' ;
-				include_once ROOT_PATH . $ip_path ;	
+				include_once ROOT_PATH . $ip_path ;
+				include_once ROOT_PATH . $exceptionHandle_path ;
 						
 		if (!isset($_SESSION['errorLogin'])) {
 			$_SESSION['errorLogin'] = false ;
