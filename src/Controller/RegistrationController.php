@@ -74,7 +74,7 @@
 												':username' => $user,
 												':password' => $hashedPassword,
 												':email' => $email,
-												':date_registration' => $date,								
+												':date_registration' => null,								
 												':role_id' => 1 // 'client'
 											]);
 				
