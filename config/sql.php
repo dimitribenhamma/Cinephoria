@@ -1,5 +1,4 @@
-<!-- La page des requêtes SQL -->
- <?php	
+<?php	
 	// Our SQL queries are ready
 	$registration = 'SELECT Id FROM `Client` WHERE Id = :id' ; // Registration (Controller)
 	$registered = 'SELECT Id FROM `Client` WHERE Username = :username OR Email = :email' ; // Reservation (Controller)
