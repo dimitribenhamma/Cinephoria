@@ -1,16 +1,3 @@
-<script>
-/* Résolution d’écran en PHP */
-  var width = screen.width;
-  var height = screen.height;
-
-  fetch('IP.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: 'width=' + width + '&height=' + height
-  });
-</script>
 <?php
 /* Nom des fonctions utilitaires : 
 	 * - getUserIP,
@@ -289,20 +276,14 @@
 
 						if (!hash_equals($hmac, hash_hmac('sha256', $payload, $hmac_secret, true))) {
 							throw new Exception('Cookie falsifié ou invalide') ;
-							// Exception (en console) 
-								?><script>
-									console.log(<?= json_encode(($textInvalidException . " : " . $e->getMessage()), JSON_UNESCAPED_UNICODE) ?>) ;
-								</script><?php
+							
 							}
 
 						$plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $aes_secret, OPENSSL_RAW_DATA, $iv, $tag) ;
 
 						if ($plaintext === false) {
 							throw new Exception('Déchiffrement échoué') ;
-							// Exception (en console) 
-								?><script>
-									console.log(<?= json_encode(($textDecryptException . " : " . $e->getMessage()), JSON_UNESCAPED_UNICODE) ?>) ;
-								</script><?php
+							
 							}					
 					
 						return json_decode($plaintext, true) ; // chaîne en variable , inverse de json_encode (variable PHP en chaîne JSON)
