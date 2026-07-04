@@ -31,6 +31,7 @@
 	$resaControllerName = 'ResaController' ;
 	$cookieControllerName = 'CookieController';
 	$actionPage = "manage-products-handler" ;
+	$actionPaymentPage = "payment-controller" ;
 	$errorLoginPage = $catchPage = "login" ; // Assignation en chaîne
 
 	// Model
@@ -113,6 +114,7 @@
 	$confirmEmailPage = "confirmation-email" ;
 	$confirmContactPage = "confirm-contact" ;
 	$confirmReservePage = "confirmation-reserve" ;
+	$confirmResa = 'confirmation-reservation' ;	
 	$passwordPage = "password" ;
 	$actionPayment = "payment-controller" ;
 	$identityPage = "identity" ;
@@ -188,6 +190,8 @@
 	$tmdb_path = "/src/View/$tmdbName.php" ;
 	$reservations_path = "/src/View/$reservationsName.php" ;
 	$reserve_path = "/src/View/$reservationsName.php" ;
+	$show_path = "/src/View/show.php" ;
+	$cart_path = "/src/View/cart.php" ;
 	$confirmReserve_path = "/src/View/$confirmReservePage.php" ;
 	$films_path = "/src/View/$filmsName.php" ;
 	$details_path = "/src/View/$detailsName.php" ;
@@ -198,6 +202,7 @@
 	$confirmLogin_path = "/src/View/$confirmLoginName.php" ;
 	$home_path = "/src/View/$homeName.php" ;
 	$payment_path = "/src/View/$paymentName.php" ;
+	$confirmReservation_path = "/src/View/confirmation-reservation.php" ;
 	$orders_path = "/src/View/$ordersName.php" ;
 	$profil_path = "/src/View/$profilName.php" ;
 	$identity_path = "/src/View/$identityName.php" ;
