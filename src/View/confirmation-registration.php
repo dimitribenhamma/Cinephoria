@@ -1,4 +1,3 @@
-<!-- La page UI confirmation-registration.php : Style K&R , indentation Ok -->
 <?php
 
 	/* Initialisation de nos variables dynamiques */
