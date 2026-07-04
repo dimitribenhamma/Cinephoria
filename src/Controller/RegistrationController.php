@@ -110,8 +110,8 @@
 									exit("Le formulaire est incomplet !");
 								}
 				} }
-
-				{
+					catch (Throwable $e)
+				{	
 					/* Throwable : attrape tout (les erreurs fatales, les erreurs de type, d’appel de fonction inexistante, etc.) */
 					ExceptionHandle($e, "Erreur Fatale");
 				}
