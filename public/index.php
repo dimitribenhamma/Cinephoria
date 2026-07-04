@@ -36,25 +36,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 				
 			// Affiche les erreurs mais doit être journalisé (et a enlever en prod)
-			error_reporting(E_ALL) ; 
-			ini_set('display_errors', 1) ;
-			ini_set('display_startup_errors', 1) ;
-
 			// Sécurité contre accès direct aux fichiers internes
 			if (!defined('ROOT_PATH')) {
 				die('Accès direct interdit 🚫') ;
 			  }
-
-			/* Compteur de session */
-			if (!isset($_SESSION['visits'])) {
-				$_SESSION['visits'] = 1 ;
-				$visits = $_SESSION['visits'] ;
-			  } 
-			else {
-				$_SESSION['visits']++ ;
-				$visits = $_SESSION['visits'] ;
-			  }
-
 			
 			// --- Handlers (login, registration ...) ---					
 
