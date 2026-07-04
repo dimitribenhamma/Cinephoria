@@ -1,4 +1,3 @@
-<!-- la page fr-FR.php : style K&R , Indentation Ok -->
 <?php
 /* Nos ressources */
 
