@@ -1,4 +1,3 @@
-<!-- Le fichier d'Exceptions personnalisées, mode dynamique PHP-->
 <?php
 		
 
