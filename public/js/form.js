@@ -1,194 +1,126 @@
-	var form = document.querySelector(".form");
-	var button = document.querySelector(".buttons-text");
-	var miniLength = 8;
-  
-	function verifier(champ) {
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.getElementById("paymentForm");
+    const payButton = document.getElementById("payButton");
+
+    const creditCard = document.getElementById("creditCard");
+    const cryptogram = document.getElementById("cryptogram");
+    const nameCard = document.getElementById("nameCard");
+    const nameCardPattern = /^(?:M|MME\s)?[A-ZÀ-Ö]{1,20}(?:['-][A-ZÀ-Ö]{1,20})*\s[A-ZÀ-Ö]{1,20}(?:['-][A-ZÀ-Ö]{1,20})*$/;
+
+    if (!form || !payButton || !creditCard || !cryptogram || !nameCard) return;
+
+    // =========================
+    // FORMAT CARTE (XXXX XXXX ...)
+    // =========================
+    function formatCard(value) {
+        return value
+            .replace(/\D/g, "")
+            .replace(/(.{4})/g, "$1 ")
+            .trim();
+    }
+
+    creditCard.addEventListener("input", () => {
+        const cursor = creditCard.selectionStart;
+
+        const oldLength = creditCard.value.length;
+        creditCard.value = formatCard(creditCard.value);
+        const newLength = creditCard.value.length;
+
+        const diff = newLength - oldLength;
+
+        creditCard.setSelectionRange(cursor + diff, cursor + diff);
+
+        validateForm();
+    });
+
+    // =========================
+    // VALIDATION VISUELLE + LOGIQUE
+    // =========================
+    function verifier(champ) {
         let valid = true;
-		switch (champ.name) {            
-  
-	// Minimum 2 caractères		
-		case 'name':
-		case 'surname':
-		case 'user':
-            if (champ.value.trim() === "") {
-                champ.style.border = "2px solid black"; // invalide
-				valid = false ;
-                }
-			else if (champ.value.trim().length < 2) {
-				champ.style.border = '3px solid red'; // invalide
-				valid = false ;
-			    }
-            else {
-				champ.style.border = '3px solid green'; // valide
-				valid = true ;
-			    }
-        break;    
-	// Minimum 8 caractères
-		case 'password':
-		case 'email':
-		case 'date':
-            if (champ.value.trim() === "") {
-                champ.style.border = "2px solid black"; // invalide
-				valid = false ;
-            }
-			else if (champ.value.trim().length < miniLength) {
-			    champ.style.border = '3px solid red'; // invalide
-				valid = false ;
-			} else {
-			    champ.style.border = '3px solid green'; // valide
-				valid = true ;
-			}
-        break;
+        const value = champ.value.trim();
 
-	// Minimum 13 caractères
-		case 'creditCard':
-			if (champ.value.trim() === "") {
-                champ.style.border = "2px solid black"; // invalide
-				valid = false ;
-            }
-			else if (champ.value.trim().length < 13) {
-			    champ.style.border = '3px solid red'; // invalide
-				valid = false ;
-			} else {
-			    champ.style.border = '3px solid green'; // valide
-				valid = true ;
-			}
-        break;
+        switch (champ.name) {
 
-	// Minimum 3 caractères
-		case 'cryptogram':
-			if (champ.value.trim() === "") {
-                champ.style.border = "2px solid black"; // invalide
-				valid = false ;
-            }
-			else if (champ.value.trim().length < 3) {
-			    champ.style.border = '3px solid red'; // invalide
-				valid = false ;
-			} else {
-			    champ.style.border = '3px solid green'; // valide
-				valid = true ;
-			}
-        break;
+            case "name":
+            case "surname":
+            case "user":
+                if (value.length === 0) {valid = null;}
+                else {valid = value.length >= 2;}
+                break;
 
-	// Minimum 2 caractères
-		case 'nameCard':
-			if (champ.value.trim() === "") {
-                champ.style.border = "2px solid black"; // invalide
-				valid = false ;
-            }
-			else if (champ.value.trim().length < 2) {
-			    champ.style.border = '3px solid red'; // invalide
-				valid = false ;
-			} else {
-			    champ.style.border = '3px solid green'; // valide
-				valid = true ;
-			}
-        break;
-	}
-	return valid;
-}
+            case "password":
+            case "email":
+            case "date":
+                if (value.length === 0) {valid = null;}
+                else {valid = value.length >= 8;}
+                break;
 
-    function confirmer(champ){
+            case "creditCard":
+                if (value.length === 0) {valid = null;}
+                else {valid = value.replace(/\s/g, "").length >= 13;}
+                break;
 
-        const msg = document.getElementById("msg_" + champ.name);
+            case "cryptogram":
+                if (value.length === 0) {valid = null;}
+                else {valid = value.length >= 3;}
+                break;
 
-        	switch (champ.name) {            
-  
-	// Minimum 2 caractères		
-		case 'name':
-		case 'surname':
-		case 'user':
-            if (champ.value.trim() === "") {
-				
-                msg.textContent = "❌";}
-			else if (champ.value.trim().length < 2) {
-			    msg.textContent = "❌";}
-            else {
-			    msg.textContent = "✅";} // valide
-        break;    
-	// Minimum 8 caractères				
-		case 'password':
-		case 'email':
-		case 'date':
-            if (champ.value.trim() === "") {
-                msg.textContent = "❌";}
-			else if (champ.value.trim().length < miniLength) {
-			    msg.textContent = "❌";}
-			else {
-			    msg.textContent = "✅";} // valide
-        break;
-
-	// Minimum 13 caractères				
-		case 'creditCard':
-            if (champ.value.trim() === "") {
-                msg.textContent = "❌";}
-			else if (champ.value.trim().length < 13) {
-			    msg.textContent = "❌";}
-			else {
-			    msg.textContent = "✅";} // valide
-        break;
-
-	// Minimum 3 caractères				
-		case 'cryptogram':
-            if (champ.value.trim() === "") {
-                msg.textContent = "❌";}
-			else if (champ.value.trim().length < 3) {
-			    msg.textContent = "❌";}
-			else {
-			    msg.textContent = "✅";} // valide
-        break;
-
-	// Minimum 2 caractères				
-		case 'nameCard':
-            if (champ.value.trim() === "") {
-                msg.textContent = "❌";}
-			else if (champ.value.trim().length < 2) {
-			    msg.textContent = "❌";}
-			else {
-			    msg.textContent = "✅";} // valide
-        break;
-	}
-}
-
-// Vérification globale pour activer le bouton
-    function verifierForm() {
-    let allValid = true;
-	
-
-    form.querySelectorAll("input").forEach(champ => {
-        if(champ.type !== "submit") {
-            allValid = verifier(champ) && allValid;
+            case "nameCard":
+                if (value.length === 0) {valid = null;}
+                else {
+                    if (nameCardPattern.test(nameCard.value.trim())) {valid = true;}
+                    else {valid=false;}}
+                break;
         }
+
+        champ.style.border = value === ""
+            ? "2px solid black"
+            : valid
+                ? "3px solid green"
+                : "3px solid red";
+
+        return valid;
+    }
+
+    // =========================
+    // MESSAGES ✔ / ✘
+    // =========================
+    function confirmer(champ, ok) {
+    const msg = document.getElementById("msg_" + champ.name);
+    if (!msg) return;
+
+    msg.textContent = ok === null ? " " : (ok ? "✅" : "❌");
+}
+
+    // =========================
+    // VALIDATION GLOBALE
+    // =========================
+    function validateForm() {
+
+        let allValid = true;
+
+        [creditCard, cryptogram, nameCard].forEach(champ => {
+            const ok = verifier(champ);
+            confirmer(champ, ok);
+            allValid = allValid && ok;
+        });
+
+        payButton.disabled = !allValid;
+        payButton.style.opacity = allValid ? "1" : "0.5";
+        payButton.style.cursor = allValid ? "pointer" : "not-allowed";
+    }
+
+    // =========================
+    // EVENTS INPUT + BLUR
+    // =========================
+    [creditCard, cryptogram, nameCard].forEach(champ => {
+
+        champ.addEventListener("input", validateForm);
+        champ.addEventListener("blur", validateForm);
     });
 
-    button.disabled = !allValid;
-    button.style.opacity = allValid ? "1" : "0.5";
-    button.style.cursor = allValid ? "pointer" : "not-allowed";
-}
-
-	document.addEventListener("DOMContentLoaded", function() {
-
-    var form = document.querySelector(".form");
-    var button = document.querySelector(".buttons-text");
-
-    form.querySelectorAll("input").forEach(champ => {
-        if (champ.type !== "submit") {
-
-            champ.addEventListener("input", function() {
-                verifier(champ);
-                confirmer(champ);
-                verifierForm();
-            });
-
-            champ.addEventListener("blur", function() {
-                verifier(champ);
-                confirmer(champ);
-                verifierForm();
-            });
-
-        }
-    });
-
-    // Vérification initiale
-    verifierForm();
+    // init
+    validateForm();
 });
