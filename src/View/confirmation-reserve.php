@@ -1,7 +1,7 @@
 <?php
 
 	/* Initialisation de nos variables dynamiques */
-	$title = "Réservation de " . $_SESSION['places']. " place" . $reservation ;
+	$title = "Réservation de " . $_SESSION['seats']. " place(s)" ;
 	$subtitle = "Un instant" ;
 
 ?>
@@ -17,7 +17,7 @@
 			<title><?= $_ENV["APP_NAME"]; ?></title>
 <!-- Partie Javascript -->
   <script>
-	const pageConfirm = "<?= $page_confirm ?>";
+	const pageConfirm = "<?= $confirmResa ?>";
     // Rediriger après un court délai pour laisser le temps au JS de s'exécuter
     setTimeout(() => {
       window.location.href = 'index.php?page=' + pageConfirm;
@@ -29,8 +29,8 @@
 		      // le header et le menu-admin sont à inclure sur chaque page
               include_once ROOT_PATH . $header_path ;                   		  			
 		  	
-          if (!$roleCustomer) {		  			
-              include_once ROOT_PATH . $menu_admin_path ;}
+          if ($roleCustomer) {		  			
+              include_once ROOT_PATH . $menuAdmin_path ;}
 	?>
 <!-- Crée une section de page -->	
 <section>

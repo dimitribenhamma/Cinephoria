@@ -1,63 +1,206 @@
 <!-- La page UI du site show.php (texte pur HTML & PHP dynamique) : Style K&R , Indentation Ok -->
 <?php
+
         // Ce code initialise une session unique et empêche d'être appelée plusieurs fois
         if (session_status() === PHP_SESSION_NONE) {
             session_start() ;
           }
-
+    
         /* Fichiers à inclure */
-        include_once ROOT_PATH . $movies_data_path ; // Le fichier de films
-
-        // Récupère les données via POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $filmId = $_POST['movie_id'] ?? null ; // id du film (mémorisé)
-            $nbSeats = (int)($_POST['seats'] ?? 0) ; // le nombre de sièges (mémorisé)
-            $salle = $_POST['salle'] ?? null ; // le numéro de salle (masqué)
-          }
+        include_once ROOT_PATH . $moviesData_path ; // Le fichier de films
+        include_once ROOT_PATH . $roomsData_path;
+        include_once ROOT_PATH . "/src/View/components/IP.php" ;
+        // include_once ROOT_PATH . "/src/View/components/IP.php" ;
 
         if (!isset($_SESSION['count_seats'])) {
                 $_SESSION['count_seats'] = 0 ; // le nombre de places (mémorisé)
-          }        
+          }     
 
-    /* Lorsqu'un film a été sélectionné, et 1 place ou plus a été demandée */
-
-        if ($filmId && $nbSeats > 0) {
-
-            // Initialisation
-            $_SESSION['seats'] = $nbSeats ;
-            $_SESSION['movie_id'] = (int)($_POST['movie_id'] ?? null) ;
-            $_SESSION['horaire'] = trim($_POST['horaire'] ?? '');
-
-            // Le prix total d'un client (le produit de places x prix)
-            if (isset($_POST['seats']) && is_numeric($_POST['seats']) && $_POST['seats'] > 0) {
-                    $seats = (int) $_POST['seats'] ;
-                    $totalPrice = $seats * $PRICE_SEAT ;
-                    $_SESSION['sum'] = $totalPrice ;
-              }
-
-            $subtitle = $films[$filmId - 1]['titre'] ;
-            // Le nombre de places des clients
-            $_SESSION['count_seats'] += $nbSeats ;
-
-            // La liste des places d'un client
-            if (!isset($_SESSION['reservedSeats'])) {
+        if (!isset($_SESSION['reservedSeats'])) {
                 $_SESSION['reservedSeats'] = [] ;
-              }
+          }    
 
-            /* La liste de toutes les places réservées */
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Récupère les places sélectionnés
-                $selectedSeats = $_POST['selected_seats'] ?? '' ;
-                $selectedSeatsArray = array_filter(explode(',', $selectedSeats)) ;
 
-                // Ajoute à la liste des sièges déjà réservés
-                $_SESSION['reservedSeats'] = array_unique(array_merge($_SESSION['reservedSeats'], $selectedSeatsArray)) ;
+        // Récupère les données via POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $movieId = filter_input(INPUT_POST, 'movie_id', FILTER_VALIDATE_INT) ?? null ;  // id du film (mémorisé)
+                if ($movieId === false) {
+                    error_log("Le format de ID du film n'est pas respecté : " . getUserIP());
+                    http_response_code(403);
+                    header("Location: index.php?page=$reservationsName");
+                    exit("ID film invalide");
+                }            
 
-              }
+            $schedule = trim(filter_input(INPUT_POST, 'horaire', FILTER_UNSAFE_RAW) ?? '');
+                if ($schedule === '') {
+                    error_log("Horaire vide : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Horaire invalide");
+                }            
+            
+            $numRoom = filter_input(INPUT_POST, 'numRoom', FILTER_VALIDATE_INT); // le numéro de salle (masqué)
+                if ($numRoom === false) {
+                    error_log("Numéro de salle invalide : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Salle invalide");
+                }
+            
+            $countryChoice = trim(filter_input(INPUT_POST, 'country', FILTER_UNSAFE_RAW) ?? '');   
+                if ($countryChoice === false) {
+                    error_log("Pays invalide : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Pays invalide");
+                }
+
+            $cityChoice = trim(filter_input(INPUT_POST, 'city', FILTER_UNSAFE_RAW) ?? '');
+                if ($cityChoice === false) {
+                    error_log("Ville invalide : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Ville invalide");
+                }
 
             // Copie pratique
-            $reservedSeats = $_SESSION['reservedSeats'] ;
+            $capacity = (int) $rooms[$countryChoice][$cityChoice]['salles'][$numRoom];
+            $remainingSeats = $capacity - $_SESSION['count_seats'];
 
+            $nbSeats = filter_input(INPUT_POST, 'seats', FILTER_VALIDATE_INT);
+                if (($nbSeats < 1) || ($nbSeats > $remainingSeats)) {
+                    error_log("Le format du nombre de sièges n'est pas respecté : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Le format du nombre de sièges n'est pas respecté");
+                }
+
+            $dateFilm = trim(filter_input(INPUT_POST, 'Date_Film', FILTER_UNSAFE_RAW) ?? '');
+
+            $dt = DateTime::createFromFormat('Y-m-d', $dateFilm);
+                if (!$dt) {
+                    error_log("Date obligatoire : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Date obligatoire");
+                } 
+                if ($dt->format('Y-m-d') !== $dateFilm) {
+                    error_log("Date invalide : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Date invalide");
+                }
+
+            $today = new DateTime('today');
+                if ($dt < $today) {
+                    error_log("Date limite passée : " . getUserIP());
+                    header("Location: index.php?page=$reservationsName");
+                    exit("Impossible de réserver une date passée");
+                }
+            
+
+           /* foreach ($films as $film) {
+                if ($movieId === $film['id']) {
+                    $dateLimite = DateTime::createFromFormat('Y-m-d', $film['date_limite']);                    
+                        if (!$dateLimite) {
+                            error_log("Film introuvable : " . getUserIP());
+                            header("Location: index.php?page=$reservationsName");
+                            exit("Film introuvable");
+                        }
+                        if ($dateLimite->getTimestamp() < $dt->getTimestamp()) {
+                                error_log("Date limite dépassée : " . getUserIP());
+                                header("Location: index.php?page=$reservationsName");
+                                exit("Date invalide");
+                        }
+                        break;
+                }
+            } */
+           
+                $_SESSION['movie_id'] = $movieId;
+                $_SESSION['seats'] = $nbSeats;
+                $_SESSION['horaire'] = $schedule;
+                $_SESSION['room'] = $numRoom;
+                $_SESSION['country'] = $countryChoice;
+                $_SESSION['city'] = $cityChoice;
+                $_SESSION['date'] = $dt->format('Y-m-d');
+            
+
+            if (!isset($_SESSION['id'])) {
+                header("Location: index.php?page=login");
+                exit;
+            }
+        }
+        
+        elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    if (
+        !isset($_SESSION['movie_id'], $_SESSION['seats'], $_SESSION['horaire'],
+                $_SESSION['room'], $_SESSION['country'], $_SESSION['city'])
+    ) {
+        header("Location: index.php?page=reservations");
+        exit("Données invalides");
+    }
+
+        $movieId = (int) $_SESSION['movie_id'];
+        $nbSeats = (int) $_SESSION['seats'];
+        $schedule = $_SESSION['horaire'];
+        $numRoom = (int) $_SESSION['room'];
+        $countryChoice = $_SESSION['country'];
+        $cityChoice = $_SESSION['city'];
+        $dateFilm = $_SESSION['date'];
+
+        $capacity = (int) $rooms[$countryChoice][$cityChoice]['salles'][$numRoom];
+        $remainingSeats = $capacity - $_SESSION['count_seats'];
+    }               
+
+    /* Lorsqu'1 place ou plus a été demandée */            
+        if (($nbSeats > 0) && ($nbSeats <= $remainingSeats)) {
+            // Initialisation
+            $totalPrice = $nbSeats * $PRICE_SEAT ;
+            $_SESSION['sum'] = $totalPrice ;
+            $_SESSION['seats'] = $nbSeats ;
+            // Le nombre de places des clients
+            $_SESSION['count_seats'] += $nbSeats ;
+        }
+        else {
+            error_log("Le format du nombre de sièges n'est pas respecté : " . getUserIP());
+            http_response_code(403);
+            header("Location: index.php?page=$reservationsName");
+            exit("Le format du nombre de siège n'est pas respecté");
+        }
+
+    /* Lorsqu'un film valide a été sélectionné */
+
+        if (($movieId > 0) && ($movieId < count($films)) && (is_int($movieId))) {
+            // Initialisation
+            $_SESSION['movie_id'] = $movieId ;
+        }
+        else {
+            error_log("Le format de l'ID du film n'est pas respecté : " . getUserIP());
+            http_response_code(403);
+            header("Location: index.php?page=$reservationsName");
+            exit("Le format de l'ID du film n'est pas respecté");
+        }
+            
+    /* Lorsqu'une salle valide a été sélectionné */
+
+        if (array_key_exists($numRoom, $rooms[$countryChoice][$cityChoice]['salles'])) {
+
+            // Initialisation
+            $_SESSION['salle'] = $numRoom;
+        }
+        else {
+            error_log("Salle non autorisée : " . getUserIP());
+            header("Location: index.php?page=$reservationsName");
+            exit("Salle invalide");
+        }
+        
+    /* Lorsqu'une salle valide a été sélectionné */
+            $schedules = array_map('trim', explode(',', $films[$movieId - 1]['schedules']));
+        if (in_array($schedule, $schedules, true)) {
+
+            // Initialisation
+            $_SESSION['horaire'] = $schedule;
+        }
+        else {
+            error_log("Horaire non autorisé : " . getUserIP());
+            header("Location: index.php?page=$reservationsName");
+            exit("Horaire invalide");
+        }
+        
 ?>
 <!DOCTYPE html> 
 <html lang="fr">
@@ -69,23 +212,25 @@
                 <!-- Notre titre de la page est situé à la racine du projet (fichier .env) -->
                 <title><?= $_ENV["APP_NAME"] ; ?></title>			
         </head>
-        <body> 	
+        <body data-nbseats="<?= (int)$nbSeats ?>" data-movieid="<?= (int)$movieId ?>">	
                 <?php		    	  		
                     // Le header et le menu-admin sont à inclure sur chaque page
                     include_once ROOT_PATH . $header_path ;                   		  			
                 
                 // Inclu le menu admin si le visiteur est admin ou employé
                 if (!$roleCustomer) {		  			
-                    include_once ROOT_PATH . $menu_admin_path ;}
+                    include_once ROOT_PATH . $menuAdmin_path ;
+                    }
                 ?>
-            4
+            
             <main> 
                 <!-- Conteneur centré -->  
                 <div class="center">	
-                        <div class="title-reserve"><?= $titleContact ; ?></div>
-                        <div style="margin-bottom:50px;"><?= $subtitle ; ?></div>
+                        <div class="title-reserve"><?= $titleContact ; ?></div>                        
                         
                     <?php
+                        
+                        
                     /* Positionner les sièges pour réserver */   
 
                         // Initialisation des données
@@ -93,7 +238,7 @@
                         $pas = 2 ; // écart de croissance
 
                         // initialisation des rangées de sièges
-                        $capacity = (int)($_POST['capacity'] ?? 0) ; 
+
                         $range = [] ;
                         $seatNumber = 1 ;
                                                                         
@@ -112,6 +257,7 @@
                     <div>  
 
                     <?php
+                    $reservedSeats = $_SESSION['reservedSeats'];
                     /* Afficher à l’écran la grille de sièges */
                         foreach ($range as $count) {
                             echo '<div style="margin-bottom:30px;">' ; // chaque rangée a un espace en bas                                
@@ -128,14 +274,16 @@
                                 }
                             echo '</div>' ; // fin d'une rangée
                         } // fin de toutes les rangées
+                        $_SESSION['seats'] = $nbSeats;
                     ?>
                     </div>
                     <!-- formulaire de validation -->             
-                    <form method="POST" action="index.php?page=payment">
+                    <form method="POST" action="index.php?page=cart">
                         <!-- champ caché liste JavaScript -->
-                        <input type="hidden" name="selected_seats" id="selectedSeatsInput" value="">
+                        <input type="hidden" name="selected_seats" id="selectedSeatsInput">
+                        <input type="hidden" name="capacity" value="<?= $capacity ?>">
                         <!-- bouton réserver -->
-                        <button type="submit" id="reserveButton-<?= $filmId ?>" disabled
+                        <button type="submit" id="reserveButton-<?= $movieId ?>" disabled
                                 style="padding:10px 18px;border-radius:8px;border:none;color:white;background-color:grey;font-weight:700;">
                                 Réserver
                         </button>
@@ -149,75 +297,8 @@
             <footer class="under">
                 <?php include_once ROOT_PATH . $bottom_path ; ?>
             </footer> 
-       <?php } ?>
         
-<!-- Partie Javascript -->
-<script>
-    // Attendre que toute la page soit chargée
-    document.addEventListener('DOMContentLoaded', () => { 
-        
-        /* Initialisation */
-
-            // Tous les sièges disponibles (classe .available)
-            const seats = document.querySelectorAll('.seat.available') ;
-            // Nombre de sièges maximum d'un client
-            const nbSeatsMax = <?= (int)$nbSeats ?> ;        
-            // Les numéros des sièges réservés seront dans ce tableau
-            let selectedSeats = [] ;
-            // Bouton de réservation dont le style pourra changer
-            const reserveButton = document.getElementById("reserveButton-<?= $filmId ?>") ;
-            // L'input caché compteur
-            const selectedSeatsInput = document.getElementById("selectedSeatsInput") ;
-
-
-        /* Programmation des évenements JavaScript dans le navigateur */
-
-            // Au clic de n'importe quel siège
-            seats.forEach(seat => {                
-                seat.addEventListener('click', () => {
-                    // dataset représente tous les attributs data-* de l’élément (rangés dans un tableau)
-                    const seatNumber = seat.dataset.seat ; // Assignation de data-seat par dataset.seat
-
-                    // Le siège est déjà séléctionné ?
-                    if (seat.classList.contains('selected')) {
-                        // Supprime la classe qui existe puis le siège redevient vert (et lors de l'évenement 'click')
-                        seat.classList.remove('selected') ; 
-                        seat.style.background = '#CAF7B8' ;
-                        seat.style.color = 'black' ;
-                        // Garder tous les éléments qui sont différents de seatNumber
-                        selectedSeats = selectedSeats.filter(n => n != seatNumber) ;
-                    } 
-                    else {
-                        // Limite atteinte ?
-                        if (selectedSeats.length >= nbSeatsMax) {
-                            alert("Vous ne pouvez sélectionner que " + nbSeatsMax + " sièges.") ;
-                            return;
-                        }
-                        // Séléctionner le siège
-                        seat.classList.add('selected') ;
-                        seat.style.background = 'black' ;
-                        seat.style.color = 'white' ;
-                        selectedSeats.push(seatNumber) ; // Ajoute un élément à la fin du tableau
-                    }
-
-                    // Liste des sièges séléctionnés dans un champ caché                    
-                    selectedSeatsInput.value = selectedSeats.join(',') ; // Un tableau est converti en chaîne de caractères, délimités par virgules
-
-                    // Nombre de places souhaité exact ?
-                    if (selectedSeats.length === nbSeatsMax) {
-                        // Réactive, colorie en noir et curseur sur le bouton
-                        reserveButton.disabled = false ;
-                        reserveButton.style.backgroundColor = "black" ;
-                        reserveButton.style.cursor = "pointer" ;
-                    } else {
-                        // Désactive, colorie en gris clair et curseur interdit sur le bouton
-                        reserveButton.disabled = true ;
-                        reserveButton.style.backgroundColor = "grey" ;
-                        reserveButton.style.cursor = "not-allowed" ;
-                    }
-                });
-            });
-        });
-</script>
-</body>
+        <!-- Partie Javascript -->
+        <script src="/js/show.js"></script>
+    </body>
 </html>

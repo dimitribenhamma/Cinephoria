@@ -3,6 +3,8 @@
 		if (session_status() == PHP_SESSION_NONE) {
 			session_start();
 		}
+	include_once ROOT_PATH . $paymentForm_path ;
+	
 
 	$title_payment = "Paiement";
 	$text_button = "Voir mon billet";
@@ -13,15 +15,24 @@
   	<head>
 			<title><?= $_ENV["APP_NAME"]; ?></title>
 			<script src="js/form.js"></script> <!-- Fichier externe Javascript -->
+ <style>	   
+input[type='text'] {
+    width: 300px;
+    text-align:center;
+	margin-bottom:10px;
+}
+</style>			
 	</head>
 	<body> 	
 	<?php		    	  		
               // le header et le menu-admin sont à inclure sur chaque page
               include_once ROOT_PATH . $header_path ;                   		  			
 		  	
-          if (!$roleCustomer) {		  			
-              include_once ROOT_PATH . $menu_admin_path ;}		
-	
+           // Inclu le menu admin si le visiteur est admin ou employé
+			if ($roleCustomer) {		  			
+				include_once ROOT_PATH . $menuAdmin_path ;
+				}		
+		
 			/* On inclus les scripts nécéssaires */
 			include_once ROOT_PATH . $paymentForm_path ;
 	?>	
@@ -30,15 +41,16 @@
 	            <!-- On y applique nos classes -->
             <?php
                 // Assignation de motifs (patterns) qui décrit le modèle d'une chaîne de caractères pour une donnée vraiment renseignée
-                $creditCardPattern = "^(?:\d{4}\s){2,4}\d{1,4}$" ;
-                $cryptogramPattern = "^\d{3,4}$" ;
-				$nameCardPattern = "^[A-ZÀ-ÖØ-Ý]+(?:[ \'-][A-ZÀ-ÖØ-Ý]+)*$/u" ;
+                $creditCardPattern = "^[0-9 ]{13,23}$";
+                $cryptogramPattern = "^[0-9]{3,4}$";			
+				$nameCardPattern = '/^(?:M|MME\s)?[A-ZÀ-Ö]{1,20}(?:[\'-][A-ZÀ-Ö]{1,20})*\s[A-ZÀ-Ö]{1,20}(?:[\'-][A-ZÀ-Ö]{1,20})*$/u';
+
 
                     // Créée le formulaire
                     $form = new PaymentForm('index.php?page=' . $actionPaymentPage) ;
-                    $form->addField(new FormField('creditCard', 'number', $creditCardPattern, "Veuillez saisir un numéro de carte valide (ex: 1234 5678 9012 3456)", 13, 19, "Carte de crédit", "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;", '',"Carte de crédit", "on")) ;
-                    $form->addField(new FormField('cryptogram', 'number', $cryptogramPattern, "3 à 4 caractères", 3, 4, 'Cryptogram', "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;", '','Cryptogram', "on")) ;
-                    $form->addField(new FormField('nameCard', 'text', $namePattern, "Nom invalide", 2, 40, 'Nom', "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;", '','Nom', "on")) ;
+                    $form->addField(new FormField('creditCard', 'text', '', "Veuillez saisir un numéro de carte valide (ex: 1234 5678 9012 3456)", 13, 19, "Carte de crédit", "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;", '',"Carte de crédit", "on")) ;
+                    $form->addField(new FormField('cryptogram', 'text', '', "3 à 4 caractères", 3, 4, 'Cryptogram', "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;text-align:center", '','Cryptogram', "on")) ;
+                    $form->addField(new FormField('nameCard', 'text', '', "Nom invalide", 2, 40, 'Nom', "font-size:20px;font-weight:bold;", "margin-top:10px;width:200px;height:35px;", '','Nom', "on")) ;
                     // Affiche le formulaire
                     echo $form->render() ;
                 ?> 
@@ -47,9 +59,7 @@
       	<!-- Partie php du pied de page en bas -->
       		<footer class="under">
          		<?php include_once ROOT_PATH . $bottom_path ; ?>
-			</footer>
-		<!-- Partie php du bandeau noir en bas -->				
-				<?php include_once ROOT_PATH . $footer_path ; ?>			
+			</footer>					
 			
 			</div>
   </body>

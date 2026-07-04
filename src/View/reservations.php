@@ -18,19 +18,21 @@
           $_SESSION['cinema'] = $_POST['cinema'] ; // mémorisation
         }
 
-        $_SESSION['page_confirm'] = "reservation" ;
+        $_SESSION['page_confirm'] = "reservations" ;
 
         $cinemaChoice = $_SESSION['cinema'] ;
         $cityChoice   = $cinemaChoice ;
+       
 
 
         /* Fichiers à inclure */
-        include_once ROOT_PATH . $cinemaClass_path ;
-        include_once ROOT_PATH . $cinemasData_path ;
+        include_once ROOT_PATH . "/config/app.php" ;
+        include_once ROOT_PATH . "/config/paths.php" ;
+        include_once ROOT_PATH . "/src/View/components/IP.php" ;
+        include_once ROOT_PATH . $cinemasData_path ;             
         include_once ROOT_PATH . $moviesData_path ;
         include_once ROOT_PATH . $roomsData_path ;
-        include_once ROOT_PATH . $app_path ;
-        include_once ROOT_PATH . "/src/View/components/IP.php" ;
+         include_once ROOT_PATH . $cinemaClass_path ;  
         $currentLang = language_nav() ;
         include_once ROOT_PATH . "/lang/$currentLang.php" ;
 
@@ -38,8 +40,16 @@
         $priceSeat = 14 ;
 
         /* Instanciation */
-        $manager = new CinemaManager($cinemas) ;	
-        $cinemaChoisi = $manager->getCinema($cinemaChoice) ;
+        $manager = new CinemaManager($cinemas) ;	    
+        $cinemaChoisi = $manager->getCinema($cinemaChoice);
+
+        if (!$cinemaChoisi) {
+            $_SESSION['country'] = '';
+            $_SESSION['city'] = $cityChoice;
+        } else {
+            $_SESSION['country'] = $cinemaChoisi->getPays();
+            $_SESSION['city'] = $cityChoice;
+        }
 ?> 
 <!DOCTYPE html>
 <html lang="fr">
@@ -82,7 +92,7 @@
               // le header et le menu-admin sont à inclure sur chaque page
               include_once ROOT_PATH . $header_path ;                   		  			
 		  	
-          if (!$roleCustomer) {		  			
+          if ($roleCustomer) {		  			
               include_once ROOT_PATH . $menuAdmin_path ;
           }
       ?>
@@ -115,11 +125,11 @@
 					}
 					?>
     <!-- Conteneur principal -->
-        <div style="display:flex;width:100%;">
+        <div style="display:flex;width:100%;margin-top:80px">
     <!-- Contenu central -->
-                <div style="flex:1; margin-left:10%;padding: 3% 2%;">
+                <div style="flex:1; margin-left:10%;padding: 0% 2%;">
     <!-- Notre Contenu -->
-                  <div class="cine-min" style="line-height:40px; display:flex; align-items:center; gap:10px;">
+                  <div class="cine-min" style="line-height:40px; display:flex; align-items:center; gap:10px;margin-top:50px">
                   <b><?= $_ENV['APP_NAME'] . " :" ; ?></b>
     <!-- D'abord la liste des cinémas -->
                     <form method="POST" id="cinemaForm">
@@ -127,10 +137,10 @@
                         <option value="Choisir" <?= ($cinemaChoice === "Choisir") ? "selected" : "" ?>><?= $initialForm ; ?></option>                            
                         <!-- Boucles imbriquées "foreach" : vue HTML -->
                           <?php foreach($cinemas as $countryName => $listCinemas): ?>
-                            <optgroup label="<?= htmlspecialchars($countryName) ?>">
+                            <optgroup label="<?= $countryName ?>">
                               <?php foreach($listCinemas as $city => $cinema): ?>
-                                <option value="<?= htmlspecialchars($city) ?>" <?= ($cinemaChoice === $city) ? "selected" : "" ?>>
-                                  <?= htmlspecialchars($cinema['Ville']) ; ?>
+                                <option value="<?= $city ?>" <?= ($cinemaChoice === $city) ? "selected" : "" ?>>
+                                  <?= $cinema['Ville'] ; ?>
                                 </option>
                               <?php endforeach ; ?>
                             </optgroup>
@@ -142,10 +152,15 @@
         </div>
     <!-- Ensuite tous les films qui sont projettés dans la ville choisie -->            
       <?php
+
             // Vérifie si une ville est bien choisie
         if ($cityChoice !== $labelChoose) {
+
+        $today = date('Y-m-d');
+        $now = new DateTime();
+
             // Titre personnalisé avec le nom de la ville
-            $projected = "<h2 style='text-align:left;margin-left:10%'>🎬" . " " . $projectedAt . " " . htmlspecialchars($cityChoice) . "</h2>" ;
+            $projected = "<h2 style='text-align:left;margin-left:10%'>🎬" . " " . $projectedAt . " " . $cityChoice . "</h2>" ;
             echo $projected ;
 
             // Vérifie si l'utilisateur n'est pas connecté            
@@ -164,22 +179,25 @@
                 // on saute ces itérations
                 if (!isset($numRoom)) continue ; 
                       else if (isset($numRoom))
-                        {        
+                        {   
+                          // chaque film a un unique id
+                          $get = $film['id'] ?? null ;     
                           // Nom du pays du cinéma choisi
                           $country = $cinemaChoisi->getPays() ;
+                          
                           // Nombre de places dans une salle
                           $roomSeats = (int) $rooms[$country][$cityChoice]['salles'][$numRoom] ;
-                          // chaque film a un unique id
-                          $get = $film['id'] ?? null ; ?>       
+  
+                           ?>       
       
                         <!-- La carte typique d'un film en HTML & PHP -->
                           <div class="film-card" id="film-card" style="margin-bottom:30px; margin-left:10%;padding:10px; border:1px solid #ccc; border-radius:8px;">
                                 <div style="flex:1;flex:direction:column;">
-                                      <h3 id=<?= $get ?>><?= htmlspecialchars($film['titre']) ; ?></h3> <!-- L'ancre configuré partant de details vers reservation -->
+                                      <h3 id=<?= $get ?>><?= $film['titre'] ; ?></h3> <!-- L'ancre configuré partant de details vers reservation -->
                                       
                                       <?php if (!empty($film['pochette'])): ?>
-                                          <img src="<?= htmlspecialchars($film['pochette']) ; ?>" 
-                                              alt="<?= htmlspecialchars($film['titre']) ; ?>" 
+                                          <img src="<?= $film['pochette'] ; ?>" 
+                                              alt="<?= $film['titre'] ; ?>" 
                                               style="width:150px; height:200px; border-radius:5px;"
                                               class="gallery">
                                       <!-- Modale -->
@@ -189,13 +207,13 @@
                                       </div>        
                                       <?php endif ; ?>
 
-                                          <p style="font-weight:normal;text-align:center;font-size:18px"><?= ($film['version'] !== '') ? '<b>En ' . htmlspecialchars($film['version']) . '</b>' : '' ?>
-                                              <?= ($film['qualité'] !== '') ? '<b>(Qualité ' . htmlspecialchars($film['qualité']) . ')</b>' : '' ?></p>
+                                          <p style="font-weight:normal;text-align:center;font-size:18px"><?= ($film['version'] !== '') ? '<b>En ' . $film['version'] . '</b>' : '' ?>
+                                              <?= ($film['qualité'] !== '') ? '<b>(Qualité ' . $film['qualité'] . ')</b>' : '' ?></p>
                         
                                           <br>
-                                          <b><?= $duration . " :" ; ?></b> <?= htmlspecialchars($film['duree']) ; ?><br>
+                                          <b><?= $duration . " :" ; ?></b> <?= $film['duree'] ; ?><br>
                                           <p><b><?= $numberRoom . " : " ; ?></b><?= $film['cinema'][$cityChoice] ; ?><br>
-                                          <p><?= ($film['interdit'] !== '') ? '<b>Interdit : </b>' . htmlspecialchars($film['interdit']) : '' ?></p>
+                                          <p><?= ($film['interdit'] !== '') ? '<b>Interdit : </b>' . $film['interdit'] : '' ?></p>
                                                                        
                                           <?php $normes = $rooms[$country][$cityChoice]['normes'] ?? [];
                                                 $cles = array_keys($normes);
@@ -234,19 +252,19 @@
                                             </p>                                                                    
                                 </div>                              
                                 <div style="flex:2;flex-direction:column;margin-top:50px;margin-left:10px;"> 
-                                      <p><b><?= $genre . " :" ; ?></b> <?= htmlspecialchars($film['genre']); ?><br> 
-                                      <p style="margin-top:30px;font-size:16px;font-weight:normal;text-align:left"><b>Description :</b> <?= nl2br(htmlspecialchars($film['description'])); ?></br></br> <!-- nl2br : Passage à la ligne sur la description autorisé -->                            														
-                                      <b><?= $realisator . " :" ; ?></b> <?= htmlspecialchars($film['réalisateur']) ; ?></p>                                      
+                                      <p><b><?= 'Genre : ' . " :" ; ?></b> <?= $film['genre']; ?><br> 
+                                      <p style="margin-top:30px;font-size:16px;font-weight:normal;text-align:left"><b>Description :</b> <?= nl2br($film['description']); ?></br></br> <!-- nl2br : Passage à la ligne sur la description autorisé -->                            														
+                                      <b><?= $realisator . " :" ; ?></b> <?= $film['réalisateur'] ; ?></p>                                      
                         
                                           <b><?= $hours . " :" ; ?></b>
-                                                <div class="horaire-grid" style="display:flex; gap:10px; flex-wrap:wrap;margin-top:10px">
+                                                <div class="horaire-grid" style="display:flex; gap:10px; flex-wrap:wrap;margin-top:10px;justify-content:center">
                                                   
                                                     <?php 
                                                           $horaire = explode(",", $film['schedules']);
-                                                          foreach ($horaire as $h) {
-                                                    ?>        
+                                                          foreach ($horaire as $h) {                                                            
+                                                    ?>
                                                         <span class="horaire">
-                                                            <a style="text-decoration:none;color:white;" href="index.php?page=<?= $reservationName ; ?>#<?= $get ?>"><?= htmlspecialchars($h); ?></a>
+                                                            <a style="text-decoration:none;color:white;" href="index.php?page=<?= $reservationsName ; ?>#<?= $get ?>"><?= $h; ?></a>
                                                         </span>
                                                   <?php } ?>
                                                 </div>
@@ -256,8 +274,20 @@
                                                 <form id="reserveForm-<?= $get ?>" action='"index.php?page=<?= isset($_SESSION["id"]) ? $actionPageReserve : $actionPageLogin ?>' method="POST" style="max-width:480px;margin:0 auto;">
                                                   <!-- données utiles côté serveur -->
                                                   <input type="hidden" name="movie_id" value="<?= $get ?>">
+                                                  <input type="hidden" name="numRoom" value="<?= $numRoom ?>">
+                                                  <input type="hidden" name="country" value="<?= $country ?>">
+                                                  <input type="hidden" name="city" value="<?= $cityChoice ?>">
                                                   <div class="seat-control" role="group" aria-label="Sélection de places" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
                                                     <!-- compteur (gauche) -->
+                                                     <label for="Date_Film-<?= $get ?>">Date du film</label>
+
+                                                    <input
+                                                        type="date"
+                                                        id="Date_Film-<?= $get ?>"
+                                                        name="Date_Film"
+                                                        min="<?= date('Y-m-d'); ?>"
+                                                        required
+                                                    />
                                                     <div class="counter" style="display:flex;align-items:center;gap:8px;">
                                                       <label for="seats" style="font-weight:600;margin-right:4px;">Places</label>
 
@@ -313,14 +343,7 @@
                   const decreaseBtn = document.getElementById('decrease-<?= $get ?>');
                   const reserveButton = document.getElementById('reserveButton-<?= $get ?>');
                   const seatInfo = document.getElementById('seatInfo-<?= $get ?>');
-                  const formEl = document.getElementById('reserveForm-<?= $get ?>');
-                
-
-                document.addEventListener("DOMContentLoaded", function () {
-                  const input = document.getElementById("seats-<?= $get ?>");
-                  const reserveButton = document.getElementById("reserveButton-<?= $get ?>");              
-                });
-
+                  const formEl = document.getElementById('reserveForm-<?= $get ?>');              
           
           function updateUI() { 
                 let val = Number(seatsInput.value) || 0;
@@ -389,13 +412,23 @@
                       });
 
                 seatsInput.addEventListener('input', function () {
-                    let v = seatsInput.value.replace(/[^\d\-]/g, '');
-                      if (v === '') v = '0';
-                          seatsInput.value = String(Math.max(Number(seatsInput.min || 0), Math.min(Number(seatsInput.max || availableSeats), Math.floor(Number(v)))));
-                      });
+                let v = seatsInput.value.replace(/[^\d]/g, '');
 
-                seatsInput.addEventListener('change', updateUI);
-                          updateUI();
+                if (v === '') v = '0';
+
+                const min = Number(seatsInput.min || 0);
+                const max = Number(seatsInput.max || 0);
+
+                v = Number(v);
+
+                seatsInput.value = String(
+                    Math.max(min, Math.min(max, v))
+                );
+            });
+
+            seatsInput.addEventListener('change', updateUI);
+
+            updateUI();
 
                 formEl.addEventListener('submit', function (e) {  
                     const v = Number(seatsInput.value) || 0;
