@@ -32,11 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
 			// Notre routeur ici est la page
 			$page = $_GET['page'] ?? 'home' ;
 
-			if(isset($_SESSION['role'])) {
-				if(!(($page === 'tests.php') || ($_SESSION['role'] === 'Admin') || ($_SESSION['role'] === 'Employe'))) {
-					include_once ROOT_PATH . $cookiesBanner_path ;
-				}
-			}
+
 
 				
 			// Affiche les erreurs mais doit être journalisé (et a enlever en prod)
