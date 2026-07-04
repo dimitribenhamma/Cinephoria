@@ -12,10 +12,10 @@
 							error_log("[$pageMessage] " .$e->getMessage()." dans ".$e->getFile()." , ligne ".$e->getLine()) ;
 
 							// Si les en-têtes http sont déjà envoyés
-							if (headers_sent($file, $line)) {
+							/* if (headers_sent($file, $line)) {
 									error_log("[HEADERS ERROR] En-têtes déjà envoyés dans $file à la ligne $line") ;
 									exit ("Erreur Header") ;
-								}
+								} */
 
 							// Redirection PHP (si les en-têtes http ne sont pas déjà envoyés)
 								error_log("[$pageMessage] Rediraction vers 'catchPage' $catchPage") ;
