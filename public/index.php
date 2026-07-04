@@ -1,4 +1,6 @@
+<!-- La page du site routeur index.php (pur PHP dynamique) : Style K&R , indentation Ok -->
 <?php
+
 			// Ce code initialise une session unique et empêche d'être appelée plusieurs fois
 			if (session_status() === PHP_SESSION_NONE) {
 				session_start() ;
@@ -42,7 +44,7 @@
 				
 			// Affiche les erreurs mais doit être journalisé (et a enlever en prod)
 			error_reporting(E_ALL) ; 
-			ini_set('display_errors', 0) ;
+			ini_set('display_errors', 1) ;
 			ini_set('display_startup_errors', 1) ;
 
 			// Sécurité contre accès direct aux fichiers internes
@@ -104,9 +106,12 @@
 					include_once ROOT_PATH . $reservations_path ;
 					break ;	
 				case 'show':
-					include_once ROOT_PATH . $reserve_path ;
-					break ;				
-				case 'confirm-reserve':
+					include_once ROOT_PATH . $show_path ;
+					break ;		
+				case 'cart':
+					include_once ROOT_PATH . $cart_path ;
+					break ;			
+				case 'confirmation-reserve':
 					include_once ROOT_PATH . $confirmReserve_path ;
 					break ;		
 				case 'payment':
@@ -115,6 +120,9 @@
 				case 'payment-controller':
 					include_once ROOT_PATH . $resaController_path ;
 					break ;
+				case 'confirmation-reservation':
+					include_once ROOT_PATH . $confirmReservation_path ;
+					break ;			
 				case 'profil':
 					include_once ROOT_PATH . $profil_path ;
 					break ;
@@ -159,3 +167,4 @@
 					include_once ROOT_PATH . $error404_path ;
 					exit("erreur 404") ;				
 				}
+?>
