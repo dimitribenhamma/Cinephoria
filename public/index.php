@@ -66,7 +66,7 @@ if (session_status() === PHP_SESSION_NONE) {
 					include_once ROOT_PATH . $registration_path ;
 					break ;
 				case 'registration-controller' :
-					include_once ROOT_PATH . $registrationController_path ;
+					include_once ROOT_PATH . "/src/Controller/RegistrationController.php" ;
 					break ;
 				case 'confirmation-registration' :
 					include_once ROOT_PATH . $confirmRegistration_path ;
