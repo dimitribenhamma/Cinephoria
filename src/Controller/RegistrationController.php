@@ -1,5 +1,5 @@
 <?php
-ob_start();
+
 		/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
 				$currentLang = language_nav() ;
@@ -84,7 +84,7 @@ ob_start();
 										 unset($_SESSION['errorRegistration']);
 										 
 										// Succès !
-										ob_clean();
+										
 										header("Location: index.php?page=$successRegistrationPage");
 										exit;
 									}
@@ -105,19 +105,13 @@ ob_start();
 								{						    									
 									error_log($registrationFormIncomplete);
 									$_SESSION['errorRegistration'] = true;
-									ob_clean();
+									
 									header("Location: index.php?page=$errorFormPage");
 									exit("Le formulaire est incomplet !");
 								}
 				} }
 
-				catch (PDOException $e) {	
-					/* PDOException : attrape uniquement les erreurs de base de données (ici MySQL) */			
-					ExceptionHandle($e, "Erreur PDO");
-				} catch (Exception $e) {
-					/* Exception : attrape Exception et ses sous-classes (ici PHP) */
-					ExceptionHandle($e, "Exception PHP");
-				} catch (Throwable $e) {
+				{
 					/* Throwable : attrape tout (les erreurs fatales, les erreurs de type, d’appel de fonction inexistante, etc.) */
 					ExceptionHandle($e, "Erreur Fatale");
 				}
