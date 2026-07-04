@@ -43,7 +43,11 @@
 			/* Attention aux erreurs de logique */
 
 				/* On veut se connecter au SGBD MySQL avec le mode d'erreur sur 'PDO Exception' */			
-				$conn = new PDO("pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS) ;
+				$conn = new PDO(
+    "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME,
+    DB_USER,
+    DB_PASS
+);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ;              
 					
 				/* Le contexte vérifie des données d’un formulaire via l'existence de $_POST[] */
@@ -73,7 +77,7 @@
 												':username' => $user,
 												':password' => $hashedPassword,
 												':email' => $email,
-												':date_registration' => $date,								
+												':date_registration' => date('Y-m-d'),								
 												':role_id' => 1 // 'client'
 											]);
 				
