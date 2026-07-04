@@ -11,35 +11,35 @@
 			exit;
 		}
 		
-		// Fichiers "include
-		include_once ROOT_PATH . $ip_path;
-		include_once ROOT_PATH . $exception_handle_path;
+		/* Fichiers à inclure */
+					include_once ROOT_PATH . "/src/View/components/IP.php" ;
+					$currentLang = language_nav() ;
+					include_once ROOT_PATH . "/lang/$currentLang.php" ;
+					$appName = 'app' ;
+					$app_path = "/config/$appName.php" ;
+					include_once ROOT_PATH . $app_path ;
+					$paths_path = "/config/paths.php" ;
+					include_once ROOT_PATH . $paths_path ;
+					include_once ROOT_PATH . $exceptionHandle_path;
+					include_once ROOT_PATH . $sql_path;
 		
 		// Normalise la donnée (supprime les espaces)
 			$creditCard = trim($_POST['creditCard'] ?? '');
 			$cryptogram = trim($_POST['cryptogram'] ?? '');
-			$nameCard   = trim($_POST['nameCard'] ?? '');
-			$email      = $_SESSION['email'] ?? '';
+			$nameCard   = trim($_POST['nameCard'] ?? '');			
 		
 	
-		$errorReservePage = 'paiement';
+		$errorReservePage = 'payment';
 
 		// Messages clairs pour la gestion des erreurs/succès		
-		$formIncomplete = "[Paiement] Le formulaire est incomplet ! (E-mail : $email)";
+		$formIncomplete = "[Paiement] Le formulaire est incomplet ! (IP : " . getUserIP() . ")";
 		$emailError     = "[Erreur Fatale] L'E-mail n'existe pas (IP : " . getUserIP() . ")";			
 
 
 		try {	
 
 			/* Attention aux erreurs de logique */
-
-				 // Vérification email
-					if ($email === '') {
-						error_log($emailError);
-						$_SESSION['errorReservation'] = true;
-						header("Location: index.php?page=$errorReservePage");
-						exit;
-					}
+			
 
 					/* Le contexte vérifie des données d’un formulaire */
 					if ($creditCard !== '' && $cryptogram !== '' && $nameCard !== '') {
@@ -60,9 +60,10 @@
 										$stmt->execute([
 											':client_id' => $_SESSION['id'],
 											':movie_id' => $_SESSION['movie_id'],
-											':seats' => $_SESSION['seats'],
+											':seats' => $_SESSION['selected_seats'],
+											':sum' => $_SESSION['sum'],
 											':horaire' => $_SESSION['horaire'],
-											':date_reservation' => $_SESSION['date_reservation']
+											':date_reservation' => date_fr()
 										]);
 
 										// Succès !
