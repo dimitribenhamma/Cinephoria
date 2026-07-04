@@ -1,7 +1,4 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-			session_start() ;
-		}	
 		
 				/* Fichiers à inclure */
 				include_once ROOT_PATH . "/src/View/components/IP.php" ;
@@ -77,7 +74,7 @@ if (session_status() === PHP_SESSION_NONE) {
 									break;
 								default:
 									$_SESSION['role'] = 'Visitor';
-							}						
+							}							
 						
 						// Succès !												
 						header("Location: index.php?page=$successLoginPage") ;
