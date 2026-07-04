@@ -32,7 +32,7 @@ USE Cinephoria ;
 
 DROP TABLE IF EXISTS `Roles` ;
 CREATE TABLE `Roles` (
-  `Id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Id` INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   `Name` VARCHAR(20) NOT NULL UNIQUE,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB ;
@@ -45,7 +45,7 @@ INSERT INTO Roles (`Name`) VALUES
 
 DROP TABLE IF EXISTS `Client` ; -- Supprime la table client si elle existe déjà
 CREATE TABLE `Client` ( -- Début de la table client
-  `Id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, -- uniquement positif et obligatoire
+  `Id` INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, -- uniquement positif et obligatoire
   `Name` VARCHAR(20) NOT NULL,
   `Surname` VARCHAR(20) NOT NULL,
   `Username` VARCHAR(20) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `Client` ( -- Début de la table client
 
 DROP TABLE IF EXISTS `Booking` ;
 CREATE TABLE `Booking` (
-  `Id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Id` INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   `Client_Id` BIGINT UNSIGNED NOT NULL,
   `Movie_Id` INT UNSIGNED NOT NULL,
   `Seats` INT UNSIGNED NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `Booking` (
 
 DROP TABLE IF EXISTS `Cookies` ;
 CREATE TABLE `Cookies` (
-  `Id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, -- une seule auto_increment la clé primaire
+  `Id` INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, -- une seule auto_increment la clé primaire
   `Client_Cookies_Id` BIGINT UNSIGNED,
   `Consent` VARCHAR(5) DEFAULT 'false',
   `Cookie_Name` VARCHAR(200) DEFAULT 'Cinephoria',  
